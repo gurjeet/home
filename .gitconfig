@@ -1,0 +1,24 @@
+#Contents of ~/.gitconfig
+
+[user]
+    name = Gurjeet Singh
+    #email = gurjeet.singh@enterprisedb.com
+    email = singh.gurjeet@gmail.com
+
+[color]
+	ui = auto
+
+[alias]
+    st = status
+    d = diff
+    ci = commit -v
+    cia = commit -v -a
+    co = checkout
+    cp = cherry-pick
+    l = log
+    ll = log -p
+    lt = log trunk..
+    llt = log -p trunk..
+    lm = log master..
+    llm = log -p master..
+    b = branch
