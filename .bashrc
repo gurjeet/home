@@ -12,11 +12,16 @@ alias gka='gitk --all&'
 
 export DEV=~/dev/
 
+alias enterView=". $DEV/enterView.sh"
+alias leaveView=". $DEV/leaveView.sh"
+
+# If inside a view, then setup aliases. This can happen when an application
+# opens a shell (like opening shell from VI)
 if [[ X$V != X ]] ; then
   . $DEV/setPGAliases.sh
 fi
 
 export PAGER=less
-export LESS=iRx4
+export LESS=FiRx4
 
 

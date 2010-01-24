@@ -5,7 +5,7 @@ set tabstop 4
 set findmergefiles 0
 set maxgraphpct 50
 set maxwidth 16
-set cmitmode tree
+set cmitmode patch
 set wrapcomment none
 set autoselect 1
 set showneartags 1
@@ -19,11 +19,11 @@ set diffcolors {red "#00a000" blue}
 set diffcontext 10
 set selectbgcolor gray85
 set extdifftool meld
-set geometry(main) 1255x626+0+0
+set geometry(main) 1255x594+0+0
 set geometry(topwidth) 1253
 set geometry(topheight) 210
-set geometry(pwsash0) "602 1"
-set geometry(pwsash1) "984 1"
-set geometry(botwidth) 603
-set geometry(botheight) 404
+set geometry(pwsash0) "601 1"
+set geometry(pwsash1) "1083 1"
+set geometry(botwidth) 604
+set geometry(botheight) 372
 set permviews {}

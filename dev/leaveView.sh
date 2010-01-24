@@ -18,13 +18,15 @@ else
 
   unset V
   unset PGDATA
+  unset PGUSER
 
   unalias pginitdb
   unalias pgstart
   unalias pgstatus
   unalias pgreload
-
   unalias pgstop
+  unalias pgcscope
+  unalias pgconfigure
 
 #  unalias pgpsqlo
   unalias pgsql

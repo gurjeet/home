@@ -38,15 +38,18 @@ else
 
   export V=`pwd`
 
-  # set PGDATA only if not set already
-  if [ X$PGDATA == X ] ; then
-    export PGDATA=$V/db/data
-  fi
+  export PGDATA=$V/db/data
 
   # slony needs pthreads library, hence we need [/MinGW]/lib
-  export PATH=$PATH:$V/db/lib:$V/db/bin:/mingw/lib
+  export PATH=$V/db/lib:$V/db/bin:/mingw/lib:$PATH
 
   . $DEV/setPGAliases.sh
+
+  # By default, use the database's SU name for connections; this also allows us
+  # to address the limitation that pg_ctl does not provide a -U option when
+  # trying to verify if the database has started.
+  # $PGSUNAME is initialized by setPGAliases.sh
+  export PGUSER=$PGSUNAME
 
   echo inside a view now... [`basename $V`]
   return 0
