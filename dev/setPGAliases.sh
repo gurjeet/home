@@ -38,6 +38,6 @@
   alias pgstop="pgstatus && $V/db/bin/pg_ctl -D $PGDATA stop"
 
   alias pgconfigure="$V/configure --prefix=$V/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend"
-  alias pgcscope="find ./src/ ./contrib/ -name *.[chyl] | xargs cscope -Rb"
+  alias pgcscope="find -L ./src/ ./contrib/ -name *.[chyl] | xargs cscope -Rb"
 
 

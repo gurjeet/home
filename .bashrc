@@ -24,4 +24,4 @@ fi
 export PAGER=less
 export LESS=FiRx4
 
-
+alias ll="ls -larth"
