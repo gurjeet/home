@@ -22,3 +22,6 @@
     lm = log master..
     llm = log -p master..
     b = branch
+
+[pager]
+	status = true
