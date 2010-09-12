@@ -12,9 +12,14 @@ and add the following line under that:
 
 gurjeet ALL(=ALL) ALL
 
-.) Add Fedora EPEL repo for git and gitk (Do this if `yum install git gitk` doesn't work)
+.) Add CentOS testing repos for latest version of git and gitk.
 
-https://fedoraproject.org/wiki/EPEL
+Download and place the following files in /etc/yum.repos.d/ , and then set the
+enabled parameter to on for the testing repositories.
+
+http://centos.karan.org/kbsingh-CentOS-Extras.repo
+http://centos.karan.org/kbsingh-CentOS-Misc.repo
+
 
 .) Install utilities
 yum install screen git gitk gcc gdb make flex bison readline-devel
