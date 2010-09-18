@@ -15,6 +15,34 @@ _checkDATADir()
   return 0;
 }
 
+getGitBranch()
+{
+	if [ -n "$GIT_DIR" ] ; then
+		BRANCH=`git branch | grep \* | grep -v "\(no branch\)" | cut -d ' ' -f 2`
+
+		if [ -z "$BRANCH" ] ; then
+			echo WARNING: Looks like you have not checked out any branch.
+		fi
+	fi
+}
+
+checkGitBranchBuildMatch()
+{
+	if [ -n "$GIT_DIR" ] ; then
+
+		getGitBranch
+
+		TEMP_BUILD_DIR=`basename $B`
+
+		if [ "$BRANCH" != "$TEMP_BUILD_DIR" ] ; then
+			echo WARNING: Your build-dir and checked out branch are out of sync.
+			echo 'DETAIL: You might want to `leaveView; enterView` again.'
+			echo HELP: Branch: $BRANCH vs. Build: $TEMP_BUILD_DIR
+			read -p "Press ENTER to continue..."
+		fi
+	fi
+}
+
 # It is a known bug that on MinGW's rxvt, psql's prompt doesn't show up; psql
 # works fine, its just that the prompt is always missing, hence we have to
 # start a new console and assign it to psql
@@ -44,15 +72,16 @@ _checkDATADir()
     alias pgsql="$START psql"
   fi
 
-  alias pginitdb="                 $B/db/bin/initdb -D $PGDATA -U $PGSUNAME"
-  alias pgstart=" _checkDATADir && $B/db/bin/pg_ctl -D $PGDATA -l $PGDATA/server.log -w start && pg_controldata $PGDATA | grep 'Database cluster state'"
-  alias pgstatus="_checkDATADir && $B/db/bin/pg_ctl -D $PGDATA status"
-  alias pgreload="_checkDATADir && $B/db/bin/pg_ctl -D $PGDATA reload"
+  alias pginitdb="checkGitBranchBuildMatch && $B/db/bin/initdb -D $PGDATA -U $PGSUNAME"
+  alias pgstart="checkGitBranchBuildMatch && _checkDATADir && $B/db/bin/pg_ctl -D $PGDATA -l $PGDATA/server.log -w start && pg_controldata $PGDATA | grep 'Database cluster state'"
+  alias pgstatus="checkGitBranchBuildMatch && _checkDATADir && $B/db/bin/pg_ctl -D $PGDATA status"
+  alias pgreload="checkGitBranchBuildMatch && _checkDATADir && $B/db/bin/pg_ctl -D $PGDATA reload"
 
-  alias pgstop="pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop"
+  alias pgstop="checkGitBranchBuildMatch && pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop"
 
   alias pgconfigure=" ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend ) "
+  alias pgmake="checkGitBranchBuildMatch && make -C $B"
 
-  alias pgcscope=" ( cd $V; find -L ./src/ ./contrib/ -name *.[chyl] | xargs cscope -Rb ) "
+  alias pgcscope="checkGitBranchBuildMatch &&  ( cd $V; find -L ./src/ ./contrib/ -name *.[chyl] | xargs cscope -Rb ) "
 
 

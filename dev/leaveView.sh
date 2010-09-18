@@ -10,31 +10,7 @@ if [ X$V == X ]; then
   return 1
 
 else
-
-  unset START
-
-  export PATH=$V_SAVED_PATH
-  unset V_SAVED_PATH
-
-  unset V
-  unset GIT_DIR
-  unset B
-  unset PGDATA
-  unset PGUSER
-
-  unalias pginitdb
-  unalias pgstart
-  unalias pgstatus
-  unalias pgreload
-  unalias pgstop
-  unalias pgcscope
-  unalias pgconfigure
-
-#  unalias pgpsqlo
-  unalias pgsql
-
+  source $DEV/unsetPGAliases.sh
   echo out of the view...
-  return 0
-
 fi
 

@@ -10,18 +10,20 @@ alias g=git
 alias gk='gitk&'
 alias gka='gitk --all&'
 
-export DEV=~/dev/
+export DEV=~/dev
+export BLD=$DEV/builds
 
-alias enterView=". $DEV/enterView.sh"
-alias leaveView=". $DEV/leaveView.sh"
+alias enterView="source $DEV/enterView.sh"
+alias leaveView="source $DEV/leaveView.sh"
 
 # If inside a view, then setup aliases. This can happen when an application
 # opens a shell (like opening shell from VI)
 if [[ X$V != X ]] ; then
-  . $DEV/setPGAliases.sh
+  source $DEV/setPGAliases.sh
 fi
 
 export PAGER=less
 export LESS=FiRx4
 
 alias ll="ls -lArth"
+
