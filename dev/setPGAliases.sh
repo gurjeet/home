@@ -8,7 +8,7 @@
 _checkDATADir()
 {
   if [ ! -d $PGDATA ] ; then
-    echo ERROR: $PGDATA, no such directory 
+    echo VIEW: ERROR: $PGDATA, no such directory
     return 1;
   fi;
 
@@ -79,7 +79,7 @@ checkGitBranchBuildMatch()
 
   alias pgstop="checkGitBranchBuildMatch && pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop"
 
-  alias pgconfigure=" ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend ) "
+  alias pgconfigure=" ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety ) "
   alias pgmake="checkGitBranchBuildMatch && make -C $B"
 
   alias pgcscope="checkGitBranchBuildMatch &&  ( cd $V; find -L ./src/ ./contrib/ -name *.[chyl] | xargs cscope -Rb ) "
