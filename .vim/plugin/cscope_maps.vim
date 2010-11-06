@@ -28,6 +28,9 @@
 " when it was compiled.  If it wasn't, time to recompile vim... 
 if has("cscope")
 
+    " if vim has already added cscope.out, avoid the noisy message
+    set nocscopeverbose
+
     """"""""""""" Standard cscope/vim boilerplate
 
     " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
