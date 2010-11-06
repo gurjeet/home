@@ -80,7 +80,7 @@ checkGitBranchBuildMatch()
   alias pgstop="checkGitBranchBuildMatch && pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop"
 
   alias pgconfigure=" ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety ) "
-  alias pgmake="checkGitBranchBuildMatch && make -C $B"
+  alias pgmake="checkGitBranchBuildMatch && make --no-print-directory -C $B"
 
   alias pgcscope="checkGitBranchBuildMatch &&  ( cd $V; find -L ./src/ ./contrib/ -name *.[chyl] | xargs cscope -Rb ) "
 
