@@ -23,7 +23,7 @@ if [[ X$V != X ]] ; then
 fi
 
 export PAGER=less
-export LESS=FiRx4
+export LESS=FiRx4X
 
 alias ll="ls -lArth"
 

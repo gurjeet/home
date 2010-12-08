@@ -22,7 +22,7 @@ http://centos.karan.org/kbsingh-CentOS-Misc.repo
 
 
 .) Install utilities
-yum install screen git gitk gcc gdb make flex bison readline-devel
+yum install screen git gitk gcc gdb make flex bison readline-devel libz-dev
 
 .) Install EDB specific packages
 
@@ -44,7 +44,7 @@ ls -A pg_dev_env | xargs -I ccc mv pg_dev_env/ccc ~/
 mkdir -p ~/dev/
 cd ~/dev/
 
-git clone git://git.postgresql.org/git/postgresql.git
+git clone git://git.postgresql.org/git/postgresql.git postgres
 
 .) Compile sources
 
