@@ -24,10 +24,13 @@ http://centos.karan.org/kbsingh-CentOS-Misc.repo
 .) Install utilities
 yum install screen git gitk gcc gdb make flex bison readline-devel libz-dev
 
+(Debian/Ubuntu: libreadline-dev)
+
 .) Install EDB specific packages
 
 yum install libxml2-devel libxslt-devel
 
+(Debian/Ubuntu: libxml2-dev libxslt-dev)
 
 .) For CentOS 5, follow Greg's instructions to upgrade flex version
 
