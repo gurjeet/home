@@ -79,7 +79,7 @@ checkGitBranchBuildMatch()
 
   alias pgstop="checkGitBranchBuildMatch && pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop"
 
-  alias pgconfigure=" ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety ) "
+  alias pgconfigure=" checkGitBranchBuildMatch && ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety ) "
   alias pgmake="checkGitBranchBuildMatch && make --no-print-directory -C $B"
 
   # Emit a list of all source files, and make cscope consume that list from stdin
