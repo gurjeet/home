@@ -82,6 +82,7 @@ checkGitBranchBuildMatch()
   alias pgconfigure=" ( cd $B; $V/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety ) "
   alias pgmake="checkGitBranchBuildMatch && make --no-print-directory -C $B"
 
-  alias pgcscope="checkGitBranchBuildMatch &&  ( cd $V; find -L ./src/ ./contrib/ -iname *.[chyl] -or -iname *.[ch]pp | xargs cscope -Rb ) "
+  # Emit a list of all source files, and make cscope consume that list from stdin
+  alias pgcscope="checkGitBranchBuildMatch &&  ( cd $V; find -L ./src/ ./contrib/ -iname *.[chyl] -or -iname *.[ch]pp | cscope -Rb -i - ) "
 
 
