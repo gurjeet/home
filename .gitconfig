@@ -2,17 +2,24 @@
 
 [user]
     name = Gurjeet Singh
-    #email = gurjeet.singh@enterprisedb.com
     email = singh.gurjeet@gmail.com
 
 [color]
 	ui = auto
 
 [alias]
+	#See status of current repository
     st = status
     d = diff
+
+	# Check-in the code; commit the index contents.
     ci = commit -v
+
+	# Check-in the code; first add modified files to index, and then commit the
+	# index contents.
     cia = commit -v -a
+
+	#Check-out
     co = checkout
     cp = cherry-pick
     l = log
@@ -22,8 +29,13 @@
     lm = log master..
     llm = log -p master..
     b = branch
+
+	#Launch gitk in background; shows commits leading upto current branch
     k = !gitk&
+
+	#Launch gitk in background; shows _all_ commits in the repository.
     ka = !gitk --all&
 
+#Make Git use an external pager for its output
 [pager]
 	status = true
