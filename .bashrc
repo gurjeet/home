@@ -7,8 +7,6 @@ fi
 
 # User specific aliases and functions
 alias g=git
-alias gk='gitk&'
-alias gka='gitk --all&'
 
 export DEV=~/dev
 export BLD=$DEV/builds

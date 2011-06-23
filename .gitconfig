@@ -22,6 +22,8 @@
     lm = log master..
     llm = log -p master..
     b = branch
+    k = !gitk&
+    ka = !gitk --all&
 
 [pager]
 	status = true
