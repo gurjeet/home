@@ -1,0 +1,11 @@
+export DEV=~/dev
+export BLD=$DEV/builds
+
+alias enterView="source $DEV/enterView.sh"
+alias leaveView="source $DEV/leaveView.sh"
+
+# If inside a view, then setup aliases. This can happen when an application
+# opens a shell (like opening shell from VI)
+if [[ X$V != X ]] ; then
+  source $DEV/setPGAliases.sh
+fi

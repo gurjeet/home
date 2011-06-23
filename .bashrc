@@ -8,20 +8,23 @@ fi
 # User specific aliases and functions
 alias g=git
 
-export DEV=~/dev
-export BLD=$DEV/builds
-
-alias enterView="source $DEV/enterView.sh"
-alias leaveView="source $DEV/leaveView.sh"
-
-# If inside a view, then setup aliases. This can happen when an application
-# opens a shell (like opening shell from VI)
-if [[ X$V != X ]] ; then
-  source $DEV/setPGAliases.sh
+# Source ~/dev/ definitions
+if [ -f ~/dev/bashrc ]; then
+	. ~/dev/bashrc
 fi
 
+#Set the default pager; programs use `more' by default, which is paralysed
 export PAGER=less
-export LESS=FiRx4X
 
+#Set the command line options to be used by `less'
+#	F = Quit if one screen
+#	i = ignore case
+#	R = Use Raw Control Characters; useful for color output
+#	X = disable termcap initialization and deinitialization;
+#			not using this causes screen to be cleared when using F option above
+#	x4 = Use tab size of 4 characters.
+export LESS=FiRXx4
+
+#ls options that are most useful
 alias ll="ls -lArth"
 
