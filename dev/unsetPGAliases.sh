@@ -11,8 +11,19 @@ unset V_SAVED_PATH
 
 unset V
 unset GIT_DIR
+unset BRANCH
 unset B
 unset PGDATA
+unset PGUSER
+
+unset -f pgsql
+unset -f checkDATADir
+unset -f getGitBranch
+unset -f checkGitBranchBuildMatch
+
+unset flavour
+unset PGSUNAME
+unset LAUNCH_PSQL
 unset PGUSER
 
 unalias pginitdb
@@ -22,5 +33,4 @@ unalias pgreload
 unalias pgstop
 unalias pgcscope
 unalias pgconfigure
-unalias pgsql
 
