@@ -6,12 +6,12 @@ if [ -f /etc/bashrc ]; then
 fi
 
 # User specific aliases and functions
+
+# Set a shortcut for Git DVCS
 alias g=git
 
-# Source ~/dev/ definitions
-if [ -f ~/dev/bashrc ]; then
-	. ~/dev/bashrc
-fi
+# include PG development environment related functions
+. ~/dev/setupPGDevEnv.sh
 
 #Set the default pager; programs use `more' by default, which is paralysed
 export PAGER=less
