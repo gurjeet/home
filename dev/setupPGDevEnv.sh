@@ -40,7 +40,7 @@ vxzSetVariables()
 	vxzGetPGSUNAME
 
 	# cscope_map.vim, a Vim plugin, uses this environment variable
-	CSCOPE_DB=$B/cscope.out
+	export CSCOPE_DB=$B/cscope.out
 
 	vxzSaved_PATH=$PATH
 	export PATH=$B/db/lib:$B/db/bin:/mingw/lib:$PATH
@@ -166,9 +166,9 @@ vxzGetPSQL()
 		vxzGetPGFlavor
 	fi
 
-	if [ "x$vxzFLAVOR" = "postgres" ] ; then
+	if [ "x$vxzFLAVOR" = "xpostgres" ] ; then
 		vxzPSQL=psql
-	elif [ "x$vxzFLAVOR" = "edb" ] ; then
+	elif [ "x$vxzFLAVOR" = "xedb" ] ; then
 		vxzPSQL=edb-psql
 	fi
 }
@@ -179,9 +179,9 @@ vxzGetPGSUNAME()
 		vxzGetPGFlavor
 	fi
 
-	if [ "x$vxzFLAVOR" = "postgres" ] ; then
+	if [ "x$vxzFLAVOR" = "xpostgres" ] ; then
 		vxzPGSUNAME=postgres
-	elif [ "x$vxzFLAVOR" = "edb" ] ; then
+	elif [ "x$vxzFLAVOR" = "xedb" ] ; then
 		vxzPGSUNAME=edb
 	fi
 }
@@ -359,9 +359,8 @@ pgSetGitDir()
 
 # append branch detection code to $PASSWORD_COMMAND so that we can detect Git
 # branch change ASAP.
-if [ "x$PROMPT_COMMAND" = "x" ] ; then
-	PROMPT_COMMAND=$(echo vxzDetectBranchChange \>/dev/null 2\>\&1 )
-else
-	PROMPT_COMMAND=$(echo ${PROMPT_COMMAND}\;vxzDetectBranchChange \>/dev/null 2\>\&1 )
+if [ "x$PROMPT_COMMAND" != "x" ] ; then
+	PROMPT_COMMAND=${PROMPT_COMMAND}\;
 fi
+PROMPT_COMMAND=${PROMPT_COMMAND}$(echo vxzDetectBranchChange \>/dev/null 2\>\&1)
 
