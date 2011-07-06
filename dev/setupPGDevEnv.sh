@@ -200,7 +200,9 @@ pgsql()
 		vxzGetSTARTShell
 	fi
 
-	$vxzSTART$B/db/bin/$vxzPSQL "$@"
+	# By default connect as superuser. This will be overridden if the user calls
+	# calls this function as `pgsql -U someothername`
+	$vxzSTART$B/db/bin/$vxzPSQL -U $vxzPGSUNAME "$@"
 
 	local ret_code=$?
 
@@ -228,25 +230,20 @@ pgstart()
 		return 1
 	fi
 
+	{
 	# Set $PGUSER to DB superuser's name so that `pg_ctl -w` can connect to
 	# instance, to be able to check its status
 
-	if [ "$PGUSER" ] ; then
-		local save_PGUSER=$PGUSER
-	fi
-
-	export PGUSER=$vxzPGSUNAME
+	local PGUSER=$vxzPGSUNAME
+	export PGUSER
 
 	# use pgstatus() to check if the server is already running
 	pgstatus || $B/db/bin/pg_ctl -D $PGDATA -l $PGDATA/server.log -w start "$@"
+	}
 
 	# Record pg_ctl's return code, so that it can be returned as return value
 	# of this function.
 	local ret_value=$?
-
-	if [ "$save_PGUSER" ] ; then
-		export PGUSER=$save_PGUSER
-	fi
 
 	$B/db/bin/pg_controldata $PGDATA | grep 'Database cluster state'
 
