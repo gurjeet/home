@@ -13,7 +13,7 @@ alias g=git
 # include PG development environment related functions
 . ~/dev/setupPGDevEnv.sh
 
-#Set the default pager; programs use `more' by default, which is paralysed
+#Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
 
 #Set the command line options to be used by `less'
