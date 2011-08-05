@@ -54,6 +54,7 @@ vxzDetectBranchChange()
 
 	if [ $? -ne 0 ] ; then
 		echo Not in Postgres sources 1>&2
+		vxzInvalidateVariables
 		return 1
 	fi
 
