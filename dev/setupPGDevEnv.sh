@@ -192,7 +192,7 @@ vxzGetPGSUNAME()
 
 pgsql()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	# This check is not part of vxzDetectBranchChange() because a change in
 	# branch does not affect this variable
@@ -214,14 +214,14 @@ pgsql()
 
 pginitdb()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	$B/db/bin/initdb -D $PGDATA -U $vxzPGSUNAME
 }
 
 pgstart()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	vxzCheckDATADirectoryExists
 
@@ -252,7 +252,7 @@ pgstart()
 
 pgstatus()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	vxzCheckDATADirectoryExists
 
@@ -268,7 +268,7 @@ pgstatus()
 
 pgreload()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	vxzCheckDATADirectoryExists
 
@@ -284,7 +284,7 @@ pgreload()
 
 pgstop()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	# Call pgstatus() to check if the server is running.
 	pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop "$@"
@@ -292,7 +292,7 @@ pgstop()
 
 pgconfigure()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	local src_dir
 
@@ -309,7 +309,7 @@ pgconfigure()
 
 pgmake()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	# Append "$@" to the command so that we can do `pgmake -C src/backend/`, or
 	# anything similar. `make` allows multiple -C options, and does the right thing
@@ -320,7 +320,7 @@ pgmake()
 
 pgcscope()
 {
-	vxzDetectBranchChange
+	vxzDetectBranchChange || return $?
 
 	local src_dir
 
