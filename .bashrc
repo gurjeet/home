@@ -28,3 +28,4 @@ export LESS=FiRXx4
 #ls options that are most useful
 alias ll="ls -lArth"
 
+CDPATH=${CDPATH}:~/dev/
