@@ -1,5 +1,17 @@
 
-vxzBLD=~/dev/builds/
+# This is where all the source code repositories are created
+vxzDEV_DIR=~/dev
+
+# This is where all the build output will be generated
+vxzBLD=${vxzDEV_DIR}/builds/
+
+# Setup $CDPATH so that we can easily switch to directories under the
+# development directory.
+CDPATH=${CDPATH}:${vxzDEV_DIR}
+
+# Keep our environmental (sic) footprint small; only $vxzBLD seems to be
+# necessary to be kept around when not in Postgres sources
+unset vxzDEV_DIR
 
 #If return code is 0, $vxzBRANCH will contain branch name.
 vxzGetGitBranchName()
@@ -79,12 +91,11 @@ vxzGetBuildDirectory()
 {
 	vxzGetGitBranchName
 
-	# $vxzBLD is set at the beginning of this file
-
 	if [ $? -ne 0 ] ; then
 		return 1
 	fi
 
+	# $vxzBLD is set at the beginning of this file
 	B=$vxzBLD/$vxzBRANCH
 
 	return 0
@@ -118,7 +129,7 @@ vxzCheckDATADirectoryExists()
 vxzGetSTARTShell()
 {
 	# It is a known bug that on MinGW's rxvt, psql's prompt doesn't show up; psql
-	# works fine, its just that the prompt is always missing, hence we have to
+	# works fine, it's just that the prompt is always missing, hence we have to
 	# start a new console and assign it to psql
 	if [ X$MSYSTEM = "XMINGW32" ] ; then
 		vxzSTART='start '
