@@ -238,7 +238,7 @@ pgstart()
 	vxzCheckDATADirectoryExists
 
 	if [ $? -ne 0 ] ; then
-	    echo ERROR: \$PGDATA not set\; $PGDATA, no such directory
+	    echo ERROR: \$PGDATA does not exist\; $PGDATA, no such directory
 		return 1
 	fi
 
