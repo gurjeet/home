@@ -343,7 +343,7 @@ pgcscope()
 	fi
 
 	# Emit a list of all source files, and make cscope consume that list from stdin
-	( cd $src_dir; find -L ./src/ ./contrib/ -iname "*.[chyl]" -or -iname "*.[ch]pp" | cscope -Rb -f $B/cscope.out -i - )
+	( cd $src_dir; find ./src/ ./contrib/ `test -d ${B}/src/ && echo ${B}/src/` -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" | cscope -Rb -f $B/cscope.out -i - )
 }
 
 # unset $GIT_DIR
