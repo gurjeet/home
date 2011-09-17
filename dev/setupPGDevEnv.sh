@@ -314,7 +314,7 @@ pgconfigure()
 		src_dir=`pwd`
 	fi
 
-	( cd $B; $src_dir/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety "$@" )
+	( cd $B; $src_dir/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety --with-openssl "$@" )
 
 	return $?
 }
