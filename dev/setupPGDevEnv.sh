@@ -9,12 +9,12 @@ vxzBLD=${vxzDEV_DIR}/builds/
 # development directory.
 CDPATH=${CDPATH}:${vxzDEV_DIR}
 
-# Keep our environmental (sic) footprint small; only $vxzBLD seems to be
+# Keep our environmental footprint (sic) small; only $vxzBLD seems to be
 # necessary to be kept around when not in Postgres sources
 unset vxzDEV_DIR
 
 #If return code is 0, $vxzBRANCH will contain branch name.
-vxzGetGitBranchName()
+vxzSetGitBranchName()
 {
 	vxzBRANCH=`git branch | grep \* | grep -v "\(no branch\)" | cut -d ' ' -f 2`
 
@@ -29,14 +29,25 @@ vxzGetGitBranchName()
 vxzInvalidateVariables()
 {
 	unset B
-	unset PGDATA
 	unset vxzFLAVOR
 	unset vxzPSQL
 	unset vxzPGSUNAME
-	unset CSCOPE_DB
+	unset vxzPREFIX
 
 	if [ "x$vxzSaved_PATH" != "x" ] ; then
 		export PATH=$vxzSaved_PATH
+	fi
+
+	if [ "x$vxzSaved_PGDATA" != "x" ] ; then
+		export PATH=$vxzSaved_PGDATA
+	else
+		unset PGDATA
+	fi
+
+	if [ "x$vxzSaved_CSCOPE_DB" != "x" ] ; then
+		export CSCOPE_DB=$vxzSaved_CSCOPE_DB
+	else
+		unset CSCOPE_DB
 	fi
 
 	unset vxzBRANCH
@@ -45,24 +56,33 @@ vxzInvalidateVariables()
 
 vxzSetVariables()
 {
-	vxzGetBuildDirectory
-	vxzGetPGDATA
-	vxzGetPGFlavor
-	vxzGetPSQL
-	vxzGetPGSUNAME
+	vxzSetBuildDirectory
+	vxzSetPrefix
 
+	vxzSaved_PGDATA=$PGDATA
+	vxzSetPGDATA
+
+	vxzSetPGFlavor
+	vxzSetPSQL
+	vxzSetPGSUNAME
+
+	vxzSaved_CSCOPE_DB=$CSCOPE_DB
 	# cscope_map.vim, a Vim plugin, uses this environment variable
-	export CSCOPE_DB=$B/cscope.out
+	export CSCOPE_DB=$vxzBLD/$vxzBRANCH/cscope.out
 
 	vxzSaved_PATH=$PATH
-	export PATH=$B/db/lib:$B/db/bin:/mingw/lib:$PATH
+	export PATH=$vxzPREFIX/lib:$vxzPREFIX/bin:/mingw/lib:$PATH
 
+	# This will do it's job in VPATH builds, and nothing in non-VPATH builds
 	mkdir -p $B
+
+	# This will do it's job in non-VPATH builds, and nothing in VPATH builds
+	mkdir -p $vxzPREFIX
 }
 
 vxzDetectBranchChange()
 {
-	vxzGetPGFlavor >/dev/null 2>&1
+	vxzSetPGFlavor >/dev/null 2>&1
 
 	if [ $? -ne 0 ] ; then
 		echo Not in Postgres sources 1>&2
@@ -72,7 +92,7 @@ vxzDetectBranchChange()
 
 	local vxzSAVED_BRANCH_NAME=$vxzBRANCH
 
-	vxzGetGitBranchName
+	vxzSetGitBranchName
 
 	if [ $? -ne 0 ] ; then
 		return 1
@@ -87,29 +107,54 @@ vxzDetectBranchChange()
 }
 
 # set $B to the location where builds should happen
-vxzGetBuildDirectory()
+vxzSetBuildDirectory()
 {
-	vxzGetGitBranchName
+	if [ "x$vxzBRANCH" = "x" ] ; then
+		vxzSetGitBranchName
+	fi
 
 	if [ $? -ne 0 ] ; then
 		return 1
 	fi
 
-	# $vxzBLD is set at the beginning of this file
-	B=$vxzBLD/$vxzBRANCH
+	# If the optional parameter is not provided
+	if [ "x$1" = "x" ] ; then
+		# $vxzBLD is set at the beginning of this file
+		B=`cd $vxzBLD/$vxzBRANCH; pwd`
+	else
+		B=`cd $1; pwd`
+	fi
+
+	return 0
+}
+
+# Set Postgres' installation prefix directory
+vxzSetPrefix()
+{
+	if [ "x$vxzBRANCH" = "x" ] ; then
+		vxzSetGitBranchName
+	fi
+
+	if [ $? -ne 0 ] ; then
+		return 1
+	fi
+
+	# We're not using $B/db here, since in non-VPATH builds $B is the same as
+	# source directory, and we don't want to it to be there.
+	vxzPREFIX=$vxzBLD/$vxzBRANCH/db
 
 	return 0
 }
 
 #Set $PGDATA
-vxzGetPGDATA()
+vxzSetPGDATA()
 {
-	if [ "x$B" = "x" ] ; then
-		vxzGetBuildDirectory
+	if [ "x$vxzPREFIX" = "x" ] ; then
+		vxzSetPrefix
 	fi
 
 	if [ $? = "0" ] ; then
-		PGDATA=$B/db/data
+		PGDATA=$vxzPREFIX/data
 		return 0
 	fi
 
@@ -126,7 +171,7 @@ vxzCheckDATADirectoryExists()
   return 0;
 }
 
-vxzGetSTARTShell()
+vxzSetSTARTShell()
 {
 	# It is a known bug that on MinGW's rxvt, psql's prompt doesn't show up; psql
 	# works fine, it's just that the prompt is always missing, hence we have to
@@ -140,7 +185,7 @@ vxzGetSTARTShell()
 	return 0
 }
 
-vxzGetPGFlavor()
+vxzSetPGFlavor()
 {
 	local src_dir
 
@@ -172,10 +217,10 @@ vxzGetPGFlavor()
 	return 1
 }
 
-vxzGetPSQL()
+vxzSetPSQL()
 {
 	if [ "x$vxzFLAVOR" = "x" ] ; then
-		vxzGetPGFlavor
+		vxzSetPGFlavor
 	fi
 
 	if [ "x$vxzFLAVOR" = "xpostgres" ] ; then
@@ -185,10 +230,10 @@ vxzGetPSQL()
 	fi
 }
 
-vxzGetPGSUNAME()
+vxzSetPGSUNAME()
 {
 	if [ "x$vxzFLAVOR" = "x" ] ; then
-		vxzGetPGFlavor
+		vxzSetPGFlavor
 	fi
 
 	if [ "x$vxzFLAVOR" = "xpostgres" ] ; then
@@ -209,12 +254,12 @@ pgsql()
 	# This check is not part of vxzDetectBranchChange() because a change in
 	# branch does not affect this variable
 	if [ "x$vxzSTART" = "x" ] ; then
-		vxzGetSTARTShell
+		vxzSetSTARTShell
 	fi
 
 	# By default connect as superuser. This will be overridden if the user calls
 	# calls this function as `pgsql -U someothername`
-	$vxzSTART$B/db/bin/$vxzPSQL -U $vxzPGSUNAME "$@"
+	$vxzSTART$vxzPREFIX/bin/$vxzPSQL -U $vxzPGSUNAME "$@"
 
 	local ret_code=$?
 
@@ -228,7 +273,7 @@ pginitdb()
 {
 	vxzDetectBranchChange || return $?
 
-	$B/db/bin/initdb -D $PGDATA -U $vxzPGSUNAME
+	$vxzPREFIX/bin/initdb -D $PGDATA -U $vxzPGSUNAME
 }
 
 pgstart()
@@ -250,14 +295,14 @@ pgstart()
 	export PGUSER
 
 	# use pgstatus() to check if the server is already running
-	pgstatus || $B/db/bin/pg_ctl -D $PGDATA -l $PGDATA/server.log -w start "$@"
+	pgstatus || $vxzPREFIX/bin/pg_ctl -D $PGDATA -l $PGDATA/server.log -w start "$@"
 	}
 
 	# Record pg_ctl's return code, so that it can be returned as return value
 	# of this function.
 	local ret_value=$?
 
-	$B/db/bin/pg_controldata $PGDATA | grep 'Database cluster state'
+	$vxzPREFIX/bin/pg_controldata $PGDATA | grep 'Database cluster state'
 
 	return $ret_value
 }
@@ -273,7 +318,7 @@ pgstatus()
 		return 1
 	fi
 
-	$B/db/bin/pg_ctl -D $PGDATA status
+	$vxzPREFIX/bin/pg_ctl -D $PGDATA status
 
 	return $?
 }
@@ -289,7 +334,7 @@ pgreload()
 		return 1
 	fi
 
-	$B/db/bin/pg_ctl -D $PGDATA reload
+	$vxzPREFIX/bin/pg_ctl -D $PGDATA reload
 
 	return $?
 }
@@ -299,7 +344,7 @@ pgstop()
 	vxzDetectBranchChange || return $?
 
 	# Call pgstatus() to check if the server is running.
-	pgstatus && $B/db/bin/pg_ctl -D $PGDATA stop "$@"
+	pgstatus && $vxzPREFIX/bin/pg_ctl -D $PGDATA stop "$@"
 }
 
 pgconfigure()
@@ -314,7 +359,7 @@ pgconfigure()
 		src_dir=`pwd`
 	fi
 
-	( cd $B; $src_dir/configure --prefix=$B/db --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety --with-openssl "$@" )
+	( cd $B; $src_dir/configure --prefix=$vxzPREFIX --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety --with-openssl "$@" )
 
 	return $?
 }
@@ -342,8 +387,24 @@ pgcscope()
 		src_dir=`pwd`
 	fi
 
+	local vpath_src_dir
+
+	#  If working in VPATH build
+	if [ $B = `cd $vxzBLD/$vxzBRANCH; pwd` ] ; then
+		vpath_src_dir=$B/src/
+
+		# If the src/ directory under build directory doesn't exist yet (this
+		# may happen in VPATH builds when pgconfigure hasn't been run yet), then
+		# don't use this variable.
+		if [ ! -d $vpath_src_dir ] ; then
+			vpath_src_dir=
+		fi
+	else
+		vpath_src_dir=
+	fi
+
 	# Emit a list of all source files, and make cscope consume that list from stdin
-	( cd $src_dir; find ./src/ ./contrib/ `test -d ${B}/src/ && echo ${B}/src/` -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" | cscope -Rb -f $B/cscope.out -i - )
+	( cd $src_dir; find ./src/ ./contrib/ $vpath_src_dir -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" | cscope -Rb -f $CSCOPE_DB -i - )
 }
 
 # unset $GIT_DIR
