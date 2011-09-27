@@ -13,12 +13,39 @@ alias g=git
 # include PG development environment related functions
 . ~/dev/setupPGDevEnv.sh
 
+# Use Git completion, if available
+if [ -f /etc/bash_completion.d/git ] ; then
+	. /etc/bash_completion.d/git
+
+	# Associate our alias with Git's completion function.
+	complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
+    || complete -o default -o nospace -F _git g
+fi
+
+# Choose what all info you want to see in Git-generated prompt.
+# I choose not to show DIRTY state in prompt, because that information is very
+# expensive; with dropped cahces (echo 3 > /proc/sys/vm/drop_cahces), using
+# Postgres 9.1-stable branch, getting new prompt takes 10 seconds vs. 2 seconds
+# when this variable is not set.
+#
+# GIT_PS1_SHOWUNTRACKEDFILES is even more expensive when run on a Git-managed
+# home directory, which has a *lot* of unmanaged files at different hierarchy
+# levels. It takes more than 60 seconds to generate the prompt after dropping
+# caches; even with FS caches intact, it takes about 2 seconds.
+
+#GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+#GIT_PS1_SHOWUNTRACKEDFILES=1
+
+#Replace any ' $' string in PS1 with Git-generated prompt, followed by $
+PS1=${PS1/ \\\$/ \$\(__git_ps1 \"(%s)\"\)$}
+
 #Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
 
 #Set the command line options to be used by `less'
 #	F = Quit if one screen
-#	i = ignore case
+#	i = ignore case when searching, iff search pattern doesn't have uppercase letters
 #	R = Use Raw Control Characters; useful for color output
 #	X = disable termcap initialization and deinitialization;
 #			not using this causes screen to be cleared when using F option above
