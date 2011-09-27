@@ -37,9 +37,10 @@ vxzInvalidateVariables()
 	if [ "x$vxzSaved_PATH" != "x" ] ; then
 		export PATH=$vxzSaved_PATH
 	fi
+	unset vxzSaved_PATH
 
 	if [ "x$vxzSaved_PGDATA" != "x" ] ; then
-		export PATH=$vxzSaved_PGDATA
+		PGDATA=$vxzSaved_PGDATA
 	else
 		unset PGDATA
 	fi
@@ -51,7 +52,6 @@ vxzInvalidateVariables()
 	fi
 
 	unset vxzBRANCH
-	unset vxzSaved_PATH
 }
 
 vxzSetVariables()
@@ -73,10 +73,10 @@ vxzSetVariables()
 	vxzSaved_PATH=$PATH
 	export PATH=$vxzPREFIX/lib:$vxzPREFIX/bin:/mingw/lib:$PATH
 
-	# This will do it's job in VPATH builds, and nothing in non-VPATH builds
+	# This will do its job in VPATH builds, and nothing in non-VPATH builds
 	mkdir -p $B
 
-	# This will do it's job in non-VPATH builds, and nothing in VPATH builds
+	# This will do its job in non-VPATH builds, and nothing in VPATH builds
 	mkdir -p $vxzPREFIX
 }
 
@@ -120,9 +120,9 @@ vxzSetBuildDirectory()
 	# If the optional parameter is not provided
 	if [ "x$1" = "x" ] ; then
 		# $vxzBLD is set at the beginning of this file
-		B=`cd $vxzBLD/$vxzBRANCH; pwd`
+		export B=`cd $vxzBLD/$vxzBRANCH; pwd`
 	else
-		B=`cd $1; pwd`
+		export B=`cd $1; pwd`
 	fi
 
 	return 0
@@ -427,10 +427,12 @@ pgSetGitDir()
 }
 
 
-# append branch detection code to $PASSWORD_COMMAND so that we can detect Git
+# append branch detection code to $PROMPT_COMMAND so that we can detect Git
 # branch change ASAP.
 if [ "x$PROMPT_COMMAND" != "x" ] ; then
+	# Append a semicolon only if the variable is already populated, otherwise
+	# a semicolon at the beginning of $PROMPT_COMMAND causes an error.
 	PROMPT_COMMAND=${PROMPT_COMMAND}\;
 fi
-PROMPT_COMMAND=${PROMPT_COMMAND}$(echo vxzDetectBranchChange \>/dev/null 2\>\&1)
+PROMPT_COMMAND=${PROMPT_COMMAND}'vxzDetectBranchChange >/dev/null 2>&1'
 
