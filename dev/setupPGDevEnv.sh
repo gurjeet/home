@@ -451,6 +451,13 @@ if [ "x$BASH_SOURCE" != "x" ] ; then
 	fi
 fi
 
+# Show a list of running Postgres processes.
+function pgshowprocesses()
+{
+	# Exclude the 'grep' processes from the list
+	ps faux | grep -vw grep | grep -w postgres
+}
+
 # append branch detection code to $PROMPT_COMMAND so that we can detect Git
 # branch change ASAP.
 if [ "x$PROMPT_COMMAND" != "x" ] ; then
