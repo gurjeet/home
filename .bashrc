@@ -54,3 +54,7 @@ export LESS=FiRXx4
 
 #ls options that are most useful
 alias ll="ls -lArth"
+
+# My favourite options for top
+alias top="top -c -d 1"
+

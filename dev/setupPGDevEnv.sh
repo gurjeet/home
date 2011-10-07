@@ -1,61 +1,18 @@
+# This file is supposed to be invoked using bash builtin 'source'
 
 # This is where all the source code repositories are created
 vxzDEV_DIR=~/dev
-
-# This is where all the build output will be generated
-vxzBLD=${vxzDEV_DIR}/builds/
 
 # Setup $CDPATH so that we can easily switch to directories under the
 # development directory.
 CDPATH=${CDPATH}:${vxzDEV_DIR}
 
-# Keep our environmental footprint (sic) small; only $vxzBLD seems to be
-# necessary to be kept around when not in Postgres sources
-unset vxzDEV_DIR
-
-#If return code is 0, $vxzBRANCH will contain branch name.
-vxzSetGitBranchName()
-{
-	vxzBRANCH=`git branch | grep \* | grep -v "\(no branch\)" | cut -d ' ' -f 2`
-
-	if [ "x$vxzBRANCH" = "x" ] ; then
-		echo WARNING: Could not get a branch name
-		return 1
-	fi
-
-	return 0
-}
-
-vxzInvalidateVariables()
-{
-	unset B
-	unset vxzFLAVOR
-	unset vxzPSQL
-	unset vxzPGSUNAME
-	unset vxzPREFIX
-
-	if [ "x$vxzSaved_PATH" != "x" ] ; then
-		export PATH=$vxzSaved_PATH
-	fi
-	unset vxzSaved_PATH
-
-	if [ "x$vxzSaved_PGDATA" != "x" ] ; then
-		PGDATA=$vxzSaved_PGDATA
-	else
-		unset PGDATA
-	fi
-
-	if [ "x$vxzSaved_CSCOPE_DB" != "x" ] ; then
-		export CSCOPE_DB=$vxzSaved_CSCOPE_DB
-	else
-		unset CSCOPE_DB
-	fi
-
-	unset vxzBRANCH
-}
-
+# Set environment variables needed by the pg* functions below
 vxzSetVariables()
 {
+	# This is where all the build output will be generated
+	vxzBLD=${vxzDEV_DIR}/builds/
+
 	vxzSetBuildDirectory
 	vxzSetPrefix
 
@@ -78,6 +35,51 @@ vxzSetVariables()
 
 	# This will do its job in non-VPATH builds, and nothing in VPATH builds
 	mkdir -p $vxzPREFIX
+}
+
+vxzInvalidateVariables()
+{
+	unset vxzBLD
+
+	unset B
+	unset vxzPREFIX
+	unset vxzFLAVOR
+	unset vxzPSQL
+	unset vxzPGSUNAME
+
+	if [ "x$vxzSaved_PATH" != "x" ] ; then
+		export PATH=$vxzSaved_PATH
+	fi
+	unset vxzSaved_PATH
+
+	if [ "x$vxzSaved_PGDATA" != "x" ] ; then
+		PGDATA=$vxzSaved_PGDATA
+	else
+		unset PGDATA
+	fi
+	unset vxzSaved_PGDATA
+
+	if [ "x$vxzSaved_CSCOPE_DB" != "x" ] ; then
+		export CSCOPE_DB=$vxzSaved_CSCOPE_DB
+	else
+		unset CSCOPE_DB
+	fi
+	unset vxzSaved_CSCOPE_DB
+
+	unset vxzBRANCH
+}
+
+#If return code is 0, $vxzBRANCH will contain branch name.
+vxzSetGitBranchName()
+{
+	vxzBRANCH=`git branch | grep \* | grep -v "\(no branch\)" | cut -d ' ' -f 2`
+
+	if [ "x$vxzBRANCH" = "x" ] ; then
+		echo WARNING: Could not get a branch name
+		return 1
+	fi
+
+	return 0
 }
 
 vxzDetectBranchChange()
@@ -426,6 +428,28 @@ pgSetGitDir()
 	export GIT_DIR
 }
 
+# All the functions defined in this file are available to interactive shells,
+# but not available to non-interactive (n-i) shells since n-i shells do not
+# process .bashrc or .bash_profile files.
+#
+# But n-i shells 'source' the file named in $BASH_ENV. So for n-i shells we
+# setup $BASH_ENV. Do note that we do this only if $BASH_ENV is not already set,
+# because otherwise we may be stomping on someone else's feet.
+if [ "x$BASH_SOURCE" != "x" ] ; then
+	if [ "x$BASH_ENV" = "x" ] ; then
+
+		# Resolve file name to absolute path
+		vxztmpf=$(basename $BASH_SOURCE)
+		vxztmpd=$(dirname $BASH_SOURCE)
+		vxztmpp=$(cd $vxztmpd; pwd)
+
+		export BASH_ENV=$vxztmpp/$vxztmpf
+
+		unset vxztmpf vxztmpd vxztmpp
+	#else
+		#echo Not setting \$BASH_ENV since it is already set \(maybe by someone else\) 2>&1
+	fi
+fi
 
 # append branch detection code to $PROMPT_COMMAND so that we can detect Git
 # branch change ASAP.
