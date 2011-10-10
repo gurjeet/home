@@ -43,7 +43,7 @@ PS1=${PS1/ \\\$/ \$\(__git_ps1 \"(%s)\"\)$}
 #Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
 
-#Set the command line options to be used by `less'
+# Set the command line options to be used by `less'
 #	F = Quit if one screen
 #	i = ignore case when searching, iff search pattern doesn't have uppercase letters
 #	R = Use Raw Control Characters; useful for color output
@@ -52,9 +52,15 @@ export PAGER=less
 #	x4 = Use tab size of 4 characters.
 export LESS=FiRXx4
 
-#ls options that are most useful
+# ls options that are most useful
+#	l = Long listing
+#	A = Show almost all files (show all files except . and ..)
+#	rt = Sort the list by file-modified-time, in reverse order
+#	h = Show file sizes in human readable format, kB/MB/Gb/...
 alias ll="ls -lArth"
 
 # My favourite options for top
+#	c = Show command-line for the processes
+#	-d1 = Sleep for 1 second between every update
 alias top="top -c -d 1"
 
