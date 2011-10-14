@@ -64,3 +64,4 @@ alias ll="ls -lArth"
 #	-d1 = Sleep for 1 second between every update
 alias top="top -c -d 1"
 
+alias ping_google="ping google.com"

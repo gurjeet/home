@@ -265,8 +265,11 @@ pgsql()
 
 	local ret_code=$?
 
-	# ~/.psqlrc changes the terminal title, so change it back to something sensible
-	echo -en '\033]2;Terminal\007'
+	# ~/.psqlrc changes the terminal title, so change it back to something
+	# sensible.
+	# Disabling this for now, since it doesn't always work, and in fact this
+	# echo emits unnecessary output in log files, or in `less` scrolling.
+	#echo -en '\033]2;Terminal\007'
 
 	return $ret_code
 }
