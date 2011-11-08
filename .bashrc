@@ -65,3 +65,8 @@ alias ll="ls -lArth"
 alias top="top -c -d 1"
 
 alias ping_google="ping google.com"
+
+# Erase duplicates in bash history, so that bash can remember less-used commands
+# for longer.
+HISTCONTROL=erasedups
+
