@@ -70,3 +70,5 @@ alias ping_google="ping google.com"
 # for longer.
 HISTCONTROL=erasedups
 
+# Command to fetch all Git repos under ~/dev/ every 5 minutes.
+alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | tee /tmp/del | while read line; do echo \$line; (cd \$line/..; time -p git fetch) ; done; echo ==== done ====; sleep 300; done"
