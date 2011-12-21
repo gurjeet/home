@@ -1,5 +1,8 @@
 #!/bin/bash
 #
+# Origins of this script:
+#     http://www.topwebhosts.org/tools/traffic-control.php
+#
 #  tc uses the following units when passed as a parameter.
 #  kbps: Kilobytes per second
 #  mbps: Megabytes per second
