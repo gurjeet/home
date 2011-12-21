@@ -64,11 +64,11 @@ alias ll="ls -lArth"
 #	-d1 = Sleep for 1 second between every update
 alias top="top -c -d 1"
 
-alias ping_google="ping google.com"
+alias ping_google="ping -i 3 google.com"
 
 # Erase duplicates in bash history, so that bash can remember less-used commands
 # for longer.
 HISTCONTROL=erasedups
 
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
-alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch) ; done; echo ==== done ====; date; sleep 300; done"
+alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch) ; done; date; echo ==== done ====; sleep 300; done"
