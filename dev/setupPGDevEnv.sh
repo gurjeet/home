@@ -156,7 +156,13 @@ vxzSetPGDATA()
 	fi
 
 	if [ $? = "0" ] ; then
-		PGDATA=$vxzPREFIX/data
+		# If the optional parameter is not provided
+		if [ "x$1" = "x" ] ; then
+			PGDATA=$vxzPREFIX/data
+		else # .. use the data directory provided by the user
+			PGDATA=`cd $1; pwd`
+		fi
+
 		return 0
 	fi
 
