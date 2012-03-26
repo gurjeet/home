@@ -11,3 +11,4 @@ path = ~/gurjeet.singh_enterprisedb.com_archive/
 [options]
 verbose = 2
 message_log = ~/.getmail/gurjeet.singh_enterprisedb.com.log
+read_all = false
