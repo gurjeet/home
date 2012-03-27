@@ -13,6 +13,7 @@ localfolders = ~/gurjeet.singh_enterprisedb.com_archive
 type = Gmail
 remotehost = imap.gmail.com
 folderfilter = lambda folder: folder == 'INBOX' or folder == '[Gmail]/Sent Mail' or folder == '.ToMe'
+maxconnections = 3
 remoteuser=gurjeet.singh@enterprisedb.com
-# remotepass = mypass
+#remotepass = mypass
 
