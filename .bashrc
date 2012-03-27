@@ -37,8 +37,9 @@ fi
 GIT_PS1_SHOWSTASHSTATE=1
 #GIT_PS1_SHOWUNTRACKEDFILES=1
 
-#Replace any ' $' string in PS1 with Git-generated prompt, followed by $
-PS1=${PS1/ \\\$/ \$\(__git_ps1 \"(%s)\"\)$}
+# Replace any trailing ' $' string in PS1 with Git-generated prompt, followed by $
+# Also set it up to show time in HHMMSS format.
+PS1=${PS1/ \\\$/ T\\D\{%H%M%S\} \$\(__git_ps1 \"(%s)\"\)$}
 
 #Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
