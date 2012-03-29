@@ -11,7 +11,9 @@ fi
 alias g=git
 
 # include PG development environment related functions
-. ~/dev/setupPGDevEnv.sh
+if [ -f ~/dev/setupPGDevEnv.sh ] ; then
+	. ~/dev/setupPGDevEnv.sh
+fi
 
 # Use Git completion, if available
 if [ -f /etc/bash_completion.d/git ] ; then
