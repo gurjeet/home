@@ -1,4 +1,18 @@
-# This file is supposed to be invoked using bash builtin 'source'
+#!/bin/bash
+
+# This file is typically supposed to be invoked using bash builtin 'source',
+
+# It can also be invoked as
+# ./this_script some_command_or_function space_delimited_parameters
+#
+# For example:
+# setupDevEnv.sh pgconfigure --with-bonjour
+#
+# where pgconfigure is a function defined in this script. The above command will
+# invike pgconfigure() function with parameter --with-bonjour.
+#
+# This is helpful in situations where an IDE (eg. NetBeans) allows you to
+# execute scripts with parameters to do some custome action.
 
 # This is where all the source code repositories are created
 vxzDEV_DIR=~/dev
@@ -476,3 +490,9 @@ if [ "x$PROMPT_COMMAND" != "x" ] ; then
 fi
 PROMPT_COMMAND=${PROMPT_COMMAND}'vxzDetectBranchChange >/dev/null 2>&1'
 
+if [ "x$1" != "x" ] ; then
+	command="$1"
+	shift
+	eval "$command" "$@"
+	unset command
+fi
