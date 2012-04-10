@@ -494,5 +494,4 @@ if [ "x$1" != "x" ] ; then
 	command="$1"
 	shift
 	eval "$command" "$@"
-	unset command
 fi
