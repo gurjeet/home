@@ -14,8 +14,8 @@
 # This is helpful in situations where an IDE (eg. NetBeans) allows you to
 # execute scripts with parameters to do some custome action.
 
-# This is where all the source code repositories are created
-vxzDEV_DIR=~/dev
+# This is where all the source code repositories are created; use absolute path
+vxzDEV_DIR=$HOME/dev
 
 # Setup $CDPATH so that we can easily switch to directories under the
 # development directory.
@@ -135,8 +135,9 @@ vxzSetBuildDirectory()
 
 	# If the optional parameter is not provided
 	if [ "x$1" = "x" ] ; then
-		# $vxzBLD is set at the beginning of this file
-		export B=`cd $vxzBLD/$vxzBRANCH; pwd`
+		# $vxzBLD is absolute path, hence we need not use the `cd ...; pwd`
+		# trick here.
+		export B=$vxzBLD/$vxzBRANCH
 	else
 		export B=`cd $1; pwd`
 	fi
