@@ -31,11 +31,11 @@
     b = branch
 
 	#Launch gitk in background; shows commits leading up to current commit
-    k = !gitk&
+    k = !sh -c 'gitk $@ &' -
 
 	#Launch gitk in background; shows _all_ commits in the repository.
-    ka = !gitk --all&
+    ka = !sh -c 'gitk --all $@ &' -
 
-#Make Git use an external pager for its output
+#Make Git use an external pager for git-status output
 [pager]
 	status = true
