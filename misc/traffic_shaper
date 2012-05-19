@@ -30,7 +30,7 @@ DNLD=1mbps          # DOWNLOAD Limit
 
 # I limit download to 300 kbps becuase otherwise my cable modem restarts
 # Upload limit (in mega bits)
-UPLD=300kbps          # UPLOAD Limit
+UPLD=250kbps          # UPLOAD Limit
 
 # We try to grab the IPv4 address of the interface; we are looking for a line of
 # the format:
