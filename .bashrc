@@ -11,15 +11,17 @@ fi
 alias g=git
 
 # include PG development environment related functions
-if [ -f ~/dev/setupPGDevEnv.sh ] ; then
-	. ~/dev/setupPGDevEnv.sh
-fi
+[ -r ~/dev/setupPGDevEnv.sh ] && source ~/dev/setupPGDevEnv.sh
+
+# Use NPM for managing node.js versions and packages
+[ -r ~/dev/NVM/nvm.sh ] && source ~/dev/NVM/nvm.sh
+[ -r ~/dev/NVM/bash_completion ] && source ~/dev/NVM/bash_completion
 
 # Use Git completion, if available
-if [ -f /etc/bash_completion.d/git ] ; then
-	. /etc/bash_completion.d/git
+if [ -r /etc/bash_completion.d/git ] ; then
+	source /etc/bash_completion.d/git
 
-	# Associate our alias with Git's completion function.
+	# Associate our alias ('g') with Git's completion function.
 	complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
     || complete -o default -o nospace -F _git g
 fi
