@@ -475,7 +475,7 @@ if [ "x$BASH_SOURCE" != "x" ] ; then
 	fi
 fi
 
-# Show a list of running Postgres processes.
+# Show a list (actually, forest) of running Postgres processes.
 function pgshowprocesses()
 {
 	# Exclude the 'grep' processes from the list

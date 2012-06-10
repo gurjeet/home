@@ -17,6 +17,8 @@ alias g=git
 [ -r ~/dev/NVM/nvm.sh ] && source ~/dev/NVM/nvm.sh
 [ -r ~/dev/NVM/bash_completion ] && source ~/dev/NVM/bash_completion
 
+[ -r /etc/bash_completion ] && source /etc/bash_completion
+
 # Use Git completion, if available
 if [ -r /etc/bash_completion.d/git ] ; then
 	source /etc/bash_completion.d/git
