@@ -66,6 +66,12 @@ export LESS=FiRXx4
 #	h = Show file sizes in human readable format, kB/MB/Gb/...
 alias ll="ls -lArth"
 
+export PGCONNECT_TIMEOUT=5
+
+# Erase duplicates in bash history, so that bash can remember less-used commands
+# for longer.
+HISTCONTROL=erasedups
+
 # My favourite options for top
 #	c = Show command-line for the processes
 #	-d1 = Sleep for 1 second between every update
@@ -73,11 +79,12 @@ alias top="top -c -d 1"
 
 alias ping_google="ping -i 3 google.com"
 
-export PGCONNECT_TIMEOUT=5
-
-# Erase duplicates in bash history, so that bash can remember less-used commands
-# for longer.
-HISTCONTROL=erasedups
-
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch) ; done; date; echo ==== done ====; sleep 300; done"
+
+# Launch a gnome-terminal with multiple tabs, each running a monitoring command.
+#
+# I invoke this alias in Ubuntu's 'Startup Applications' as
+# `bash -i -c monitor_all` and voila, it opens up a maximized terminal window
+# with multiple tabs, running all my monitoring commands listed above.
+alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"'"
