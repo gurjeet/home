@@ -17,10 +17,6 @@
 # This is where all the source code repositories are created; use absolute path
 vxzDEV_DIR=$HOME/dev
 
-# Setup $CDPATH so that we can easily switch to directories under the
-# development directory.
-CDPATH=${CDPATH}:${vxzDEV_DIR}
-
 # Set environment variables needed by the pg* functions below
 vxzSetVariables()
 {

@@ -72,6 +72,10 @@ export PGCONNECT_TIMEOUT=5
 # for longer.
 HISTCONTROL=erasedups
 
+# Setup $CDPATH so that we can easily switch to directories under the
+# development directory.
+CDPATH=${CDPATH}:${HOME}/dev
+
 # My favourite options for top
 #	c = Show command-line for the processes
 #	-d1 = Sleep for 1 second between every update
