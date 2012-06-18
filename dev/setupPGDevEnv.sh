@@ -381,7 +381,20 @@ pgconfigure()
 		src_dir=`pwd`
 	fi
 
-	( cd $B; $src_dir/configure --prefix=$vxzPREFIX --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety --with-openssl "$@" )
+	# If we have ccache and gcc installed, then we use them together to improve
+	# compilation times.
+	local ccacher
+	which ccache &>/dev/null
+	if [ $? -eq 0 ] ; then
+		which gcc &>/dev/null
+		if [ $? -eq 0 ] ; then
+			ccacher="ccache gcc"
+		fi
+	fi
+
+	# If $ccacher variable is not set, then ./configure behaves as if CC variable
+	# was not specified, and uses the default mechanism to find a compiler.
+	( cd $B; $src_dir/configure --prefix=$vxzPREFIX CC="${ccacher}" --enable-debug --enable-cassert CFLAGS=-O0 --enable-depend --enable-thread-safety --with-openssl "$@" )
 
 	return $?
 }
