@@ -21,7 +21,7 @@ vxzDEV_DIR=$HOME/dev
 vxzSetVariables()
 {
 	# This is where all the build output will be generated
-	vxzBLD=${vxzDEV_DIR}/builds/
+	vxzBLD=${vxzDEV_DIR}/builds
 
 	vxzSetBuildDirectory
 	vxzSetPrefix
@@ -405,7 +405,7 @@ pgmake()
 
 	# Append "$@" to the command so that we can do `pgmake -C src/backend/`, or
 	# anything similar. `make` allows multiple -C options, and does the right thing
-	make --no-print-directory -C "$B" "$@"
+	make -C "$B" "$@"
 
 	return $?
 }
