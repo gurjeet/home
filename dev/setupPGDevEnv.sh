@@ -491,15 +491,16 @@ function pgshowprocesses()
 	ps faux | grep -vw grep | grep -w postgres
 }
 
-# append branch detection code to $PROMPT_COMMAND so that we can detect Git
+# Append branch detection code to $PROMPT_COMMAND so that we can detect Git
 # branch change ASAP.
-if [ "x$PROMPT_COMMAND" != "x" ] ; then
-	# Append a semicolon only if the variable is already populated, otherwise
-	# a semicolon at the beginning of $PROMPT_COMMAND causes an error.
-	PROMPT_COMMAND=${PROMPT_COMMAND}\;
-fi
-PROMPT_COMMAND=${PROMPT_COMMAND}'vxzDetectBranchChange >/dev/null 2>&1'
+#
+# A semicolon at the beginning of $PROMPT_COMMAND causes an error, so replace an
+# empty $PROMPT_COMMAND with a : which is legal Bash syntax.
+PROMPT_COMMAND=${PROMPT_COMMAND:-:}';vxzDetectBranchChange >/dev/null 2>&1'
 
+# If the script was invoked with some parameters, then assume $1 to be a
+# function's name (possibly defined in this file), and pass the rest of the
+# arguments to that function.
 if [ "x$1" != "x" ] ; then
 	command="$1"
 	shift

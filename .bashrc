@@ -43,6 +43,12 @@ fi
 GIT_PS1_SHOWSTASHSTATE=1
 #GIT_PS1_SHOWUNTRACKEDFILES=1
 
+# myDEBUG_CMD=" gTIME_SPENT=\$\(\(\$SECONDS-\$saved_SECONDS\)\) \$SECONDS; saved_SECONDS=\$SECONDS"
+# gDEBUG_CMD=$(trap -p DEBUG | sed "s/trap -- '\(.*\)' DEBUG/\1/g")
+# if [ ! -z "${gDEBUG_CMD}" ] ; then newDEBUG_CMD="${gDEBUG_CMD};${myDEBUG_CMD}" ; else newDEBUG_CMD="${myDEBUG_CMD}" ; fi
+# trap "${newDEBUG_CMD}" DEBUG
+# unset gDEBUG_CMD newDEBUG_CMD myDEBUG_CMD
+
 # Replace any trailing '$' string in PS1 with Git-generated prompt, followed by $
 # Also set it up to show time in HHMMSS format.
 PS1=${PS1/\\\$/ T\\D\{%H%M%S\} \$\(__git_ps1 \"(%s)\"\)$}
