@@ -39,3 +39,8 @@
 #Make Git use an external pager for git-status output
 [pager]
 	status = true
+
+# Do not show untracked files when doing git-status
+[status]
+	showuntrackedfiles = no
+
