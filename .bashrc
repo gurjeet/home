@@ -97,4 +97,4 @@ alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line
 # I invoke this alias in Ubuntu's 'Startup Applications' as
 # `bash -i -c monitor_all` and voila, it opens up a maximized terminal window
 # with multiple tabs, running all my monitoring commands listed above.
-alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"'"
+alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"'"
