@@ -410,7 +410,7 @@ pgmake()
 	return $?
 }
 
-pgcscope()
+pglsfiles()
 {
 	vxzDetectBranchChange || return $?
 
@@ -439,7 +439,12 @@ pgcscope()
 	fi
 
 	# Emit a list of all source files, and make cscope consume that list from stdin
-	( cd $src_dir; find ./src/ ./contrib/ $vpath_src_dir -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" | cscope -Rb -f $CSCOPE_DB -i - )
+	( cd $src_dir; find ./src/ ./contrib/ $vpath_src_dir -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" )
+}
+
+pgcscope()
+{
+	pglsfiles | cscope -Rb -f $CSCOPE_DB -i -
 }
 
 # unset $GIT_DIR
