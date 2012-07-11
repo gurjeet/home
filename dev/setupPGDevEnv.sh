@@ -438,13 +438,26 @@ pglsfiles()
 		vpath_src_dir=
 	fi
 
-	# Emit a list of all source files, and make cscope consume that list from stdin
-	( cd $src_dir; find ./src/ ./contrib/ $vpath_src_dir -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" )
+	local find_opts
+
+	if [ "x$1" != "x--no-symlink" ] ; then
+		find_opts=-L
+	else
+		find_opts=
+	fi
+
+	# Emit a list of all interesting files.
+	( cd $src_dir; find $find_opts ./src/ ./contrib/ $vpath_src_dir -type f -iname "*.[chyl]" -or -iname "*.[ch]pp" -or -iname "README*" )
 }
 
 pgcscope()
 {
-	pglsfiles | cscope -Rb -f $CSCOPE_DB -i -
+	# If we're not in Postgres sources, cscope in the next command will hang
+	# until interrupted, so bail out sooner if we're not in PG sources.
+	vxzDetectBranchChange || return $?
+
+	# Emit a list of all source files,and make cscope consume that list from stdin
+	pglsfiles --no-symlink | cscope -Rb -f $CSCOPE_DB -i -
 }
 
 # unset $GIT_DIR
