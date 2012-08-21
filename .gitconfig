@@ -44,3 +44,5 @@
 [status]
 	showuntrackedfiles = no
 
+[branch]
+	autosetuprebase = always
