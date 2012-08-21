@@ -28,7 +28,7 @@ if [ -r /etc/bash_completion.d/git ] ; then
     || complete -o default -o nospace -F _git g
 else
 	# define a dummy function so that it can be safely used in PS1 below.
-	__git_ps1() {}
+	__git_ps1() { echo ; }
 fi
 
 # Choose what all info you want to see in Git-generated prompt.
