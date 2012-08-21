@@ -26,6 +26,9 @@ if [ -r /etc/bash_completion.d/git ] ; then
 	# Associate our alias ('g') with Git's completion function.
 	complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
     || complete -o default -o nospace -F _git g
+else
+	# define a dummy function so that it can be safely used in PS1 below.
+	__git_ps1() {}
 fi
 
 # Choose what all info you want to see in Git-generated prompt.
