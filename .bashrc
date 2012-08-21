@@ -98,3 +98,11 @@ alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line
 # `bash -i -c monitor_all` and voila, it opens up a maximized terminal window
 # with multiple tabs, running all my monitoring commands listed above.
 alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"'"
+
+# alias for tagging every line of input with a timestamp
+# How to use it:
+#   any_program_that_emits_output | dateline
+#
+# For eg.
+#     (echo line1; echo line2; echo line3) | dateline
+alias dateline='while read line; do echo `date` $line; done'
