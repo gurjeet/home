@@ -38,7 +38,10 @@ vxzSetVariables()
 	export CSCOPE_DB=$vxzBLD/$vxzBRANCH/cscope.out
 
 	vxzSaved_PATH=$PATH
-	export PATH=$vxzPREFIX/lib:$vxzPREFIX/bin:/mingw/lib:$PATH
+	export PATH=$vxzPREFIX/bin:/mingw/lib:$PATH
+
+	vxsSaved_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+	export LD_LIBRARY_PATH=$vxzPREFIX/lib:$LD_LIBRARY_PATH
 
 	# This will do its job in VPATH builds, and nothing in non-VPATH builds
 	mkdir -p $B
@@ -61,6 +64,11 @@ vxzInvalidateVariables()
 		export PATH=$vxzSaved_PATH
 	fi
 	unset vxzSaved_PATH
+
+	if [ "x$vxzSaved_LD_LIBRARY_PATH" != "x" ] ; then
+		export LD_LIBRARY_PATH=$vxzSaved_LD_LIBRARY_PATH
+	fi
+	unset vxzSaved_LD_LIBRARY_PATH
 
 	if [ "x$vxzSaved_PGDATA" != "x" ] ; then
 		PGDATA=$vxzSaved_PGDATA
