@@ -512,39 +512,43 @@ if [ "x$BASH_SOURCE" != "x" ] ; then
 	fi
 fi
 
+# Emit a comma separated list of pids of all processes in this process' tree
+function getPIDTree()
+{
+	PID=$1
+	if [ -z $PID ]; then
+	    echo "ERROR: No pid specified" 1>&2
+	fi
 
-# Show postmaster and all its children, as a process tree.
-#
-# TODO: Fix the following known bug
-#
-# Known bug: ps utility cannot show all the descendants of a process, hence we
-#            use the pidlist and --ppid list options to list the postmaster and
-#            its children. In Postgres versions 8.1 and before, the process tree
-#            is 2 levels deep, like this:
-#
-# /home/gurjeet/dev/builds/pg_8.1_stable/db/bin/postmaster -D /home/gurjeet/dev/builds/pg_8.1_stable/db/data
-#  \_ postgres: writer process
-#  \_ postgres: stats buffer process
-#      \_ postgres: stats collector process
-#
-#            So the current implementation cannot show the 'stats collector process'
-#
+	PPLIST=$PID
+	CHILD_LIST=$(pgrep -P $PPLIST -d,)
+
+	while [ ! -z "$CHILD_LIST" ] ; do
+	    PPLIST="$PPLIST,$CHILD_LIST"
+		CHILD_LIST=$(pgrep -P $CHILD_LIST -d,)
+	done
+
+	echo $PPLIST
+}
+
+# Show postmaster and all its children, as a process tree
 function pgserverprocesses()
 {
 	# Make sure we're in postgres source directory
 	vxzDetectBranchChange || return $?
 
 	# Make sure postgres server is running. Suppress output only if successful.
+	# That is, show only stderr stream of the pgstatus().
 	pgstatus >/dev/null || return $?
 
-	local postmaster_pid=$(head -1 $B/db/data/postmaster.pid)
+	local server_process_pids=$(getPIDTree $(head -1 $B/db/data/postmaster.pid))
 
 	# We use a dummy grep because otherwise the 'u' option causes the long lines
 	# in output to be stripped at terminal edge. With this dummy grep, the long
 	# lines wrap around to next line.
-	ps fu p $postmaster_pid --ppid $postmaster_pid | grep ''
+	ps fu p $server_process_pids | grep ''
 
-	unset postmaster_pid
+	unset server_process_pids
 }
 
 # Show a list (actually, forest) of all processes related to postgres.
