@@ -192,6 +192,7 @@ vxzSetPGDATA()
 vxzCheckDATADirectoryExists()
 {
   if [ ! -d $PGDATA ] ; then
+    echo ERROR: \$PGDATA not set\; $PGDATA, no such directory 1>&2
     return 1;
   fi;
 
@@ -233,8 +234,8 @@ vxzSetPGFlavor()
 		return 0
 	fi
 
-	# If the configure.in file contains the word PostgreSQL, then we're
-	# we're working with Postgres sources.
+	# If the configure.in file contains the word PostgreSQL, then we're working
+	# with Postgres sources.
 	grep -m 1 PostgreSQL $src_dir/configure.in 2>&1 > /dev/null
 	if [ $? -eq 0 ] ; then
 		vxzFLAVOR="postgres"
@@ -310,12 +311,7 @@ pgstart()
 {
 	vxzDetectBranchChange || return $?
 
-	vxzCheckDATADirectoryExists
-
-	if [ $? -ne 0 ] ; then
-	    echo ERROR: \$PGDATA does not exist\; $PGDATA, no such directory
-		return 1
-	fi
+	vxzCheckDATADirectoryExists || return $?
 
 	{
 	# Set $PGUSER to DB superuser's name so that `pg_ctl -w` can connect to
@@ -341,28 +337,34 @@ pgstatus()
 {
 	vxzDetectBranchChange || return $?
 
-	vxzCheckDATADirectoryExists
+	vxzCheckDATADirectoryExists || return $?
 
-	if [ $? -ne 0 ] ; then
-	    echo ERROR: \$PGDATA not set\; $PGDATA, no such directory
-		return 1
+	# if we adorn the variable with 'local' keyword, then pg_ctl's exit code is
+	# lost; hence we prefix it with vxz and unset it before returning.
+	vxzpg_ctl_output=$($vxzPREFIX/bin/pg_ctl -D $PGDATA status)
+
+	local rc=$?
+
+	# Emit the pg_ctl output to stdout or stderr depending on whether or not the
+	# pg_ctl command succeeded.
+	#
+	# We have to wrap the $vxzpg_ctl_output in double quotes, because otherwise
+	# echo does not print the newline characters in the content of that variable
+	if [ $rc -eq 0 ] ; then
+		echo "$vxzpg_ctl_output"
+	else
+		echo "$vxzpg_ctl_output" 1>&2
 	fi
 
-	$vxzPREFIX/bin/pg_ctl -D $PGDATA status
-
-	return $?
+	unset vxzpg_ctl_output
+	return $rc
 }
 
 pgreload()
 {
 	vxzDetectBranchChange || return $?
 
-	vxzCheckDATADirectoryExists
-
-	if [ $? -ne 0 ] ; then
-	    echo ERROR: \$PGDATA not set\; $PGDATA, no such directory
-		return 1
-	fi
+	vxzCheckDATADirectoryExists || return $?
 
 	$vxzPREFIX/bin/pg_ctl -D $PGDATA reload
 
@@ -510,11 +512,50 @@ if [ "x$BASH_SOURCE" != "x" ] ; then
 	fi
 fi
 
-# Show a list (actually, forest) of running Postgres processes.
+
+# Show postmaster and all its children, as a process tree.
+#
+# TODO: Fix the following known bug
+#
+# Known bug: ps utility cannot show all the descendants of a process, hence we
+#            use the pidlist and --ppid list options to list the postmaster and
+#            its children. In Postgres versions 8.1 and before, the process tree
+#            is 2 levels deep, like this:
+#
+# /home/gurjeet/dev/builds/pg_8.1_stable/db/bin/postmaster -D /home/gurjeet/dev/builds/pg_8.1_stable/db/data
+#  \_ postgres: writer process
+#  \_ postgres: stats buffer process
+#      \_ postgres: stats collector process
+#
+#            So the current implementation cannot show the 'stats collector process'
+#
+function pgserverprocesses()
+{
+	# Make sure we're in postgres source directory
+	vxzDetectBranchChange || return $?
+
+	# Make sure postgres server is running. Suppress output only if successful.
+	pgstatus >/dev/null || return $?
+
+	local postmaster_pid=$(head -1 $B/db/data/postmaster.pid)
+
+	# We use a dummy grep because otherwise the 'u' option causes the long lines
+	# in output to be stripped at terminal edge. With this dummy grep, the long
+	# lines wrap around to next line.
+	ps fu p $postmaster_pid --ppid $postmaster_pid | grep ''
+
+	unset postmaster_pid
+}
+
+# Show a list (actually, forest) of all processes related to postgres.
 function pgshowprocesses()
 {
 	# Exclude the 'grep' processes from the list
-	ps faux | grep -vw grep | grep -w postgres
+	#
+	# Postgres versions 8.1 and prior used the posmaster binary, and later
+	# versions use the postgres binary. So look for both postmaster and postgres
+	# in the process status.
+	ps faux | grep -vw grep | grep -wE 'postmaster|postgres'
 }
 
 # Append branch detection code to $PROMPT_COMMAND so that we can detect Git
