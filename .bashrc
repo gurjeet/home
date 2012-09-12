@@ -73,7 +73,7 @@ export LESS=FiRXx4
 #	A = Show almost all files (show all files except . and ..)
 #	rt = Sort the list by file-modified-time, in reverse order
 #	h = Show file sizes in human readable format, kB/MB/Gb/...
-alias ll="ls -lArth"
+alias ll="ls -lArth --color=auto"
 
 export PGCONNECT_TIMEOUT=5
 
