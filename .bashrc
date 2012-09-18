@@ -54,7 +54,22 @@ GIT_PS1_SHOWSTASHSTATE=1
 
 # Replace any trailing '$' string in PS1 with Git-generated prompt, followed by $
 # Also set it up to show time in HHMMSS format.
-PS1=${PS1/\\\$/ T\\D\{%H%M%S\} \$\(__git_ps1 \"(%s)\"\)$}
+PS1=${PS1/%\\$ / T\\D\{%H%M%S\} \$\(__git_ps1 \"(%s)\"\)\\\$ }
+
+# Add a newline lust before the last $
+PS1=${PS1/%\$ /\n\\$ }
+
+# Add a newline at the beginning of the prompt.
+PS1=${PS1/#/\\n}
+
+# After the above three transformation to the PS1, two consecutive prompts now
+# look like this:
+#
+#gurjeet@work:~ T153031 (master)
+#$ 
+#
+#gurjeet@work:~ T153031 (master)
+#$ 
 
 #Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
