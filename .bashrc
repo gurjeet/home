@@ -117,7 +117,7 @@ alias dateline='while read line; do echo `date` $line; done'
 alias ping_google="ping -i 3 google.com | dateline"
 
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
-alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch) ; done; date; echo ==== done ====; sleep 300; done"
+alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
 
 # Launch a gnome-terminal with multiple tabs, each running a monitoring command.
 #
