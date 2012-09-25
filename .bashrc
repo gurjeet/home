@@ -116,6 +116,9 @@ alias dateline='while read line; do echo `date` $line; done'
 
 alias ping_google="ping -i 3 google.com | dateline"
 
+# Shortcut function/alias to launch SublimeText in background, preserving the arguments.
+function sl() { sublime_text "$@" & }
+
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
 
