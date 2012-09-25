@@ -13,7 +13,7 @@ alias g=git
 # include PG development environment related functions
 [ -r ~/dev/setupPGDevEnv.sh ] && source ~/dev/setupPGDevEnv.sh
 
-# Use NPM for managing node.js versions and packages
+# Use NVM for managing node.js versions and packages
 [ -r ~/dev/NVM/nvm.sh ] && source ~/dev/NVM/nvm.sh
 [ -r ~/dev/NVM/bash_completion ] && source ~/dev/NVM/bash_completion
 
