@@ -59,15 +59,14 @@ PS1=${PS1/%\\$ / T\\D\{%H%M%S\} \$\(__git_ps1 \"(%s)\"\)\\\$ }
 # Add a newline lust before the last $
 PS1=${PS1/%\$ /\n\\$ }
 
-# Add a newline at the beginning of the prompt.
-PS1=${PS1/#/\\n}
+# Add a newline at the beginning of the prompt. # Commented out after some experience.
+#PS1=${PS1/#/\\n}
 
 # After the above three transformation to the PS1, two consecutive prompts now
 # look like this:
 #
 #gurjeet@work:~ T153031 (master)
 #$ 
-#
 #gurjeet@work:~ T153031 (master)
 #$ 
 
