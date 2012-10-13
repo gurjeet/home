@@ -46,17 +46,47 @@ fi
 GIT_PS1_SHOWSTASHSTATE=1
 #GIT_PS1_SHOWUNTRACKEDFILES=1
 
+# Define functions that emit escape sequnces for coloring the prompt
+# Color codes copied from: http://brettterpstra.com/my-new-favorite-bash-prompt/
+# TODO: Take inputs from [1] and bash.it to incorporate `tput` and `precmd`.
+# [1] http://stackoverflow.com/questions/6592077/bash-prompt-and-echoing-colors-inside-a-function
+COLOR_CODE_DEFAULT="\033[0;39m"
+    COLOR_CODE_RED="\033[0;31m"
+  COLOR_CODE_GREEN="\033[0;32m"
+   COLOR_CODE_BLUE="\033[0;34m"
+   COLOR_CODE_CYAN="\033[0;36m"
+  COLOR_CODE_BCYAN="\033[1;36m"
+   COLOR_CODE_GRAY="\033[0;37m"
+ COLOR_CODE_DKGRAY="\033[1;30m"
+  COLOR_CODE_WHITE="\033[1;37m"
+
+PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
+    PS1_COLOR_RED="\[${COLOR_CODE_RED}\]"
+  PS1_COLOR_GREEN="\[${COLOR_CODE_GREEN}\]"
+   PS1_COLOR_BLUE="\[${COLOR_CODE_BLUE}\]"
+   PS1_COLOR_CYAN="\[${COLOR_CODE_CYAN}\]"
+  PS1_COLOR_BCYAN="\[${COLOR_CODE_BCYAN}\]"
+   PS1_COLOR_GRAY="\[${COLOR_CODE_GRAY}\]"
+ PS1_COLOR_DKGRAY="\[${COLOR_CODE_DKGRAY}\]"
+  PS1_COLOR_WHITE="\[${COLOR_CODE_WHITE}\]"
+
+# Try this little experiment to have some fun. Set PS1 with various colored strings.
+#PS1="${PS1}$(color_green)green$(color_cyan)cyan$(color_red)red$(color_bcyan)bcyan$(color_blue)blue$(color_gray)gray$(color_dkgray)dkgray$(color_white)white$(color_default)default $ "
+
 # myDEBUG_CMD=" gTIME_SPENT=\$\(\(\$SECONDS-\$saved_SECONDS\)\) \$SECONDS; saved_SECONDS=\$SECONDS"
 # gDEBUG_CMD=$(trap -p DEBUG | sed "s/trap -- '\(.*\)' DEBUG/\1/g")
 # if [ ! -z "${gDEBUG_CMD}" ] ; then newDEBUG_CMD="${gDEBUG_CMD};${myDEBUG_CMD}" ; else newDEBUG_CMD="${myDEBUG_CMD}" ; fi
 # trap "${newDEBUG_CMD}" DEBUG
 # unset gDEBUG_CMD newDEBUG_CMD myDEBUG_CMD
 
-# Replace any trailing '$' string in PS1 with Git-generated prompt, followed by $
-# Also set it up to show time in HHMMSS format.
-PS1=${PS1/%\\$ / T\\D\{%H%M%S\} \$\(__git_ps1 \"(%s)\"\)\\\$ }
+# make the default prompt look cyan
+PS1=${PS1_COLOR_CYAN}${PS1}
 
-# Add a newline lust before the last $
+# Replace the trailing '$' string in PS1 with Git-generated prompt, followed by $
+# Also set it up to show time in HHMMSS format.
+PS1=${PS1/%\\$ / ${PS1_COLOR_BLUE}T\\D\{%H%M%S\}${PS1_COLOR_GREEN} \$\(__git_ps1 \"(%s)\"\)${PS1_COLOR_DEFAULT}\\\$ }
+
+# Add a newline just before the last $
 PS1=${PS1/%\$ /\n\\$ }
 
 # Add a newline at the beginning of the prompt. # Commented out after some experience.
