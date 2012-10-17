@@ -71,7 +71,7 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
   PS1_COLOR_WHITE="\[${COLOR_CODE_WHITE}\]"
 
 # Try this little experiment to have some fun. Set PS1 with various colored strings.
-#PS1="${PS1}$(color_green)green$(color_cyan)cyan$(color_red)red$(color_bcyan)bcyan$(color_blue)blue$(color_gray)gray$(color_dkgray)dkgray$(color_white)white$(color_default)default $ "
+#PS1="${PS1}${PS1_COLOR_GREEN}green${PS1_COLOR_CYAN}cyan${PS1_COLOR_RED}red${PS1_COLOR_BCYAN}bcyan${PS1_COLOR_BLUE}blue${PS1_COLOR_GRAY}gray${PS1_COLOR_DKGRAY}dkgray${PS1_COLOR_WHITE}white${PS1_COLOR_DEFAULT}default $ "
 
 # myDEBUG_CMD=" gTIME_SPENT=\$\(\(\$SECONDS-\$saved_SECONDS\)\) \$SECONDS; saved_SECONDS=\$SECONDS"
 # gDEBUG_CMD=$(trap -p DEBUG | sed "s/trap -- '\(.*\)' DEBUG/\1/g")
@@ -145,21 +145,26 @@ alias dateline='while read line; do echo `date` $line; done'
 
 alias ping_google="ping -i 3 google.com | dateline"
 
-# Make an alias to a command, to background the prcess while preserving the arguments
+# Launch a command in background, while preserving the parameters.
+#
+# This function assumes the first parameter is the command to launch, and rest
+# of the parameters are the parameter to that command, so it passes them on as
+# is.
+#
 # It is assumed that the first parameter is in $PATH.
 #
 # I have symlinks in ~/bin/ that point to binaries I'm interested in, and ~/bin/
 # is in my $PATH (done in ~/.bash_profile)
-function mkalias() { local cmd="$1"; shift; $cmd "$@" & }
+function launch_in_bg() { local cmd="$1"; shift; $cmd "$@" & }
 
 # Shortcut function/alias to launch SublimeText in background, preserving the arguments.
-function sl() {  mkalias sublime_text "$@" ; }
+function sl() {  launch_in_bg sublime_text "$@" ; }
 
 # Shortcut function/alias to launch NetBeans in background, preserving the arguments.
-function nb() {  mkalias netbeans "$@" ; }
+function nb() {  launch_in_bg netbeans "$@" ; }
 
 # Shortcut function/alias to launch GEdit (TeXt) in background, preserving the arguments.
-function tx() {  mkalias gedit "$@" ; }
+function tx() {  launch_in_bg gedit "$@" ; }
 
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
