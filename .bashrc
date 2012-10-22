@@ -141,7 +141,7 @@ alias top="top -c -d 1"
 #
 # For eg.
 #     (echo line1; echo line2; echo line3) | dateline
-alias dateline='while read line; do echo `date` $line; done'
+alias dateline='while read line; do echo `date` "${line}"; done'
 
 alias ping_google="ping -i 3 google.com | dateline"
 
