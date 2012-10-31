@@ -12,7 +12,7 @@
 # invike pgconfigure() function with parameter --with-bonjour.
 #
 # This is helpful in situations where an IDE (eg. NetBeans) allows you to
-# execute scripts with parameters to do some custome action.
+# execute scripts with parameters to do some custom action.
 
 # This is where all the source code repositories are created; use absolute path
 vxzDEV_DIR=$HOME/dev
