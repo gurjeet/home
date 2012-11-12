@@ -171,10 +171,14 @@ function tx() {  launch_in_bg gedit "$@" ; }
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
 
+
+# Command to restart network-manager when ping times-out
+alias restart_network_on_curl_fail="while true; do date; curl -# --max-time 10 -o /dev/null www.google.com || ( sudo service network-manager restart && sleep 10 ) ; sleep 10; done"
+
 # Launch a gnome-terminal with multiple tabs, each running a monitoring command.
 #
 # I invoke this alias in Ubuntu's 'Startup Applications' as
 # `bash -i -c monitor_all` and voila, it opens up a maximized terminal window
 # with multiple tabs, running all my monitoring commands listed above.
-alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"'"
+alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"' --tab -e 'bash -i -c restart_network_on_curl_fail'"
 
