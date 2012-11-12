@@ -145,6 +145,8 @@ alias dateline='while read line; do echo `date` "${line}"; done'
 
 alias ping_google="ping -i 3 google.com | dateline"
 
+alias open=xdg-open
+
 # Launch a command in background, while preserving the parameters.
 #
 # This function assumes the first parameter is the command to launch, and rest
