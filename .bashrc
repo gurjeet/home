@@ -173,7 +173,7 @@ alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line
 
 
 # Command to restart network-manager when ping times-out
-alias restart_network_on_curl_fail="while true; do date; curl -# --max-time 10 -o /dev/null www.google.com || ( sudo service network-manager restart && sleep 10 ) ; sleep 10; done"
+alias restart_network_on_curl_fail="while true; do echo Checking internet reachability at $(date); curl -# --max-time 10 -o /dev/null www.google.com || ( sudo service network-manager restart && sleep 10 ) ; sleep 10; done"
 
 # Launch a gnome-terminal with multiple tabs, each running a monitoring command.
 #
