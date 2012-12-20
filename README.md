@@ -1,4 +1,3 @@
-
 # How to restore home dierctory on a new machine
 
     cd /tmp
