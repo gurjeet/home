@@ -158,6 +158,7 @@ alias open=xdg-open
 # I have symlinks in ~/bin/ that point to binaries I'm interested in, and ~/bin/
 # is in my $PATH (done in ~/.bash_profile)
 function launch_in_bg() { local cmd="$1"; shift; $cmd "$@" & }
+function launch_in_fg() { local cmd="$1"; shift; $cmd "$@" ; }
 
 # Shortcut function/alias to launch SublimeText in background, preserving the arguments.
 function sl() {  launch_in_bg sublime_text "$@" ; }
@@ -167,6 +168,9 @@ function nb() {  launch_in_bg netbeans "$@" ; }
 
 # Shortcut function/alias to launch GEdit (TeXt) in background, preserving the arguments.
 function tx() {  launch_in_bg gedit "$@" ; }
+
+# Shortcut function/alias to launch Vagrant in foreground, preserving the arguments.
+function vg() {  launch_in_fg vagrant "$@" ; }
 
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
