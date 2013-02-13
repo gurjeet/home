@@ -103,6 +103,9 @@ PS1=${PS1/%\$ /\n\\$ }
 #Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
 
+# Set the default editor
+export EDITOR=vim
+
 # Set the command line options to be used by `less'
 #	F = Quit if one screen
 #	i = ignore case when searching, iff search pattern doesn't have uppercase letters
