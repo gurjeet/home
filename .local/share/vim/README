@@ -1,0 +1,3 @@
+This directory is supposed to be used by Vim, and its 3 sub-directories
+{undo,swap,backup} are used by sensible.vim to store the temp/intermediate files
+generated/used by Vim.
