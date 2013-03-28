@@ -34,7 +34,7 @@ echo PARALLEL: Degree of parallelism: $degree;
 
 # read each line from stdin and process it
 
-while read line ;
+while read -r line ;
 do
 
   while [ true ]; do
@@ -43,10 +43,9 @@ do
     if [ -f $MYDIR/degree ] ; then
       new_degree=`cat $MYDIR/degree`
       rm $MYDIR/degree
-    fi
-
-    if [ $new_degree > 0  ] ; then
-      degree=$new_degree;
+        if [ $new_degree -gt 0  ] ; then
+          degree=$new_degree;
+        fi
     fi
 
     # Look for a free slot
