@@ -1,1 +1,2 @@
 \set PROMPT1 '%[%033]0;psql %/ %007%]%/%R%# '
+\x auto
