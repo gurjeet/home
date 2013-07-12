@@ -79,6 +79,10 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
 # trap "${newDEBUG_CMD}" DEBUG
 # unset gDEBUG_CMD newDEBUG_CMD myDEBUG_CMD
 
+# Use a hard-coded prompt, since some sites have their own default that are
+# different in subtle ways.
+PS1='[\u@\h:\l \w]\$ '
+
 # make the default prompt look cyan
 PS1=${PS1_COLOR_CYAN}${PS1}
 
