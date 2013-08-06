@@ -179,6 +179,9 @@ function tx() {  launch_in_bg gedit "$@" ; }
 # Shortcut function/alias to launch Vagrant in foreground, preserving the arguments.
 function vg() {  launch_in_fg vagrant "$@" ; }
 
+# Set Emacs style line editing
+set -o emacs
+
 # Command to fetch all Git repos under ~/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
 
