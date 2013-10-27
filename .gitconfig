@@ -63,3 +63,5 @@
 	cmd = diff -i $LOCAL $REMOTE
 [difftool]
 	prompt = 0
+[diff]
+	tool = vimdiff
