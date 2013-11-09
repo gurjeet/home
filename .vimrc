@@ -5,7 +5,9 @@ set tabstop=4
 set ignorecase
 syntax on
 
-set number
+" Disabling line numbers; too painful when one has to copy stuff from terminal
+" and paste it elsewhere.
+"set number
 
 set smarttab
 set shiftwidth=4
@@ -23,23 +25,36 @@ nnoremap <C-s> :w<cr>
 " Enable recursive lookup for commands like :find and :tabfind
 let &path = &path . ',**,'
 
+" From [url_tab_pages]. Map Ctrl+{Left|Right}arrow to switch between
+" consecutive tabs, and Alt+{Left|Right}arrow to move current tab around. And
+" F8 to toggle tab-bar, loaded with all current buffers. Open tabs by default.
+"
+" [url_tab_pages] http://vim.wikia.com/wiki/Using_tab_pages#Switching_to_another_buffer
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
+let notabs = 1
+nnoremap <silent> <F8> :let notabs=!notabs<Bar>:if notabs<Bar>:tabo<Bar>:else<Bar>:tab ball<Bar>:tabn<Bar>:endif<CR>
+silent! tab ball
+
+
 " Enable mouse (works even in console/non-GUI mode (specifically, it works in
 " xterm). Double-clicks/selection-with-mouse will cause Vim's 'visual' selection
 " feature to kick in. To use the terminal's selection mode (so that you can
 " copy-paste the selection), press the 'shift' key when double-clicking or
 " selecting text with mouse.
-set mouse=a
+"
+" Disabling mouse for now, since I don't use it much and it interferes with the
+" terminal level selection and copy.
+"set mouse=a
 
-" Based on Wolph's response from [1]. But disable the 'autocmd's since the
-" restore function currently doesn't work nicely. Use it only to save/restore
-" sessions manually. Ideally, the auto-restore should abort if there are any
-" files being opened from command-line.
+" Based on Wolph's response from [url_save_vim_session].
 "
-" For some reason, after an auto-restore, the files are loaded into a split
-" window. And as Wolph acknowledges in the post, 'syntax on' is necessary
-" here, to get syntax highlighting even if .vimrc has the same command.
+" And as Wolph acknowledges in the post, 'syntax on' is necessary here, to get
+" syntax highlighting even if .vimrc has the same command.
 "
-" [1] http://stackoverflow.com/questions/5142099/auto-save-vim-session-on-quit-and-auto-reload-session-on-start
+" [url_save_vim_session] http://stackoverflow.com/questions/5142099/auto-save-vim-session-on-quit-and-auto-reload-session-on-start
 fu! SaveSess()
     execute 'mksession! ' . getcwd() . '/.session.vim'
 endfunction
@@ -58,5 +73,11 @@ endif
 syntax on
 endfunction
 
-"autocmd VimLeave * call SaveSess()
-"autocmd VimEnter * call RestoreSess()
+autocmd VimLeave * call SaveSess()
+
+" Restore the previous session only if there are no files being opened
+" explicitly.
+:if empty(argv())
+	autocmd VimEnter * call RestoreSess()
+:endif
+
