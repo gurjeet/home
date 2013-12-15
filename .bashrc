@@ -107,6 +107,10 @@ PS1=${PS1/%\$ /\n\\$ }
 #gurjeet@work:~ T153031 (master)
 #$ 
 
+# A nice way to check performance of a script.
+# Adapted from http://stackoverflow.com/a/4338046/382700
+#PS4='$(date "+%s.%N ($LINENO) $ ")' bash -x scriptname
+
 #Set the default pager; programs use `more' by default, which IMHO is paralysed
 export PAGER=less
 
