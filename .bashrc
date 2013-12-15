@@ -154,7 +154,14 @@ alias top="top -c -d 1"
 #     while sleep 1; do echo A random number: $RANDOM; done | dateline
 alias dateline='while read line; do echo $(date) "${line}"; done'
 
-alias ping_google="ping -i 3 -n google.com | dateline"
+function ping_host()
+{
+	#while sleep 1; do { timeout 4 ping -w 3 -c 2 -i 1 $1 > /tmp/ping.$1.$$ 2>&1 && echo $1 Success ; } || { echo $1 FAILURE && cat /tmp/ping.$1.$$ ; } ; done | dateline
+	while sleep 1; do { timeout 4 ping -w 3 -c 2 -i 1 $1 > /tmp/ping.$1.$$ 2>&1 && echo -n . ; } || { echo -n X ; } ; done
+}
+
+alias ping_google="ping_host google.com"
+alias ping_local="ping_host 192.168.1.1"
 
 alias open=xdg-open
 
