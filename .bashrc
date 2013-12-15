@@ -167,6 +167,9 @@ function ping_host()
 alias ping_google="ping_host google.com"
 alias ping_local="ping_host 192.168.1.1"
 
+# On Linux, Ubuntu 12.04 at least, this is the command to reset wifi
+alias reset_wifi="nmcli nm wifi off && nmcli nm wifi on"
+
 alias open=xdg-open
 
 # Launch a command in background, while preserving the parameters.
