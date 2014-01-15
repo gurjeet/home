@@ -94,3 +94,5 @@ autocmd VimLeave * call SaveSess()
 	autocmd VimEnter * call RestoreSess()
 :endif
 
+" The Netrw module creates a history-file, which I am not interested in.
+au VimLeave * if filereadable($HOME . "/.vim/.netrwhist")|call delete($HOME . "/.vim/.netrwhist")|endif
