@@ -97,7 +97,7 @@ GIT_PS1_SHOWSTASHSTATE=1
 
 # Define functions that emit escape sequnces for coloring the prompt
 # Color codes copied from: http://brettterpstra.com/my-new-favorite-bash-prompt/
-# TODO: Take inputs from [1] and bash.it to incorporate `tput` and `precmd`.
+# TODO: Take inputs from [1] and bash.it to incorporate 'tput' and 'precmd'.
 # [1] http://stackoverflow.com/questions/6592077/bash-prompt-and-echoing-colors-inside-a-function
 COLOR_CODE_DEFAULT="\033[0;39m"
     COLOR_CODE_RED="\033[0;31m"
@@ -172,13 +172,13 @@ PS1=${PS1/%\$ /\n\\$ }
 # Adapted from http://stackoverflow.com/a/4338046/382700
 #PS4='$(date "+%s.%N ($LINENO) $ ")' bash -x scriptname
 
-#Set the default pager; programs use `more' by default, which IMHO is paralysed
+#Set the default pager; programs use 'more' by default, which IMHO is paralysed
 export PAGER=less
 
 # Set the default editor
 export EDITOR=vim
 
-# Set the command line options to be used by `less'
+# Set the command line options to be used by 'less'
 #	F = Quit if one screen
 #	i = ignore case when searching, iff search pattern doesn't have uppercase letters
 #	R = Use Raw Control Characters; useful for color output
@@ -296,7 +296,7 @@ alias check_internet_connectivity="while true; do echo Checking internet reachab
 # Launch a gnome-terminal with multiple tabs, each running a monitoring command.
 #
 # I invoke this alias in Ubuntu's 'Startup Applications' as
-# `bash -i -c monitor_all` and voila, it opens up a maximized terminal window
+# 'bash -i -c monitor_all' and voila, it opens up a maximized terminal window
 # with multiple tabs, running all my monitoring commands listed above.
 alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"' --tab -e 'bash -i -c check_internet_connectivity'"
 
