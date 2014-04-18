@@ -76,15 +76,25 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
 # Try this little experiment to have some fun. Set PS1 with various colored strings.
 #PS1="${PS1}${PS1_COLOR_GREEN}green${PS1_COLOR_CYAN}cyan${PS1_COLOR_RED}red${PS1_COLOR_BCYAN}bcyan${PS1_COLOR_BLUE}blue${PS1_COLOR_GRAY}gray${PS1_COLOR_DKGRAY}dkgray${PS1_COLOR_WHITE}white${PS1_COLOR_DEFAULT}default $ "
 
-# myDEBUG_CMD=" gTIME_SPENT=\$\(\(\$SECONDS-\$saved_SECONDS\)\) \$SECONDS; saved_SECONDS=\$SECONDS"
-# gDEBUG_CMD=$(trap -p DEBUG | sed "s/trap -- '\(.*\)' DEBUG/\1/g")
-# if [ ! -z "${gDEBUG_CMD}" ] ; then newDEBUG_CMD="${gDEBUG_CMD};${myDEBUG_CMD}" ; else newDEBUG_CMD="${myDEBUG_CMD}" ; fi
-# trap "${newDEBUG_CMD}" DEBUG
-# unset gDEBUG_CMD newDEBUG_CMD myDEBUG_CMD
+# Record the wall-time taken by each command executed on the prompt.
+#
+# Caveat: This cannot track the time spent by a subshell, most likely because
+# the DEBUG trap is fired _after_ the sub-shell is executed.
+#
+# If the time tracking needs to have a sub-second resolution, use this instead:
+# trap '[[ -z $var ]] && var=$(date +%s%N)' DEBUG;PS1='$delta\$ ';PROMPT_COMMAND='delta=$((($(date +%s%N)-var)/1000000));unset var'
+#
+# This time and exit-code tracking came after a lot of help from pgas on '#bash
+# IRC channel, and others like greycat and Riviera on the same channel.
+trap '[[ -z $g_time_start ]] && g_time_start=$SECONDS' DEBUG;
+PROMPT_COMMAND='g_time_delta=$(($SECONDS - $g_time_start));unset g_time_start'
 
 # Use a hard-coded prompt, since some sites have their own default that are
 # different in subtle ways.
-PS1='[\u@\h:\l \w]\$ '
+#
+# Record and display the exit-code of the last command. The exit code is still
+# available if the user wants to see it via `echo $?`.
+PS1='[\u@\h:\l \w] $(var=$?;echo "time:$g_time_delta exit:$var")\$ '
 
 # make the default prompt look cyan
 PS1=${PS1_COLOR_CYAN}${PS1}
@@ -102,9 +112,9 @@ PS1=${PS1/%\$ /\n\\$ }
 # After the above three transformation to the PS1, two consecutive prompts now
 # look like this:
 #
-#gurjeet@work:~ T153031 (master)
+#[gurjeet@work:4 ~] time:0 exit:0 T125121 (master)
 #$ 
-#gurjeet@work:~ T153031 (master)
+#[gurjeet@work:4 ~] time:0 exit:0 T125121 (master)
 #$ 
 
 # A nice way to check performance of a script.
