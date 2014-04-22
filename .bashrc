@@ -86,8 +86,10 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
 #
 # This time and exit-code tracking came after a lot of help from pgas on '#bash
 # IRC channel, and others like greycat and Riviera on the same channel.
+#
+# Be nice and _append_ our commands to PROMPT_COMMAND, instead of overwriting it.
 trap '[[ -z $g_time_start ]] && g_time_start=$SECONDS' DEBUG;
-PROMPT_COMMAND='g_time_delta=$(($SECONDS - $g_time_start));unset g_time_start'
+PROMPT_COMMAND=${PROMPT_COMMAND:-:}';g_time_delta=$(($SECONDS - $g_time_start));unset g_time_start'
 
 # Use a hard-coded prompt, since some sites have their own default that are
 # different in subtle ways.
