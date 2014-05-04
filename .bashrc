@@ -89,7 +89,10 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
 #
 # Be nice and _append_ our commands to PROMPT_COMMAND, instead of overwriting it.
 trap '[[ -z $g_time_start ]] && g_time_start=$SECONDS' DEBUG;
-PROMPT_COMMAND=${PROMPT_COMMAND:-:}';g_time_delta=$(($SECONDS - $g_time_start));unset g_time_start'
+PROMPT_COMMAND="${PROMPT_COMMAND:-:;}"	# If empty, substitute a no-op
+# If it doesn't end with a semi-colon, append one.
+PROMPT_COMMAND="${PROMPT_COMMAND}$( [[ $(echo -n ${PROMPT_COMMAND} | tail -c 1) == ';' ]] && echo '' || echo ';' )"
+PROMPT_COMMAND="${PROMPT_COMMAND}"'g_time_delta=$(($SECONDS - $g_time_start));unset g_time_start;'
 
 # Use a hard-coded prompt, since some sites have their own default that are
 # different in subtle ways.
