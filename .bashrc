@@ -23,9 +23,17 @@ alias d=docker
 [ -r /etc/bash_completion ] && . /etc/bash_completion
 
 # Use Git completion, if available
-if [ -r /etc/bash_completion.d/git ] ; then
-	. /etc/bash_completion.d/git
+# MacPorts (for Mac OS)
+[ -r /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
+[ -r /opt/local/share/git/contrib/completion/git-completion.bash ] && . /opt/local/share/git/contrib/completion/git-completion.bash
+[ -r /opt/local/share/git/contrib/completion/git-prompt.sh ] && . /opt/local/share/git/contrib/completion/git-prompt.sh
 
+# Linux distributions
+[ -r /etc/bash_completion.d/git ] && . /etc/bash_completion.d/git
+
+# If the function _git is defined, alias it to our 'g' alias for completion
+type _git > /dev/null 2>&1
+if [ $? == "0" ] ; then
 	# Associate our alias ('g') with Git's completion function.
 	complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
     || complete -o default -o nospace -F _git g
