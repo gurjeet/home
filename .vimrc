@@ -1,17 +1,17 @@
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+"set rtp+=~/.vim/bundle/vundle/
+"call vundle#rc()
 
 " let Vundle manage Vundle
 " Install Vundle first, using
 "     git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-Bundle 'gmarik/vundle'
+"Bundle 'gmarik/vundle'
 
 " Bundles I use
 " Use command `:BundleInstall` to install these on a fresh installation.
-Bundle 'tpope/vim-sensible'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-fugitive'
-Bundle 'nelstrom/vim-markdown-folding'
+"Bundle 'tpope/vim-sensible'
+"Bundle 'scrooloose/nerdtree'
+"Bundle 'tpope/vim-fugitive'
+"Bundle 'nelstrom/vim-markdown-folding'
 
 
 set tabstop=4
