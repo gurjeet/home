@@ -30,6 +30,7 @@ alias d=docker
 
 # Linux distributions
 [ -r /etc/bash_completion.d/git ] && . /etc/bash_completion.d/git
+[ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
