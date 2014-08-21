@@ -7,8 +7,10 @@
     rm -rf master home-master
 ## Using Git
 
-    cd /tmp
-    git clone git://github.com/gurjeet/home.git
-    ls -A home | xargs -I ccc mv home/ccc ~/
-    rm -rf home
+    cd ~
+    git remote add origin https://github.com/gurjeet/home.git
+    git fetch origin
+    git checkout master
+    # If the above fails, and the errors shown don't bother you, use the below command
+    #git checkout -f master
 
