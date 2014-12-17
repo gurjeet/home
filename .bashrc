@@ -38,7 +38,11 @@ if [ $? == "0" ] ; then
 	# Associate our alias ('g') with Git's completion function.
 	complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
     || complete -o default -o nospace -F _git g
-else
+fi
+
+# If the function __git_ps1 is NOT defined, create a dummy
+type __git_ps1 > /dev/null 2>&1
+if [ $? != "0" ] ; then
 	# define a dummy function so that it can be safely used in PS1 below.
 	__git_ps1() { echo ; }
 fi
