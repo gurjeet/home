@@ -8,6 +8,7 @@
 ## Using Git
 
     cd ~
+    git init ./
     git remote add origin https://github.com/gurjeet/home.git
     git fetch origin
     git checkout master
