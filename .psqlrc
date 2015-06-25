@@ -1,2 +1,4 @@
-\set PROMPT1 '%[%033]0;psql %/ %007%]%/%R%# '
+-- Get backend-pid and use it in the prompt.
+SELECT pg_catalog.pg_backend_pid() AS backend_pid \gset
+\set PROMPT1 '%[%033]0;psql %/ %007%]%/@B:%:backend_pid:%R%# '
 \x auto
