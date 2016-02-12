@@ -242,15 +242,3 @@ alias check_internet_connectivity="while true; do echo Checking internet reachab
 # with multiple tabs, running all my monitoring commands listed above.
 alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"' --tab -e 'bash -i -c check_internet_connectivity'"
 
-# Make 'vi' a function to launch Vim such that the Ctr-S sequence isn't blocked by bash.
-#
-# No ttyctl, so we need to save and then restore terminal settings
-# Source: http://vim.wikia.com/wiki/Map_Ctrl-S_to_save_current_or_new_files
-vi()
-{
-	local STTYOPTS="$(stty --save)"
-	stty stop '' -ixoff
-	command vi "$@"
-	stty "$STTYOPTS"
-}
-
