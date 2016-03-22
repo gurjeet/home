@@ -6,6 +6,9 @@
     name = Gurjeet Singh
     email = gurjeet@singh.im
 
+[core]
+	pager = less -FMRiXx4
+
 [color]
 	ui = auto
 
@@ -50,6 +53,8 @@
 
 	#Launch gitk in background; shows _all_ commits in the repository.
     ka = !sh -c 'gitk --all $@ &' -
+
+	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
 
 #Make Git use an external pager for git-status output
 [pager]
