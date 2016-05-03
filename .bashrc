@@ -159,7 +159,24 @@ export LESS=FiRXx4
 #	A = Show almost all files (show all files except . and ..)
 #	rt = Sort the list by file-modified-time, in reverse order
 #	h = Show file sizes in human readable format, kB/MB/Gb/...
-alias ll="ls -lArth --color=auto"
+#
+# The --color option is supported by GNU ls, but not by some others, like SUS
+# compliant MacOS' ls command. But if we have MacPorts installed, we use the
+# --color option.
+
+case $OSTYPE in
+darwin*)
+	if [ -x /opt/local/bin/port ]; then
+		alias ll="ls -lArth --color=auto"
+	else
+		alias ll="ls -lArth"
+	fi
+	;;
+*)
+	alias ll="ls -lArth --color=auto"
+	;;
+esac
+
 alias llt="ll | tail"
 
 export PGCONNECT_TIMEOUT=5
