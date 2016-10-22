@@ -1,5 +1,11 @@
 # .bashrc
 
+# Mute stdout and stderr if we don't have an interactive terminal
+if [ ! -t 0 ]; then
+	exec 3>&1 4>&2
+	exec > /tmp/bashrc.$$.log 2>&1
+fi
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -265,5 +271,10 @@ if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-ssh-add -l | grep "The agent has no identities" && ssh-add
+ssh-add -l | grep -q "The agent has no identities" && ssh-add
 
+# Unmute the stdout and stderr, if we muted them at the beginning, and
+# close the temporary FDs used for the purpose.
+if [ ! -t 0 ]; then
+	exec 1>&3 2>&4 3>&- 4>&-
+fi
