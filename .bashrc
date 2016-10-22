@@ -198,7 +198,15 @@ CDPATH=${CDPATH:-}:${HOME}/dev
 # My favourite options for top
 #	c = Show command-line for the processes
 #	-d1 = Sleep for 1 second between every update
-alias top="top -c -d 1"
+case $OSTYPE in
+darwin*)
+	alias top="top -s1 -o cpu -R -F"
+	;;
+*)
+	alias top="top -c -d 1"
+	;;
+esac
+
 
 # alias for tagging every line of input with a timestamp
 #
