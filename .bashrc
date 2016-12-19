@@ -6,10 +6,12 @@ if [ ! -t 0 ]; then
 	exec > /tmp/bashrc.$$.log 2>&1
 fi
 
+function source_if_readable() {
+  [ -r "$1" ] && source "$1"
+}
+
 # Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+source_if_readable /etc/bashrc
 
 # User specific aliases and functions
 
@@ -20,23 +22,24 @@ alias g=git
 alias d=docker
 
 # include PG development environment related functions
-[ -r ~/pgd/pgd.sh ] && . ~/pgd/pgd.sh
+source_if_readable ~/pgd/pgd.sh
 
 # Use NVM for managing node.js versions and packages
-[ -r ~/dev/NVM/nvm.sh ] && . ~/dev/NVM/nvm.sh
-[ -r ~/dev/NVM/bash_completion ] && . ~/dev/NVM/bash_completion
+source_if_readable ~/dev/NVM/nvm.sh
+source_if_readable ~/dev/NVM/bash_completion
 
-[ -r /etc/bash_completion ] && . /etc/bash_completion
+source_if_readable /etc/bash_completion
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
-[ -r /opt/local/etc/profile.d/bash_completion.sh ] && . /opt/local/etc/profile.d/bash_completion.sh
-[ -r /opt/local/share/git/contrib/completion/git-completion.bash ] && . /opt/local/share/git/contrib/completion/git-completion.bash
-[ -r /opt/local/share/git/contrib/completion/git-prompt.sh ] && . /opt/local/share/git/contrib/completion/git-prompt.sh
+source_if_readable /opt/local/etc/profile.d/bash_completion.sh
+source_if_readable /opt/local/share/git/contrib/completion/git-completion.bash
+source_if_readable /opt/local/share/git/contrib/completion/git-prompt.sh
 
 # Linux distributions
-[ -r /etc/bash_completion.d/git ] && . /etc/bash_completion.d/git
-[ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
+source_if_readable /etc/bash_completion.d/git
+source_if_readable /usr/share/bash-completion/completions/git
+source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
