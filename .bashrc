@@ -6,6 +6,20 @@ if [ ! -t 0 ]; then
 	exec > /tmp/bashrc.$$.log 2>&1
 fi
 
+function prepend_to_path_if_exists {
+    if [ -d "$1" ]; then
+        PATH="$1:$PATH"
+    fi
+}
+
+# Added by Gurjeet to override MacOSX's ls with ls and other commands provided
+# by coreutils
+prepend_to_path_if_exists "/opt/local/libexec/gnubin"
+
+prepend_to_path_if_exists "/usr/local/go/bin"
+prepend_to_path_if_exists "$HOME/bin"
+
+
 function source_if_readable() {
   [ -r "$1" ] && source "$1"
 }
