@@ -35,6 +35,9 @@ alias g=git
 # Set an alias for Docker
 alias d=docker
 
+# Source the helper functions
+source_if_readable ~/functions/.main.sh
+
 # include PG development environment related functions
 source_if_readable ~/pgd/pgd.sh
 
