@@ -15,8 +15,8 @@
 [alias]
 	#See status of current repository
     st = status
-    stu = status -u
-    sti = status -u --ignored
+    stu = status --untracked-files=normal
+    stui = status --untracked-file=normal --ignored
     d = diff
 
 	# Check-in the code; commit the index contents.
@@ -73,6 +73,8 @@
 	prompt = 0
 [diff]
 	tool = vimdiff
+[color "diff"]
+	whitespace = red reverse
 [merge]
 	log = true
 
