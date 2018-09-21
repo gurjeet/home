@@ -92,3 +92,8 @@
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[http "https://github.build.ge.com"]
+	proxy = 127.0.0.1:31114
+[http "https://github.devtools.predix.io"]
+	proxy = 127.0.0.1:31114
+
