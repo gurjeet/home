@@ -45,6 +45,9 @@ source_if_readable ~/pgd/pgd.sh
 source_if_readable ~/dev/NVM/nvm.sh
 source_if_readable ~/dev/NVM/bash_completion
 
+# Use the Nix package menager, if available.
+source_if_readable ~/.nix-profile/etc/profile.d/nix.sh
+
 source_if_readable /etc/bash_completion
 
 # Use Git completion, if available
@@ -57,6 +60,10 @@ source_if_readable /opt/local/share/git/contrib/completion/git-prompt.sh
 source_if_readable /etc/bash_completion.d/git
 source_if_readable /usr/share/bash-completion/completions/git
 source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
+
+# Nix package manager
+source_if_readable ~/.nix-profile/etc/bash_completion.d/git-completion.bash
+source_if_readable ~/.nix-profile/etc/bash_completion.d/git-prompt.sh
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
