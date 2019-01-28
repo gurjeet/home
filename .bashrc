@@ -18,7 +18,9 @@ prepend_to_path_if_exists "/opt/local/libexec/gnubin"
 
 prepend_to_path_if_exists "/usr/local/go/bin"
 prepend_to_path_if_exists "$HOME/bin"
-
+prepend_to_path_if_exists "$HOME/go/bin"
+# Python 2.7 on macOS
+prepend_to_path_if_exists "$HOME/Library/Python/2.7/bin"
 
 function source_if_readable() {
   [ -r "$1" ] && source "$1"
