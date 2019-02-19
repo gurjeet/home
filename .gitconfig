@@ -4,7 +4,8 @@
 
 [user]
     name = Gurjeet Singh
-    email = gurjeet@singh.im
+	# Force user to add user.email per repository
+	useConfigOnly = true
 
 [core]
 	pager = less -FMRiXx4
