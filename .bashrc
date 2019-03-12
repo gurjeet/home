@@ -216,6 +216,7 @@ export LESS=FiRXx4
 
 case $OSTYPE in
 darwin*)
+    # Do not alias `open` for macOS, since it's available by default
 	if [ -x /opt/local/bin/port ]; then
 		alias ll="ls -lArth --color=auto"
 	else
@@ -223,6 +224,8 @@ darwin*)
 	fi
 	;;
 *)
+    # Presume everything else is Linux; that is, ignore Windows, for now.
+    alias open=xdg-open
 	alias ll="ls -lArth --color=auto"
 	;;
 esac
@@ -272,8 +275,6 @@ alias ping_router="ping_host 192.168.1.1"
 
 # On Linux, Ubuntu 12.04 at least, this is the command to reset wifi
 alias reset_wifi="nmcli nm wifi off && nmcli nm wifi on"
-
-alias open=xdg-open
 
 # Launch a command in background, while preserving the parameters.
 #
