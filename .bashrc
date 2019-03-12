@@ -301,6 +301,9 @@ function tx() {  launch_in_bg gedit "$@" ; }
 # Shortcut function/alias to launch Vagrant in foreground, preserving the arguments.
 function vg() {  launch_in_fg vagrant "$@" ; }
 
+# Function to pass the jq color output through the pager
+function jq_pager() {  launch_in_fg jq -C "$@" | $PAGER; }
+
 # Set Emacs style line editing
 set -o emacs
 
