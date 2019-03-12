@@ -1,6 +1,8 @@
 # .bashrc
 
-# Mute stdout and stderr if we don't have an interactive terminal
+# Mute stdout and stderr if we don't have an interactive terminal. This
+# helps in situations where some utility, like scp, uses ssh but gets
+# confused if it sees text on the wire that it did not expect.
 if [ ! -t 0 ]; then
 	exec 3>&1 4>&2
 	exec > /tmp/bashrc.$$.log 2>&1
