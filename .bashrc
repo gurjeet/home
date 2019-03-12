@@ -8,7 +8,7 @@ fi
 
 function prepend_to_path_if_exists {
     if [ -d "$1" ]; then
-        PATH="$1:$PATH"
+        export PATH="$1:$PATH"
     fi
 }
 
@@ -17,10 +17,15 @@ function prepend_to_path_if_exists {
 prepend_to_path_if_exists "/opt/local/libexec/gnubin"
 
 prepend_to_path_if_exists "/usr/local/go/bin"
-prepend_to_path_if_exists "$HOME/bin"
-prepend_to_path_if_exists "$HOME/go/bin"
+prepend_to_path_if_exists "$GOPATH/bin"
+prepend_to_path_if_exists "~/go/bin"
+prepend_to_path_if_exists "~/bin"
 # Python 2.7 on macOS
-prepend_to_path_if_exists "$HOME/Library/Python/2.7/bin"
+prepend_to_path_if_exists "~/Library/Python/2.7/bin"
+prepend_to_path_if_exists "~/.rvm/bin"
+
+# MacPorts Installer addition on 2014-07-29_at_14:04:40: adding an appropriate PATH variable for use with MacPorts.
+prepend_to_path_if_exists "/opt/local/bin:/opt/local/sbin"
 
 function source_if_readable() {
   [ -r "$1" ] && source "$1"
@@ -50,7 +55,14 @@ source_if_readable ~/dev/NVM/bash_completion
 # Use the Nix package menager, if available.
 source_if_readable ~/.nix-profile/etc/profile.d/nix.sh
 
+if [ -e ~/dev/NVM/nvm.sh ] ; then
+	# Add currenlty active NodeJS' bin/ to PATH
+	prepend_to_path_if_exists "$(dirname $(nvm which ''))"
+fi
+
 source_if_readable /etc/bash_completion
+# Add bash completion from homebrew, if available
+source_if_readable "$(brew --prefix)/etc/bash_completion"
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
@@ -66,6 +78,9 @@ source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 # Nix package manager
 source_if_readable ~/.nix-profile/etc/bash_completion.d/git-completion.bash
 source_if_readable ~/.nix-profile/etc/bash_completion.d/git-prompt.sh
+
+source_if_readable "~/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+source_if_readable '~/lib/azure-cli/az.completion'
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
@@ -222,7 +237,7 @@ HISTCONTROL=erasedups
 
 # Setup $CDPATH so that we can easily switch to directories under the
 # development directory.
-CDPATH=${CDPATH:-}:${HOME}/dev
+CDPATH=${CDPATH:-}:"${HOME}"/dev
 
 # My favourite options for top
 #	c = Show command-line for the processes
