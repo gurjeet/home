@@ -329,8 +329,12 @@ fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l | grep -q "The agent has no identities" && ssh-add
 
+# This should be the last thing we enable, per recommendation in direnv docs
+if which direnv; then eval "$(direnv hook bash)"; fi
+
 # Unmute the stdout and stderr, if we muted them at the beginning, and
 # close the temporary FDs used for the purpose.
 if [ ! -t 0 ]; then
 	exec 1>&3 2>&4 3>&- 4>&-
 fi
+
