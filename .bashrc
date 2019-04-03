@@ -120,6 +120,7 @@ GIT_PS1_SHOWSTASHSTATE=1
 # [1] http://stackoverflow.com/questions/6592077/bash-prompt-and-echoing-colors-inside-a-function
 COLOR_CODE_DEFAULT="\033[0;39m"
     COLOR_CODE_RED="\033[0;31m"
+ COLOR_CODE_RED_BG="\033[7;31m"
   COLOR_CODE_GREEN="\033[0;32m"
    COLOR_CODE_BLUE="\033[0;34m"
    COLOR_CODE_CYAN="\033[0;36m"
@@ -164,7 +165,7 @@ PROMPT_COMMAND="${PROMPT_COMMAND}"'g_time_delta=$(($SECONDS - $g_time_start));un
 #
 # Record and display the exit-code of the last command. The exit code is still
 # available if the user wants to see it via `echo $?`.
-PS1='[\u@\h:\l \w] $(var=$?;echo "time:$g_time_delta exit:$var")\$ '
+PS1='[\u@\h:\l \w] $(var=$?; echo "time:$g_time_delta $([[ $var != 0 ]] && echo -n "'$COLOR_CODE_RED_BG'") exit:$var")\$ '
 
 # make the default prompt look cyan
 PS1=${PS1_COLOR_CYAN}${PS1}
