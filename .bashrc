@@ -140,7 +140,7 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
   PS1_COLOR_WHITE="\[${COLOR_CODE_WHITE}\]"
 
 # Try this little experiment to have some fun. Set PS1 with various colored strings.
-#PS1="${PS1}${PS1_COLOR_GREEN}green${PS1_COLOR_CYAN}cyan${PS1_COLOR_RED}red${PS1_COLOR_BCYAN}bcyan${PS1_COLOR_BLUE}blue${PS1_COLOR_GRAY}gray${PS1_COLOR_DKGRAY}dkgray${PS1_COLOR_WHITE}white${PS1_COLOR_DEFAULT}default $ "
+#PS1="${PS1_COLOR_GREEN}green${PS1_COLOR_CYAN}cyan${PS1_COLOR_RED}red${PS1_COLOR_BCYAN}bcyan${PS1_COLOR_BLUE}blue${PS1_COLOR_GRAY}gray${PS1_COLOR_DKGRAY}dkgray${PS1_COLOR_WHITE}white${PS1_COLOR_DEFAULT}default $ "
 
 # Record the wall-time taken by each command executed on the prompt.
 #
