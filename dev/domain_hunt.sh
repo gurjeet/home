@@ -25,12 +25,11 @@ cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z]){0,2}\..+$' | se
 # cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | less
 cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs -n1 open
 
-open https://park.io/auctions/view/college.ly
-open https://park.io/auctions/view/asset.ly
 open https://park.io/auctions/view/ubuntu.io
 open https://park.io/auctions/view/authorise.me
 
-# cat page*.json | jq -Cr '.domains[] | .name' | less
-
-# https://park.io/domains/view/XXXX
+CUSTOM_DOMAINS=" man.sh ces.io god.sc abc.red "
+for D in $CUSTOM_DOMAINS; do
+    open https://park.io/domains/view/$D
+done
 
