@@ -56,7 +56,11 @@
 	#Launch gitk in background; shows _all_ commits in the repository.
     ka = !sh -c 'gitk --all $@ &' -
 
+	# Show a DAG of the repo; can take additional parameter. Use additional `--all` param to show all branches and tags.
 	dag = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+
+	# Show a summary of the DAG of the repo; shows only those commits that have a tag or a bannch label.
+	dag-summary = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order --all --simplify-by-decoration
 
 #Make Git use an external pager for git-status output
 [pager]
