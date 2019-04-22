@@ -5,7 +5,7 @@ set -e
 # Code to download the list of all potentially available domains on park.io
 
 cd /tmp
-rm page*.json auctions.json
+rm -f page*.json auctions.json
 per_page_limit=10000
 
 wget -O header.json https://park.io/domains/index/all/page:1.json?limit=1
@@ -25,10 +25,7 @@ cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z]){0,2}\..+$' | se
 # cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | less
 cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs -n1 open
 
-open https://park.io/auctions/view/ubuntu.io
-open https://park.io/auctions/view/authorise.me
-
-CUSTOM_DOMAINS=" man.sh ces.io god.sc abc.red "
+CUSTOM_DOMAINS=" tig.io illegal.ly "
 for D in $CUSTOM_DOMAINS; do
     open https://park.io/domains/view/$D
 done
