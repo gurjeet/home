@@ -19,15 +19,18 @@ function prepend_to_path_if_exists {
 prepend_to_path_if_exists "/opt/local/libexec/gnubin"
 
 prepend_to_path_if_exists "/usr/local/go/bin"
-prepend_to_path_if_exists "$GOPATH/bin"
-prepend_to_path_if_exists "~/go/bin"
-prepend_to_path_if_exists "~/bin"
-# Python 2.7 on macOS
-prepend_to_path_if_exists "~/Library/Python/2.7/bin"
-prepend_to_path_if_exists "~/.rvm/bin"
+prepend_to_path_if_exists "$HOME/go/bin"
+prepend_to_path_if_exists "$HOME/bin"
+
+# Python 2.7 or 3.7 on macOS
+prepend_to_path_if_exists "$HOME/Library/Python/2.7/bin"
+prepend_to_path_if_exists "$HOME/Library/Python/3.7/bin/"
+
+prepend_to_path_if_exists "$HOME/rvm/bin"
 
 # MacPorts Installer addition on 2014-07-29_at_14:04:40: adding an appropriate PATH variable for use with MacPorts.
-prepend_to_path_if_exists "/opt/local/bin:/opt/local/sbin"
+prepend_to_path_if_exists "/opt/local/bin"
+prepend_to_path_if_exists "/opt/local/sbin"
 
 function source_if_readable() {
   [ -r "$1" ] && source "$1"
@@ -45,19 +48,16 @@ alias g=git
 alias d=docker
 
 # Source the helper functions
-source_if_readable ~/functions/.main.sh
+source_if_readable $HOME/functions/.main.sh
 
 # include PG development environment related functions
-source_if_readable ~/pgd/pgd.sh
+source_if_readable $HOME/pgd/pgd.sh
 
 # Use NVM for managing node.js versions and packages
-source_if_readable ~/dev/NVM/nvm.sh
-source_if_readable ~/dev/NVM/bash_completion
+source_if_readable $HOME/dev/NVM/nvm.sh
+source_if_readable $HOME/dev/NVM/bash_completion
 
-# Use the Nix package menager, if available.
-source_if_readable ~/.nix-profile/etc/profile.d/nix.sh
-
-if [ -e ~/dev/NVM/nvm.sh ] ; then
+if [ -e $HOME/dev/NVM/nvm.sh ] ; then
 	# Add currenlty active NodeJS' bin/ to PATH
 	prepend_to_path_if_exists "$(dirname $(nvm which ''))"
 fi
@@ -77,12 +77,8 @@ source_if_readable /etc/bash_completion.d/git
 source_if_readable /usr/share/bash-completion/completions/git
 source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
-# Nix package manager
-source_if_readable ~/.nix-profile/etc/bash_completion.d/git-completion.bash
-source_if_readable ~/.nix-profile/etc/bash_completion.d/git-prompt.sh
-
-source_if_readable "~/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-source_if_readable '~/lib/azure-cli/az.completion'
+source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+source_if_readable '$HOME/lib/azure-cli/az.completion'
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
@@ -287,8 +283,8 @@ alias reset_wifi="nmcli nm wifi off && nmcli nm wifi on"
 #
 # It is assumed that the first parameter is in $PATH.
 #
-# I have symlinks in ~/bin/ that point to binaries I'm interested in, and ~/bin/
-# is in my $PATH (done in ~/.bash_profile)
+# I have symlinks in $HOME/bin/ that point to binaries I'm interested in, and $HOME/bin/
+# is in my $PATH
 function launch_in_bg() { local cmd="$1"; shift; $cmd "$@" & }
 function launch_in_fg() { local cmd="$1"; shift; $cmd "$@" ; }
 
@@ -310,12 +306,12 @@ function jq_pager() {  launch_in_fg jq -C "$@" | $PAGER; }
 # Set Emacs style line editing
 set -o emacs
 
-# Command to fetch all Git repos under ~/dev/ every 5 minutes.
-alias git_fetch_all="while true; do time -p ls -d ~/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
+# Command to fetch all Git repos under $HOME/dev/ every 5 minutes.
+alias git_fetch_all="while true; do time -p ls -d $HOME/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
 
 
 # Command to restart network-manager when ping times-out
-alias check_internet_connectivity="while true; do echo Checking internet reachability at \$(date); curl -# --max-time 5 -o /dev/null -I www.google.com || echo failed ; sleep 5; done 2>&1 | tee -a ~/internet_connectivity_tests.log"
+alias check_internet_connectivity="while true; do echo Checking internet reachability at \$(date); curl -# --max-time 5 -o /dev/null -I www.google.com || echo failed ; sleep 5; done 2>&1 | tee -a $HOME/internet_connectivity_tests.log"
 
 # Launch a gnome-terminal with multiple tabs, each running a monitoring command.
 #
@@ -325,11 +321,11 @@ alias check_internet_connectivity="while true; do echo Checking internet reachab
 alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"' --tab -e 'bash -i -c check_internet_connectivity'"
 
 # Reuse ssh-agent if already running, else start a new one
-if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
   eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+  ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
 fi
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
 ssh-add -l | grep -q "The agent has no identities" && ssh-add
 
 # This should be the last thing we enable, per recommendation in direnv docs
