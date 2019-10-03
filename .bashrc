@@ -64,7 +64,7 @@ fi
 
 source_if_readable /etc/bash_completion
 # Add bash completion from homebrew, if available
-source_if_readable "$(brew --prefix)/etc/bash_completion"
+which brew && source_if_readable "$(brew --prefix)/etc/bash_completion"
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
