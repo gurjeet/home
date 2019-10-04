@@ -27,6 +27,7 @@ set shiftwidth=4
 set whichwrap+=h,l,<,>
 
 set modeline
+set modelines=5
 
 " Map Ctrl-S to save the file in edit and normal modes. Note that you'll need
 " to configure the shell to somehow pass the Ctrl-S seqience to Vim; usually
