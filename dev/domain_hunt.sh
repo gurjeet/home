@@ -25,8 +25,13 @@ cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z]){0,2}\..+$' | se
 # cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | less
 cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs -n1 open
 
-CUSTOM_DOMAINS=" tig.io illegal.ly "
+CUSTOM_DOMAINS=" "
 for D in $CUSTOM_DOMAINS; do
     open https://park.io/domains/view/$D
+done
+
+CUSTOM_AUCTIONS=" "
+for D in $CUSTOM_AUCTIONS; do
+    open https://park.io/auctions/view/$D
 done
 
