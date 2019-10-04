@@ -303,8 +303,8 @@ function vg() {  launch_in_fg vagrant "$@" ; }
 # Function to pass the jq color output through the pager
 function jq_pager() {  launch_in_fg jq -C "$@" | $PAGER; }
 
-# Set Emacs style line editing
-set -o emacs
+# Set Vi-style line editing
+set -o vi
 
 # Command to fetch all Git repos under $HOME/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d $HOME/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
