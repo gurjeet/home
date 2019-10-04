@@ -29,12 +29,8 @@ set whichwrap+=h,l,<,>
 set modeline
 set modelines=5
 
-" Map Ctrl-S to save the file in edit and normal modes. Note that you'll need
-" to configure the shell to somehow pass the Ctrl-S seqience to Vim; usually
-" the shells use Ctrl-S to turn off flow-control. In Bash, you can use the
-" command 'stty stop ""' to achieve this.
-inoremap <C-s> <esc>:w<cr>a
-nnoremap <C-s> :w<cr>
+" In normal mode, map `\s` to save file, iff it's changed since last save
+nnoremap \s :update<cr>
 
 " Enable recursive lookup for commands like :find and :tabfind
 let &path = &path . ',**,'
