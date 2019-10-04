@@ -64,7 +64,7 @@ fi
 
 source_if_readable /etc/bash_completion
 # Add bash completion from homebrew, if available
-which brew && source_if_readable "$(brew --prefix)/etc/bash_completion"
+which brew &> /dev/null && source_if_readable "$(brew --prefix)/etc/bash_completion"
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
@@ -79,6 +79,8 @@ source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
 source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 source_if_readable '$HOME/lib/azure-cli/az.completion'
+
+source_if_readable '$HOME/l.nix-profile/etc/profile.d/nix.sh'
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
