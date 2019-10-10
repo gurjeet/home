@@ -78,9 +78,9 @@ source_if_readable /usr/share/bash-completion/completions/git
 source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
 source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-source_if_readable '$HOME/lib/azure-cli/az.completion'
+source_if_readable "$HOME/lib/azure-cli/az.completion"
 
-source_if_readable '$HOME/l.nix-profile/etc/profile.d/nix.sh'
+source_if_readable "$HOME/.nix-profile/etc/profile.d/nix.sh"
 
 # If the function _git is defined, alias it to our 'g' alias for completion
 type _git > /dev/null 2>&1
