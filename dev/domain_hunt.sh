@@ -37,5 +37,5 @@ for D in $CUSTOM_AUCTIONS; do
     open https://park.io/auctions/view/$D
 done
 
-open 'https://www.google.com/search?q=site%3Apark.io+"appraised+value"'
+open 'https://www.google.com/search?q=site:park.io+"appraised+value"'
 
