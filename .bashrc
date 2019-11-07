@@ -32,6 +32,13 @@ prepend_to_path_if_exists "$HOME/rvm/bin"
 prepend_to_path_if_exists "/opt/local/bin"
 prepend_to_path_if_exists "/opt/local/sbin"
 
+# For Ruby Gems installed in user-directory(*), add the Gems' bin directory to PATH
+#
+# (*): E.g: gem install --user-install bundler jekyll
+if which ruby >/dev/null && which gem >/dev/null; then
+    prepend_to_path_if_exists "$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
+fi
+
 function source_if_readable() {
   [ -r "$1" ] && source "$1"
 }
