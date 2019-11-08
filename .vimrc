@@ -16,6 +16,7 @@
 
 set tabstop=4
 set ignorecase
+set ruler
 syntax on
 
 " Disabling line numbers; too painful when one has to copy stuff from terminal
