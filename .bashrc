@@ -329,8 +329,9 @@ alias check_internet_connectivity="while true; do echo Checking internet reachab
 # with multiple tabs, running all my monitoring commands listed above.
 alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' --tab -e 'bash -i -c git_fetch_all' --tab -e 'bash -i -c top' --tab -e 'bash -i -c \"iostat -x 1\"' --tab -e 'bash -i -c \"dstat\"' --tab -e 'bash -i -c check_internet_connectivity'"
 
-# If possible, remap CAPS-lock key to ESCAPE key
-which setxkbmap && setxkbmap -option caps:escape
+# If in an X environment,  remap CAPS-lock key to ESCAPE key
+# Try this iff $DISPLAY is not empty, and iff the utility is installed
+[[ ! -z "$DISPLAY" ]] && which setxkbmap && setxkbmap -option caps:escape
 
 # Reuse ssh-agent if already running, else start a new one
 if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
