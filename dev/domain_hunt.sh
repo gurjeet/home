@@ -37,5 +37,15 @@ for D in $CUSTOM_AUCTIONS; do
     open https://park.io/auctions/view/$D
 done
 
-open 'https://www.google.com/search?q=site:park.io+"appraised+value"'
+DaySuffix() {
+  case `date +%e` in
+    1|21|31) echo "st";;
+    2|22)    echo "nd";;
+    3|23)    echo "rd";;
+    *)       echo "th";;
+  esac
+}
+
+# Search, on Google, only for those appraised domains that are to be auctioned today
+open 'https://www.google.com/search?q=site:park.io+"appraised+value"+"End Date"+"'"$(date +'%b %e'$(DaySuffix)' %Y')"'"'
 
