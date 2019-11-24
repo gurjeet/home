@@ -1,5 +1,7 @@
 # .bashrc
 
+# TODO: Change all paths with varables to be double-qupted.
+
 # Mute stdout and stderr if we don't have an interactive terminal. This
 # helps in situations where some utility, like scp, uses ssh but gets
 # confused if it sees text on the wire that it did not expect.
@@ -14,8 +16,7 @@ function prepend_to_path_if_exists {
     fi
 }
 
-# Added by Gurjeet to override MacOSX's ls with ls and other commands provided
-# by coreutils
+# Added to override MacOSX's ls with ls and other commands provided by coreutils
 prepend_to_path_if_exists "/opt/local/libexec/gnubin"
 
 prepend_to_path_if_exists "/usr/local/go/bin"
@@ -27,6 +28,8 @@ prepend_to_path_if_exists "$HOME/Library/Python/2.7/bin"
 prepend_to_path_if_exists "$HOME/Library/Python/3.7/bin/"
 
 prepend_to_path_if_exists "$HOME/rvm/bin"
+prepend_to_path_if_exists "$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
 
 # MacPorts Installer addition on 2014-07-29_at_14:04:40: adding an appropriate PATH variable for use with MacPorts.
 prepend_to_path_if_exists "/opt/local/bin"
@@ -60,6 +63,11 @@ source_if_readable $HOME/functions/.main.sh
 # include PG development environment related functions
 source_if_readable $HOME/pgd/pgd.sh
 
+# TODO: Use --no-use flag to nvm.sh so that nvm is not in-use by default.
+# See the relevant comment in README at https://github.com/nvm-sh/nvm
+#
+# TODO: Consider using the default location $HOME/.nvm
+
 # Use NVM for managing node.js versions and packages
 source_if_readable $HOME/dev/NVM/nvm.sh
 source_if_readable $HOME/dev/NVM/bash_completion
@@ -85,6 +93,7 @@ source_if_readable /usr/share/bash-completion/completions/git
 source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
 source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+source_if_readable "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 source_if_readable "$HOME/lib/azure-cli/az.completion"
 
 source_if_readable "$HOME/.nix-profile/etc/profile.d/nix.sh"
