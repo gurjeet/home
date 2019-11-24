@@ -1,4 +1,10 @@
 " vim-bootstrap 
+"
+" TODO: In one of the variants of my .vimrc, I had to use the following
+" setting to prevent the default plugin MatchParen from being loaded. Don't
+" know why I had to disable it; perhaps that plugin was causing slow startup.
+" This setting causes the plugin code to assume it's already loaded.
+"let g:loaded_matchparen = 1
 
 "*****************************************************************************
 "" Vim-PLug core
@@ -74,6 +80,10 @@ Plug 'tomasr/molokai'
 " c
 Plug 'vim-scripts/c.vim', {'for': ['c', 'cpp']}
 Plug 'ludwig/split-manpage.vim'
+
+"" sql
+Plug 'lifepillar/pgsql.vim'
+let g:sql_type_default = 'pgsql'
 
 
 " go
