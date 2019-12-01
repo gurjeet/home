@@ -37,15 +37,28 @@ for D in $CUSTOM_AUCTIONS; do
     open https://park.io/auctions/view/$D
 done
 
-DaySuffix() {
-  case `date +%e` in
-    1|21|31) echo "st";;
-    2|22)    echo "nd";;
-    3|23)    echo "rd";;
-    *)       echo "th";;
-  esac
+DayOfMonthWithSuffix() {
+    # The first param is the offset from current date.
+    #
+    # %e emits a leading space for single-digit numbers. Strip it using echo
+    # command.
+    #
+    # The below commands assume GNU date utility
+    local dom=$(echo $(date --date "$1" +%e))
+
+    local suffix=$(
+    case "$dom" in
+        (1|21|31) echo "st";;
+        (2|22)    echo "nd";;
+        (3|23)    echo "rd";;
+        (*)       echo "th";;
+    esac)
+
+    # Emit day-of-month with the suffix
+    echo "$dom$suffix"
 }
 
 # Search, on Google, only for those appraised domains that are to be auctioned today
-open 'https://www.google.com/search?q=site:park.io+"appraised+value"+"End Date"+"'"$(date +'%b %e'$(DaySuffix)' %Y')"'"'
+open 'https://www.google.com/search?q=site:park.io+"appraised+value"+"End Date"+"'"$(date +'%b '$(DayOfMonthWithSuffix)' %Y')"'"'
+open 'https://www.google.com/search?q=site:park.io+"appraised+value"+"End Date"+"'"$(date +'%b '$(DayOfMonthWithSuffix '+1 day')' %Y')"'"'
 
