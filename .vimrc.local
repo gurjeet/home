@@ -1,0 +1,4 @@
+
+" Disable line numbers
+set nonumber
+
