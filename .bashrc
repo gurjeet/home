@@ -247,7 +247,9 @@ darwin*)
 	;;
 esac
 
-alias llt="ll | tail"
+function llt() {
+    ls -lA "$@" | tail
+}
 
 export PGCONNECT_TIMEOUT=5
 
