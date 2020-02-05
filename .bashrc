@@ -221,6 +221,21 @@ export EDITOR=vim
 #	x4 = Use tab size of 4 characters.
 export LESS=FiRXx4
 
+# Function to open items with preferred/associated applications
+function open() {
+    case $OSTYPE in
+    darwin*)
+        # Use macOS's built-in open command. We're using Bash's command builtin
+        # to override function look-up by the same name and avoid recursion.
+        command open "$@"
+        ;;
+    *)
+        # Presume everything else is Linux; that is, ignore Windows for now.
+        alias open=xdg-open
+        ;;
+    esac
+}
+
 # ls options that are most useful
 #	l = Long listing
 #	A = Show almost all files (show all files except . and ..)
@@ -231,24 +246,27 @@ export LESS=FiRXx4
 # compliant MacOS' ls command. But if we have MacPorts installed, we use the
 # --color option.
 
-case $OSTYPE in
-darwin*)
-    # Do not alias `open` for macOS, since it's available by default
-	if [ -x /opt/local/bin/port ]; then
-		alias ll="ls -lArth --color=auto"
-	else
-		alias ll="ls -lArth"
-	fi
-	;;
-*)
-    # Presume everything else is Linux; that is, ignore Windows, for now.
-    alias open=xdg-open
-	alias ll="ls -lArth --color=auto"
-	;;
-esac
+function ll() {
+    local cmd=ls
+    local options="-lArth"
+
+    case $OSTYPE in
+    darwin*)
+        # If MacPorts is installed, assume GNU options are available
+        if [ -x /opt/local/bin/port ]; then
+            opions="$options --color=auto"
+        fi
+        ;;
+    *)
+        opions="$options --color=auto"
+        ;;
+    esac
+
+    $cmd $options
+}
 
 function llt() {
-    ls -lA "$@" | tail
+    ll "$@" | tail
 }
 
 export PGCONNECT_TIMEOUT=5
