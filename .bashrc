@@ -249,7 +249,6 @@ function open() {
 function ll() {
     local cmd=ls
     local options="-lArth"
-    local useroptions="$@"
 
     case $OSTYPE in
     darwin*)
@@ -263,7 +262,7 @@ function ll() {
         ;;
     esac
 
-    $cmd $options "$useroptions"
+    $cmd $options "$@"
 }
 
 function llt() {
