@@ -142,6 +142,7 @@ COLOR_CODE_DEFAULT="\033[0;39m"
    COLOR_CODE_GRAY="\033[0;37m"
  COLOR_CODE_DKGRAY="\033[1;30m"
   COLOR_CODE_WHITE="\033[1;37m"
+ COLOR_CODE_YELLOW="\033[1;33m"
 
 PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
     PS1_COLOR_RED="\[${COLOR_CODE_RED}\]"
@@ -152,6 +153,7 @@ PS1_COLOR_DEFAULT="\[${COLOR_CODE_DEFAULT}\]"
    PS1_COLOR_GRAY="\[${COLOR_CODE_GRAY}\]"
  PS1_COLOR_DKGRAY="\[${COLOR_CODE_DKGRAY}\]"
   PS1_COLOR_WHITE="\[${COLOR_CODE_WHITE}\]"
+ PS1_COLOR_YELLOW="\[${COLOR_CODE_YELLOW}\]"
 
 # Try this little experiment to have some fun. Set PS1 with various colored strings.
 #PS1="${PS1_COLOR_GREEN}green${PS1_COLOR_CYAN}cyan${PS1_COLOR_RED}red${PS1_COLOR_BCYAN}bcyan${PS1_COLOR_BLUE}blue${PS1_COLOR_GRAY}gray${PS1_COLOR_DKGRAY}dkgray${PS1_COLOR_WHITE}white${PS1_COLOR_DEFAULT}default $ "
@@ -176,20 +178,25 @@ PROMPT_COMMAND="${PROMPT_COMMAND}"'g_time_delta=$(($SECONDS - $g_time_start));un
 
 # Use a hard-coded prompt, since some sites have their own default that are
 # different in subtle ways.
-#
+
+# Make the default prompt look cyan
+PS1=${PS1_COLOR_CYAN}'[\u@\h:\l \w]'
+
+# Show if we're connected over SSH
+PS1="${PS1}$( [[ -n "$SSH_CLIENT" ]] && echo " ${COLOR_CODE_YELLOW}SSH")"
+
 # Record and display the exit-code of the last command. The exit code is still
 # available if the user wants to see it via `echo $?`.
-PS1='[\u@\h:\l \w] $(var=$?; echo "time:$g_time_delta $([[ $var != 0 ]] && echo -n "'$COLOR_CODE_RED_BG'") exit:$var")\$ '
+PS1=${PS1}${PS1_COLOR_CYAN}'$(var=$?; echo " time:$g_time_delta$([[ $var != 0 ]] && echo -n "'$COLOR_CODE_RED_BG'") exit:$var")'
 
-# make the default prompt look cyan
-PS1=${PS1_COLOR_CYAN}${PS1}
+# Show time in HHMMSS format.
+PS1=${PS1}${PS1_COLOR_BLUE}' T\D{%H%M%S}'
 
-# Replace the trailing '$' string in PS1 with Git-generated prompt, followed by $
-# Also set it up to show time in HHMMSS format.
-PS1=${PS1/%\\$ / ${PS1_COLOR_BLUE}T\\D\{%H%M%S\}${PS1_COLOR_GREEN} \$\(__git_ps1 \"(%s)\"\)${PS1_COLOR_DEFAULT}\\\$ }
+# Add Git-generated prompt.
+PS1=${PS1}${PS1_COLOR_GREEN}' $(__git_ps1 "(%s) ")'
 
-# Add a newline just before the last $
-PS1=${PS1/%\$ /\n\\$ }
+# End the prompt with the $ sign on a new line by itself.
+PS1=${PS1}${PS1_COLOR_DEFAULT}'\n$ '
 
 # Add a newline at the beginning of the prompt. # Commented out after some experience.
 #PS1=${PS1/#/\\n}
