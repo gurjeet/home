@@ -187,7 +187,7 @@ PS1="${PS1}$( [[ -n "$SSH_CLIENT" ]] && echo " ${COLOR_CODE_YELLOW}SSH")"
 
 # Record and display the exit-code of the last command. The exit code is still
 # available if the user wants to see it via `echo $?`.
-PS1=${PS1}${PS1_COLOR_CYAN}'$(var=$?; echo " time:$g_time_delta$([[ $var != 0 ]] && echo -n "'$COLOR_CODE_RED_BG'") exit:$var")'
+PS1=${PS1}${PS1_COLOR_CYAN}'$(var=$?; echo " time:$g_time_delta $([[ $var != 0 ]] && echo -n "'$COLOR_CODE_RED_BG'")exit:$var")'
 
 # Show time in HHMMSS format.
 PS1=${PS1}${PS1_COLOR_BLUE}' T\D{%H%M%S}'
