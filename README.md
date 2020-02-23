@@ -14,10 +14,10 @@
     git submodule init
     git submodule update
 
-## Using `wget` (Not Recommended)
+## Using `curl` (Not Recommended)
     cd /tmp
-    wget --no-check-certificate https://github.com/gurjeet/home/archive/master.zip
-    unzip master
-    ls -A home-master | xargs -I ccc mv home-master/ccc ~/
+    curl --remote-name --location https://github.com/gurjeet/home/archive/master.zip
+    unzip master.zip
+    ls -A home-master | xargs -I XXX mv home-master/XXX ~/
     rm -rf master home-master
 
