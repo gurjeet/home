@@ -18,16 +18,22 @@ function github_clone_to_personal_account() {
     # Repo owner's name is the second field counting from the end
     local REPO_OWNER=$(echo $PUBLIC_REPO_W_SLASHES | rev | cut -d / -f 2 | rev)
 
+    local REPO_CLONE=${REPO_NAME}-clone
+
     local TMP_DIR=$(mktemp -d /tmp/github_clone_XXXXX)
 
     local GH_TOKEN=$(cat ~/.github_token_w_public_repo)
 
     pushd $TMP_DIR
+    # Create a Github "fork"
+    curl --header "Authorization: token $GH_TOKEN" --request POST "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/forks"
+
+    # Now clone the repo locally and make a "copy" of it in Github
     git clone --mirror $PUBLIC_REPO_URL $TMP_DIR
-    curl --header "Authorization: token $GH_TOKEN" --request POST --data '{"name":"'$REPO_NAME'","description":"Clone of '${REPO_OWNER}/${REPO_NAME}'"}' https://api.github.com/user/repos
+    curl --header "Authorization: token $GH_TOKEN" --request POST --data '{"name":"'${REPO_CLONE}'","description":"Copy of '${REPO_OWNER}'/'${REPO_NAME}', as of '$(TZ=UTC date +%Y%m%d:%H%M%S%z)'"}' "https://api.github.com/user/repos"
     git lfs fetch --all
-    git push --mirror https://github.com/$PERSONAL_ACCOUNT/$REPO_NAME
-    git lfs push --all https://github.com/$PERSONAL_ACCOUNT/$REPO_NAME
+    git push --mirror "https://github.com/$PERSONAL_ACCOUNT/$REPO_CLONE"
+    git lfs push --all "https://github.com/$PERSONAL_ACCOUNT/$REPO_CLONE"
     popd
 
     rm -rf $TMP_DIR

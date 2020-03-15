@@ -58,7 +58,7 @@ alias g=git
 alias d=docker
 
 # Source the helper functions
-source_if_readable $HOME/functions/.main.sh
+source_if_readable $HOME/functions/main.sh
 
 # include PG development environment related functions
 source_if_readable $HOME/pgd/pgd.sh
