@@ -20,12 +20,12 @@ done;
 wget -O auctions.json https://park.io/auctions.json
 
 # cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z]){0,2}\..+$' | less
-cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep -v '\d' | sed 's"\(.*\)"https://park.io/domains/view/\1"' | xargs -n1 open
-cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep '\d' | sed 's"\(.*\)"https://park.io/domains/view/\1"' | xargs -n1 open
+cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep -v '\d' | sed 's"\(.*\)"https://park.io/domains/view/\1"' | xargs --no-run-if-empty -n1 open
+cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep '\d' | sed 's"\(.*\)"https://park.io/domains/view/\1"' | xargs --no-run-if-empty -n1 open
 
 # cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z]){0,2}\..+$' | less
-cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep -v '\d' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs -n1 open
-cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep '\d' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs -n1 open
+cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep -v '\d' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs --no-run-if-empty -n1 open
+cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep '\d' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs --no-run-if-empty -n1 open
 
 CUSTOM_DOMAINS=" "
 for D in $CUSTOM_DOMAINS; do
