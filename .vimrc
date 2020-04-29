@@ -732,5 +732,3 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-" In normal mode, use shortcut \s to save the buffer
-nnoremap \s :update<cr>

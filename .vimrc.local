@@ -1,4 +1,10 @@
 
+" This file is sourced by ~/,vimrc.
+" That file declares comma character as the leader
+
+" In normal mode, use shortcut ,s to save the buffer
+nnoremap <Leader>s :update<cr>
+
 " Disable line numbers
 set nonumber
 
