@@ -16,6 +16,49 @@ function prepend_to_path_if_exists {
     fi
 }
 
+function source_if_readable() {
+  [ -r "$1" ] && source "$1"
+}
+
+# If there's a bash in $PATH that's different version than bash being used in
+# $SHELL environment variable, use that. This is to honor the user's desire to
+# use a different version of bash than provided by the system.
+#
+# This is useful for me since I wish to use ~/.nix-profile/bin/bash (a symlink
+# that points to a path somewhere under /nix). Also, it is not recommended to
+# change the default shell to a path that is not a system path. Fr example, I
+# have noticed on macOS Catalina that sometimes the /nix mountpoint is not
+# mounted after a reboot, at least not by the time I launch my shell.
+function exec_non_default_shell_if_any() {
+
+    # We're going to use `exec -l` to launch our shell. Since I can't find a
+    # definitive way, using environment variables, to differentiate between the
+    # 'before' and 'after' states of this exec, I am going to rely on the Bash
+    # version to detect if we're before or after the `exec`. This method may
+    # lead to a false-negative; the versions of default and non-default Bash
+    # binaries may be exactly the same, making us assume that we're in the
+    # 'after' state when we may be actually in the 'before' state. But this
+    # false-negative is harmless for our uses, since we're simply trying to
+    # allow the user to use a specific/preferred version of Bash.
+
+    local non_default_bash_version=$(bash -c 'echo $BASH_VERSION')
+
+    if [[ $? =  0
+             && ! -z "$non_default_bash_version"
+             && "$non_default_bash_version" != "$BASH_VERSION" ]]; then
+
+             echo "Default Bash version is $BASH_VERSION; switching to Bash version $non_default_bash_version"
+             exec -l bash
+    fi
+}
+
+# This switching to non-default Bash should happen after all changes to $PATH
+# have been performed by the user, or at least those changes that may introduce
+# the non-default Bash in $PATH. Hence we source nix.sh and then try to switch
+# to bash from the Nix installation.
+source_if_readable "$HOME/.nix-profile/etc/profile.d/nix.sh"
+exec_non_default_shell_if_any
+
 # Added to override MacOSX's ls with ls and other commands provided by coreutils
 prepend_to_path_if_exists "/opt/local/libexec/gnubin"
 
@@ -41,10 +84,6 @@ prepend_to_path_if_exists "/opt/local/sbin"
 if which ruby >/dev/null && which gem >/dev/null; then
     prepend_to_path_if_exists "$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 fi
-
-function source_if_readable() {
-  [ -r "$1" ] && source "$1"
-}
 
 # Source global definitions
 source_if_readable /etc/bashrc
@@ -96,7 +135,6 @@ source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a
 source_if_readable "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 source_if_readable "$HOME/lib/azure-cli/az.completion"
 
-source_if_readable "$HOME/.nix-profile/etc/profile.d/nix.sh"
 source_if_readable "$HOME/.nix-profile/etc/profile.d/bash_completion.sh"
 source_if_readable "$HOME/.nix-profile/share/git/contrib/completion/git-completion.bash"
 source_if_readable "$HOME/.nix-profile/share/git/contrib/completion/git-prompt.sh"
