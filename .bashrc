@@ -287,7 +287,7 @@ HISTCONTROL=erasedups
 
 # Setup $CDPATH so that we can easily switch to directories under the
 # development directory.
-CDPATH=${CDPATH:-}:"${HOME}"/dev:"${GOPATH:-$HOME/go}"/src
+CDPATH=${CDPATH:-}:".:${HOME}"/dev:"${GOPATH:-$HOME/go}"/src
 
 # My favourite options for top
 #	c = Show command-line for the processes
