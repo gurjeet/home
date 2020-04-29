@@ -735,10 +735,10 @@ endif
 " In normal mode, use shortcut \s to save the buffer
 nnoremap \s :update<cr>
 
-" Disable some features if the file is larger than 10MB; this helps in keeping
-" a decent performance if we unexpectedly open a large file. The chose size is
+" Disable some features if the file is larger than 1MB; this helps in keeping
+" a decent performance if we unexpectedly open a large file. The chosen size is
 " more or less arbitrary.
-let g:LargeFile = 10 * 1024 * 1024
+let g:LargeFile = 1 * 1024 * 1024
 augroup LargeFile
  autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
 augroup END
