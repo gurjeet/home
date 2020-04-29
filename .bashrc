@@ -7,7 +7,9 @@
 # confused if it sees text on the wire that it did not expect.
 if [ ! -t 0 ]; then
 	exec 3>&1 4>&2
-	exec > /tmp/bashrc.$$.log 2>&1
+
+    # Redirect stdout and stderr to a log file.
+    exec > /tmp/bashrc.$$.log 2>&1
 fi
 
 function prepend_to_path_if_exists {
@@ -85,16 +87,16 @@ if which ruby >/dev/null && which gem >/dev/null; then
     prepend_to_path_if_exists "$(ruby -r rubygems -e 'puts Gem.user_dir')/bin"
 fi
 
-# Source global definitions
-source_if_readable /etc/bashrc
-
-# User specific aliases and functions
+# User-specific aliases and functions
 
 # Set a shortcut for Git DVCS
 alias g=git
 
 # Set an alias for Docker
 alias d=docker
+
+# Source global definitions
+source_if_readable /etc/bashrc
 
 # Source the helper functions
 source_if_readable $HOME/functions/main.sh
