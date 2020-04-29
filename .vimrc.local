@@ -11,6 +11,9 @@ set nonumber
 " Use ^kok in INSERT mode to create a ✓ check mark ✓
 digraph ok 10003
 
+" Set text-wrap column to 80 for Markdown files
+autocmd BufNewFile,BufRead *.md setlocal textwidth=80
+
 " Disable some features if the file is larger than 1MB; this helps in keeping
 " a decent performance if we unexpectedly open a large file. The chosen size is
 " more or less arbitrary.
