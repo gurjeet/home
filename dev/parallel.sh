@@ -2,7 +2,13 @@
 # This script is licensed under GPL 2.0 license.
 
 # This script uses some special features (look for 'wait' command)
-# provided by Bash shell.
+# provided by Bash shell. Hence the /bin/bash is being used at the
+# shebang line above.
+
+if [[ "$BASH" == "" ]]; then
+    echo This script requires Bash shell >&2
+    exit 1
+fi
 
 # get my pid
 mypid=$$;
@@ -43,7 +49,7 @@ do
     if [ -f $MYDIR/degree ] ; then
       new_degree=`cat $MYDIR/degree`
       rm $MYDIR/degree
-        if [ $new_degree -gt 0  ] ; then
+        if [ "$new_degree" -gt 0  ] ; then
           degree=$new_degree;
         fi
     fi
