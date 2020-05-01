@@ -1,6 +1,8 @@
 
-" This file is sourced by ~/,vimrc.
-" That file declares comma character as the leader
+" This file is sourced by ~/.vimrc. That file declares comma character as the
+" leader. But to be sure, we declare comma to be leader key again for the key
+" combinations we define here.
+let mapleader=','
 
 " In normal mode, use shortcut ,s to save the buffer
 nnoremap <Leader>s :update<cr>
@@ -13,6 +15,48 @@ digraph ok 10003
 
 " Set text-wrap column to 80 for Markdown files
 autocmd BufNewFile,BufRead *.md setlocal textwidth=80
+
+"###############################################################################
+" split customizations follow.
+"
+" Some helpful hints for splits:
+"
+" <C-w>K turns the active split to horizontal split at the top  of the window
+" <C-w>H turns the active split to vertical   split at the left of the window
+"
+"<C-w>N
+" After creating a terminal in a split, the splits goes into INSERT mode. To
+" get back into NORMAL mode in a terminal's split, so that you can execute vim
+" commands, use the <C-w>N combination.
+"###############################################################################
+
+" Make horizontal splits open below           the current pane
+" Make vertical   splits open on the right of the current pane
+set splitbelow splitright
+
+" Use Ctrl+<motion-key> to switch between splits
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-l> <C-w>l
+nnoremap <silent> <C-j> <C-w>j
+nnoremap <silent> <C-k> <C-w>k
+
+" Use Ctrl+Up/Down to resize the horizontal splits
+" Use Shft+Up/Down to resize the vertical   splits
+nnoremap <silent> <C-up>    :           resize +1<cr>
+nnoremap <silent> <C-down>  :           resize -1<cr>
+nnoremap <silent> <S-down>  :vertical   resize -1<cr>
+nnoremap <silent> <S-up>    :vertical   resize +1<cr>
+
+" Shortcuts to open terminal in vertical or horizontal split
+map <Leader>ht :         terminal<cr>
+map <Leader>vt :vertical terminal<cr>
+
+" Shortcut to maximize a split pane. To restore the split pane size, use the
+" default combination <C-w>=
+map <Leader>mp <C-w>\|<C-w>_
+
+" Use colon character as the vertical split separator
+set fillchars+=vert::
 
 " Disable some features if the file is larger than 1MB; this helps in keeping
 " a decent performance if we unexpectedly open a large file. The chosen size is
