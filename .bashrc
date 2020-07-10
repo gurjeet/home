@@ -171,6 +171,14 @@ fi
 GIT_PS1_SHOWSTASHSTATE=1
 #GIT_PS1_SHOWUNTRACKEDFILES=1
 
+# Allow Git commands to walk up directory tree even if parent is on a different
+# filesystem. Avoid the following error when one of the parents leading up to
+# .git/ directory is on a different filesystem.
+#
+#     fatal: not a git repository (or any parent up to mount point /Users/gurjeetsingh)
+#     Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=true
+
 # Define functions that emit escape sequnces for coloring the prompt
 # Color codes copied from: http://brettterpstra.com/my-new-favorite-bash-prompt/
 # TODO: Take inputs from [1] and bash.it to incorporate 'tput' and 'precmd'.
