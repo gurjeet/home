@@ -22,6 +22,7 @@ function print_args() {
 
 function morning_chores() {
     ~/dev/OpenBookmarkGroup.applescript Morning
+    ~/dev/domain_hunt.sh
 }
 
 function afternoon_chores() {
