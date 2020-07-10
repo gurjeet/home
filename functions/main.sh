@@ -20,3 +20,15 @@ function print_args() {
     done
 }
 
+function morning_chores() {
+    ~/dev/OpenBookmarkGroup.applescript Morning
+}
+
+function afternoon_chores() {
+    ~/dev/OpenBookmarkGroup.applescript Afternoon
+}
+
+function evening_chores() {
+    ~/dev/OpenBookmarkGroup.applescript Evening
+}
+
