@@ -32,3 +32,7 @@ function evening_chores() {
     ~/dev/OpenBookmarkGroup.applescript Evening
 }
 
+function hibernate() {
+    ~/dev/HibernateUsingDeepSleepApp.applescript
+}
+
