@@ -1,0 +1,22 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/snobu/destreamer
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[remote "gurjeet"]
+	url = https://github.com/gurjeet/destreamer
+	fetch = +refs/heads/*:refs/remotes/gurjeet/*
+[remote "gurjeet_clone"]
+	url = https://github.com/gurjeet/destreamer-clone
+	fetch = +refs/heads/*:refs/remotes/gurjeet_clone/*
+[user]
+	email = gurjeet@singh.im

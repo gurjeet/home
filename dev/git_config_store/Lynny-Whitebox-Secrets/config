@@ -1,0 +1,29 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://212564090:06eb23216fc37a98d5af5ed38d4d0fddb1847a6a@github.build.ge.com/Lynny/Lynny-Whitebox-Secrets.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "gurjeet"]
+	url = https://212564090:06eb23216fc37a98d5af5ed38d4d0fddb1847a6a@github.build.ge.com/212564090/Lynny-Whitebox-Secrets.git
+	fetch = +refs/heads/*:refs/remotes/gurjeet/*
+[branch "master"]
+	remote = https_origin
+	merge = refs/heads/master
+	rebase = true
+[branch "increase_app_instance_count_in_cf3"]
+	remote = gurjeet
+	merge = refs/heads/increase_app_instance_count_in_cf3
+	rebase = true
+[remote "https_origin"]
+	url = https://212564090:06eb23216fc37a98d5af5ed38d4d0fddb1847a6a@github.build.ge.com/Lynny/Lynny-Whitebox-Secrets.git
+	fetch = +refs/heads/*:refs/remotes/https_origin/*
+[remote "https_gurjeet"]
+	url = https://212564090:06eb23216fc37a98d5af5ed38d4d0fddb1847a6a@github.build.ge.com/212564090/Lynny-Whitebox-Secrets.git
+	fetch = +refs/heads/*:refs/remotes/https_gurjeet/*
+[user]
+	email = gs@ge.com

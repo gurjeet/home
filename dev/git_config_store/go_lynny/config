@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://212564090:06eb23216fc37a98d5af5ed38d4d0fddb1847a6a@github.build.ge.com/212564090/lynny.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "https"]
+	url = https://github.build.ge.com/212564090/lynny.git
+	fetch = +refs/heads/*:refs/remotes/https/*

@@ -1,0 +1,18 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@git.sr.ht:~sircmpwn/git-send-email.io
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[remote "gurjeet"]
+	url = git@git.sr.ht:~gurjeet/git-send-email.io
+	fetch = +refs/heads/*:refs/remotes/gurjeet/*
+[user]
+	email = gurjeet@singh.im

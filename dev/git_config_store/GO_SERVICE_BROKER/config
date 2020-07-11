@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "ge"]
+	url = https://212564090:06eb23216fc37a98d5af5ed38d4d0fddb1847a6a@github.build.ge.com/Lynny/go_service_broker.git
+	fetch = +refs/heads/*:refs/remotes/ge/*
+[remote "origin"]
+	url = https://github.com/cloudfoundry-incubator/cf-swagger.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true

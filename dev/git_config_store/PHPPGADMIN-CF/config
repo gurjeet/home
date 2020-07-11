@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@github.com:cloudfoundry-community/phppgadmin-cf.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "cf-ready"]
+	remote = origin
+	merge = refs/heads/cf-ready
+	rebase = true

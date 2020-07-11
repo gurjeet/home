@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "predix"]
+	url = git@github.com:predix/postgres-operator.git
+	fetch = +refs/heads/*:refs/remotes/predix/*
+[branch "master"]
+	remote = predix
+	merge = refs/heads/master
+	rebase = true
+[remote "origin"]
+	url = git@github.com:CrunchyData/postgres-operator.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

@@ -1,0 +1,22 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://gitlab.com/gurjeet/gitlab-runner.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[branch "patch-4"]
+	remote = origin
+	merge = refs/heads/patch-4
+	rebase = true
+[branch "patch-3"]
+	remote = origin
+	merge = refs/heads/patch-3
+	rebase = true

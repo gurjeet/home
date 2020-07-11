@@ -1,0 +1,17 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "gitlab"]
+	url = git@gitlab.com:gitlab-terraform/gce.git
+	fetch = +refs/heads/*:refs/remotes/gitlab/*
+[branch "master"]
+	remote = gitlab
+	merge = refs/heads/master
+	rebase = true
+[remote "origin"]
+	url = git@gitlab.com:gurjeet/gitlabongceusingterraform.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

@@ -1,0 +1,23 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@gitlab.com:gurjeet/KubeRDS.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[user]
+	email = gurjeet@singh.im
+[branch "add_BSD_3-Clause_license"]
+	remote = origin
+	merge = refs/heads/add_BSD_3-Clause_license
+	rebase = true
+[remote "srht"]
+	url = git@git.sr.ht:~gurjeet/KubeRDS
+	fetch = +refs/heads/*:refs/remotes/srht/*

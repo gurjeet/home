@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	precomposeunicode = true
+[user]
+	email = gurjeet@singh.im
+[remote "gitlab"]
+	url = git@gitlab.com:gurjeet/focusly.git
+	fetch = +refs/heads/*:refs/remotes/gitlab/*
+[remote "srht"]
+	url = git@git.sr.ht:~gurjeet/Focusly
+	fetch = +refs/heads/*:refs/remotes/srht/*

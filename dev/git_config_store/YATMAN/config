@@ -1,0 +1,15 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@github.com:gurjeet/Yatman.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[user]
+	email = gurjeet@singh.im
+[submodule "hecate"]
+	url = git@github.com:DRMacIver/hecate.git
+	active = true

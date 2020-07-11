@@ -1,0 +1,27 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.build.ge.com/Lynny/PCS_Dev.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[remote "gurjeet"]
+	url = https://github.build.ge.com/212564090/PCS_Dev.git
+	fetch = +refs/heads/*:refs/remotes/gurjeet/*
+[user]
+	name = Gurjeet Singh
+	email = gs@ge.com
+[branch "dont_overwrite_vagrantfile_2"]
+	remote = gurjeet
+	merge = refs/heads/dont_overwrite_vagrantfile
+	rebase = true
+[gui]
+	wmstate = normal
+	geometry = 1162x783+192+73 203 201

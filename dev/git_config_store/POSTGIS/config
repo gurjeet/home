@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://git.osgeo.org/gitea/postgis/postgis.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "svn-trunk"]
+	remote = origin
+	merge = refs/heads/svn-trunk
+	rebase = true

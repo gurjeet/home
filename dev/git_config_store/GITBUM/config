@@ -1,0 +1,21 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@gitlab.com:gurjeet/gitbum.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[remote "jekyll"]
+	url = git@gitlab.com:pages/jekyll.git
+	fetch = +refs/heads/*:refs/remotes/jekyll/*
+[branch "jekyll_master"]
+	remote = jekyll
+	merge = refs/heads/master
+	rebase = true

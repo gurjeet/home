@@ -1,0 +1,29 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://git.qemu.org/git/qemu.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[submodule "capstone"]
+	active = true
+	url = https://git.qemu.org/git/capstone.git
+[submodule "dtc"]
+	active = true
+	url = https://git.qemu.org/git/dtc.git
+[submodule "tests/fp/berkeley-softfloat-3"]
+	active = true
+	url = https://github.com/cota/berkeley-softfloat-3
+[submodule "tests/fp/berkeley-testfloat-3"]
+	active = true
+	url = https://github.com/cota/berkeley-testfloat-3
+[submodule "ui/keycodemapdb"]
+	active = true
+	url = https://git.qemu.org/git/keycodemapdb.git

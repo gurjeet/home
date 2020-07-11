@@ -1,0 +1,18 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	precomposeunicode = true
+[remote "predix"]
+	url = git@github.com:predix/GoServiceBroker.git
+	fetch = +refs/heads/*:refs/remotes/predix/*
+[branch "master"]
+	remote = predix
+	merge = refs/heads/master
+	rebase = true
+[user]
+	email = gurjeet@singh.im
+[remote "gurjeet"]
+	url = git@github.com:gurjeet/GoServiceBroker.git
+	fetch = +refs/heads/*:refs/remotes/gurjeet/*

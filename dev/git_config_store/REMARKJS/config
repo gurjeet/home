@@ -1,0 +1,26 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = git@github.com:gnab/remark.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "develop"]
+	remote = origin
+	merge = refs/heads/develop
+	rebase = true
+[remote "ge"]
+	url = https://github.build.ge.com/212564090/REMARKJS.git
+	fetch = +refs/heads/*:refs/remotes/ge/*
+[remote "gurjeet"]
+	url = git@github.com:gurjeet/remark.git
+	fetch = +refs/heads/*:refs/remotes/gurjeet/*
+[user]
+	email = gurjeet@singh.im
+[branch "gurjeet_base"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true

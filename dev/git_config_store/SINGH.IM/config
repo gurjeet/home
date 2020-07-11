@@ -1,0 +1,18 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = git@github.com:gurjeet/singh.im.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+	rebase = true
+[submodule "gurjeet"]
+	url = git@github.com:gurjeet/gurjeet.singh.im
+[submodule "sggs"]
+	url = git@github.com:gurjeet/SGGS
+[user]
+	email = gurjeet@singh.im
