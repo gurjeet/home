@@ -71,10 +71,10 @@ prepend_to_path_if_exists "$HOME/bin"
 # Python 2.7 or 3.7 on macOS
 prepend_to_path_if_exists "$HOME/Library/Python/2.7/bin"
 prepend_to_path_if_exists "$HOME/Library/Python/3.7/bin/"
+prepend_to_path_if_exists "$HOME/Library/Python/3.8/bin"
 
 prepend_to_path_if_exists "$HOME/rvm/bin"
 prepend_to_path_if_exists "$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 
 # MacPorts Installer addition on 2014-07-29_at_14:04:40: adding an appropriate PATH variable for use with MacPorts.
 prepend_to_path_if_exists "/opt/local/bin"
