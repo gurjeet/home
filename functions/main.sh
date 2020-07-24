@@ -20,8 +20,7 @@ function print_args() {
     for (( i=0;i<$ELEMENTS;i++)); do
         echo $i: ${args[${i}]}
     done
-}
-
+} 
 function hibernate() {
     ~/dev/HibernateUsingDeepSleepApp.applescript
 }
