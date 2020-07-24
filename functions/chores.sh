@@ -1,7 +1,6 @@
 
 function morning_chores() {
     ~/dev/OpenBookmarkGroup.applescript Morning
-    ~/dev/OpenBookmarkGroup.applescript Trading
     ~/dev/domain_hunt.sh
 }
 

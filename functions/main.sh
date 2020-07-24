@@ -2,6 +2,7 @@
 
 source ~/functions/github.sh
 source ~/functions/homebrew.sh
+source ~/functions/chores.sh
 
 # Utility function that prints its arguments, each on a new line, with a
 # numeric prefix that represents the argument's position.
