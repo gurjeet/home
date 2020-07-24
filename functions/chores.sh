@@ -16,3 +16,7 @@ function weekly_chores() {
     ~/dev/OpenBookmarkGroup.applescript Weekly
 }
 
+function open_trading_tabs() {
+    ~/dev/OpenBookmarkGroup.applescript Trading
+}
+
