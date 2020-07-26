@@ -2,6 +2,7 @@
 
 source ~/functions/github.sh
 source ~/functions/homebrew.sh
+source ~/functions/chores.sh
 
 # Utility function that prints its arguments, each on a new line, with a
 # numeric prefix that represents the argument's position.
@@ -19,19 +20,6 @@ function print_args() {
     for (( i=0;i<$ELEMENTS;i++)); do
         echo $i: ${args[${i}]}
     done
-}
-
-function morning_chores() {
-    ~/dev/OpenBookmarkGroup.applescript Morning
-    ~/dev/domain_hunt.sh
-}
-
-function afternoon_chores() {
-    ~/dev/OpenBookmarkGroup.applescript Afternoon
-}
-
-function evening_chores() {
-    ~/dev/OpenBookmarkGroup.applescript Evening
 }
 
 function hibernate() {
