@@ -10,6 +10,9 @@ nnoremap <Leader>s :update<cr>
 " Disable line numbers
 set nonumber
 
+" Tell Vim to _not_ automagically add a newline at EOF
+set nofixeol
+
 " Use ^kok in INSERT mode to create a ✓ check mark ✓
 digraph ok 10003
 
