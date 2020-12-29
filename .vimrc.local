@@ -13,6 +13,9 @@ set nonumber
 " Tell Vim to _not_ automagically add a newline at EOF
 set nofixeol
 
+" Use pitch-black for background colour
+highlight Normal ctermbg=16 guibg=black
+
 " Use ^kok in INSERT mode to create a ✓ check mark ✓
 digraph ok 10003
 
