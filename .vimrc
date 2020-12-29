@@ -1,4 +1,4 @@
-" vim-bootstrap 
+" vim-bootstrap 2020-12-29 06:08:34
 "
 " TODO: In one of the variants of my .vimrc, I had to use the following
 " setting to prevent the default plugin MatchParen from being loaded. Don't
@@ -7,21 +7,28 @@
 "let g:loaded_matchparen = 1
 
 "*****************************************************************************
-"" Vim-PLug core
+"" Vim-Plug core
 "*****************************************************************************
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+if has('win32')&&!has('win64')
+  let curl_exists=expand('C:\Windows\Sysnative\curl.exe')
+else
+  let curl_exists=expand('curl')
+endif
 
 let g:vim_bootstrap_langs = "c,go,html,javascript,perl,python,ruby,rust,scala,typescript"
 let g:vim_bootstrap_editor = "vim"				" nvim or vim
+let g:vim_bootstrap_theme = "molokai"
+let g:vim_bootstrap_frams = ""
 
 if !filereadable(vimplug_exists)
-  if !executable("curl")
+  if !executable(curl_exists)
     echoerr "You have to install curl or first install vim-plug yourself!"
     execute "q!"
   endif
   echo "Installing Vim-Plug..."
   echo ""
-  silent exec "!\curl -fLo " . vimplug_exists . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+  silent exec "!"curl_exists" -fLo " . shellescape(vimplug_exists) . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
   let g:not_finish_vimplug = "yes"
 
   autocmd VimEnter * PlugInstall
@@ -44,11 +51,12 @@ Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/CSApprox'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'Yggdroot/indentLine'
-Plug 'avelino/vim-bootstrap-updater'
-Plug 'sheerun/vim-polyglot'
+Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+Plug 'tomasr/molokai'
+
 
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
@@ -67,11 +75,8 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 
 "" Snippets
-" Plug 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-
-"" Color
-Plug 'tomasr/molokai'
 
 "*****************************************************************************
 "" Custom bundles
@@ -94,7 +99,7 @@ Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 " html
 "" HTML Bundle
 Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
+Plug 'gko/vim-coloresque'
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
 
@@ -121,7 +126,7 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-projectionist'
 Plug 'thoughtbot/vim-rspec'
-Plug 'ecomba/vim-ruby-refactoring'
+Plug 'ecomba/vim-ruby-refactoring', {'tag': 'main'}
 
 
 " rust
@@ -130,6 +135,18 @@ Plug 'racer-rust/vim-racer'
 
 " Rust.vim
 Plug 'rust-lang/rust.vim'
+
+" Async.vim
+Plug 'prabirshrestha/async.vim'
+
+" Vim lsp
+Plug 'prabirshrestha/vim-lsp'
+
+" Asyncomplete.vim
+Plug 'prabirshrestha/asyncomplete.vim'
+
+" Asyncomplete lsp.vim
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 
 " scala
@@ -212,7 +229,8 @@ set ruler
 set number
 
 let no_buffers_menu=1
-silent! colorscheme molokai
+colorscheme molokai
+
 
 set mousemodel=popup
 set t_Co=256
@@ -252,7 +270,9 @@ endif
 
 "" Disable the blinking cursor.
 set gcr=a:blinkon0
+
 set scrolloff=3
+
 
 "" Status bar
 set laststatus=2
@@ -616,8 +636,6 @@ let g:jedi#smart_auto_mappings = 0
 let g:airline#extensions#virtualenv#enabled = 1
 
 " Syntax highlight
-" Default highlight is better than polyglot
-let g:polyglot_disabled = ['python']
 let python_highlight_all = 1
 
 
@@ -731,4 +749,3 @@ else
   let g:airline_symbols.readonly = ''
   let g:airline_symbols.linenr = ''
 endif
-
