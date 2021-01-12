@@ -402,6 +402,9 @@ function jq_pager() {  launch_in_fg jq -C "$@" | $PAGER; }
 # Set Vi-style line editing
 set -o vi
 
+# Prevent accidentally overwritin files
+set -o noclobber
+
 # Command to fetch all Git repos under $HOME/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d $HOME/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
 
