@@ -327,6 +327,14 @@ function llt() {
     ll "$@" | tail
 }
 
+function l1()  {
+    ls -1 "$@"
+}
+
+function l() {
+    ls -l
+}
+
 export PGCONNECT_TIMEOUT=5
 
 # Erase duplicates in bash history, so that bash can remember less-used commands
