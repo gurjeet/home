@@ -95,6 +95,8 @@ alias g=git
 # Set an alias for Docker
 alias d=docker
 
+alias nixinfo='nix-shell -p nix-info --run "nix-info -m"'
+
 # Source global definitions
 source_if_readable /etc/bashrc
 
