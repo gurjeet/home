@@ -19,6 +19,7 @@
     stu = status --untracked-files=normal
     stui = status --untracked-file=normal --ignored
     d = diff
+    d-cached = diff --cached
 
 	# Check-in the code; commit the index contents.
     ci = commit -v
