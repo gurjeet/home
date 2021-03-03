@@ -1,6 +1,6 @@
 # .bashrc
 
-# TODO: Change all paths with varables to be double-qupted.
+# TODO: Change all paths with varables to be double-quoted.
 
 # Mute stdout and stderr if we don't have an interactive terminal. This
 # helps in situations where some utility, like scp, uses ssh but gets
@@ -143,9 +143,14 @@ source_if_readable "$HOME/.nix-profile/etc/profile.d/bash_completion.sh"
 source_if_readable "$HOME/.nix-profile/share/git/contrib/completion/git-completion.bash"
 source_if_readable "$HOME/.nix-profile/share/git/contrib/completion/git-prompt.sh"
 
-# If the function _git is defined, alias it to our 'g' alias for completion
-type _git > /dev/null 2>&1
-if [ $? == "0" ] ; then
+# Use the same auto-complete rules for our alias `g` as are defined for `git`.
+#
+# In newer versions of git-completion scripts, the functions __git_omplete and
+# __git_main combined do this for us.  In older versions, the function _git
+# used to do the needful.
+if (type __git_complete && type __git_main) >/dev/null 2>&1 ; then
+    __git_complete g __git_main
+elif type _git > /dev/null 2>&1 ; then
 	# Associate our alias ('g') with Git's completion function.
 	complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null \
     || complete -o default -o nospace -F _git g
