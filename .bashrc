@@ -117,7 +117,7 @@ source_if_readable $HOME/dev/NVM/bash_completion
 
 if [ -e $HOME/dev/NVM/nvm.sh ] ; then
 	# Add currenlty active NodeJS' bin/ to PATH
-	prepend_to_path_if_exists "$(dirname $(nvm which ''))"
+	prepend_to_path_if_exists "$(dirname $(nvm which current))"
 fi
 
 source_if_readable /etc/bash_completion
