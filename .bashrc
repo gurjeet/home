@@ -417,7 +417,7 @@ function jq_pager() {  launch_in_fg jq -C "$@" | $PAGER; }
 # Set Vi-style line editing
 set -o vi
 
-# Prevent accidentally overwritin files
+# Prevent command-redirection from accidentally overwriting existing files
 set -o noclobber
 
 # Command to fetch all Git repos under $HOME/dev/ every 5 minutes.
