@@ -438,12 +438,13 @@ alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' -
 # Try this iff $DISPLAY is not empty, and iff the utility is installed
 [[ ! -z "$DISPLAY" ]] && which setxkbmap && setxkbmap -option caps:escape
 
-# Reuse ssh-agent if already running, else start a new one
-if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
+# Start the ssh-agent, unless either we already have one running, or if we are
+# using credentials forwarded by another agent.
+if [[ ! -e "$HOME/.ssh/ssh_auth_sock" && -z "$SSH_AUTH_SOCK" ]]; then
   eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
+  ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/ssh_auth_sock"
+  export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
 fi
-export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
 ssh-add -l | grep -q "The agent has no identities" && ssh-add
 
 # This should be the last thing we enable, per recommendation in direnv docs
