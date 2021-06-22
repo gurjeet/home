@@ -43,7 +43,7 @@ function exec_non_default_shell_if_any() {
     # false-negative is harmless for our uses, since we're simply trying to
     # allow the user to use a specific/preferred version of Bash.
 
-    local non_default_bash_version=$(bash -c 'echo $BASH_VERSION')
+    local non_default_bash_version=$(bash --norc -c 'echo $BASH_VERSION')
 
     if [[ $? =  0
              && ! -z "$non_default_bash_version"
