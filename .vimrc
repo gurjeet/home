@@ -162,6 +162,9 @@ Plug 'derekwyatt/vim-scala'
 Plug 'leafgarland/typescript-vim'
 Plug 'HerringtonDarkholme/yats.vim'
 
+" editorconfig
+Plug 'editorconfig/editorconfig-vim'
+
 
 "*****************************************************************************
 "*****************************************************************************
