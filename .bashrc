@@ -376,6 +376,13 @@ alias dateline='while read line; do echo $(date) "${line}"; done'
 
 function ping_host()
 {
+    # Tell Bash to restore `set` options at function return. Note that this
+    # feature was introduced in Bash 4.4.
+    local -
+
+    # disable noclobber option, so that we can write to the temp file
+    set +o noclobber
+
 	#while sleep 1; do { timeout 4 ping -w 3 -c 2 -i 1 $1 > /tmp/ping.$1.$$ 2>&1 && echo $1 Success ; } || { echo $1 FAILURE && cat /tmp/ping.$1.$$ ; } ; done | dateline
 	while sleep 1; do { timeout 4 ping -c 2 -i 1 $1 > /tmp/ping.$1.$$ 2>&1 && echo -n . ; } || { echo -n X ; } ; done
 }
