@@ -97,8 +97,6 @@ alias d=docker
 
 alias nixinfo='nix-shell -p nix-info --run "nix-info -m"'
 
-# Source global definitions
-source_if_readable /etc/bashrc
 
 # Source the helper functions
 source_if_readable $HOME/functions/main.sh
