@@ -98,6 +98,16 @@ alias d=docker
 alias nixinfo='nix-shell -p nix-info --run "nix-info -m"'
 
 
+# Based on the following advice, override `rm` in our interactive sessions.
+#
+# https://apple.stackexchange.com/a/17637/133968
+alias trash="rmtrash"
+function rm()
+{
+    echo Use 'trash' command, or the full path i.e. '/bin/rm' >&2
+    return 1
+}
+
 # Source the helper functions
 source_if_readable $HOME/functions/main.sh
 
