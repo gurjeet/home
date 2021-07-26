@@ -18,7 +18,7 @@ function print_args() {
     # echo each element in array
     # for loop
     for (( i=0;i<$ELEMENTS;i++)); do
-        echo $i: ${args[${i}]}
+        echo "$i: ${args[${i}]}"
     done
 }
 
