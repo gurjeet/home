@@ -32,10 +32,12 @@ for D in $CUSTOM_DOMAINS; do
     open https://park.io/domains/view/$D
 done
 
-CUSTOM_AUCTIONS=" "
+CUSTOM_AUCTIONS=" svelte.io toyota.io earth.vc"
 for D in $CUSTOM_AUCTIONS; do
     open https://park.io/auctions/view/$D
 done
+
+open 'https://park.io/domains/view/7zip.info'
 
 DayOfMonthWithSuffix() {
     # The first param is the offset from current date.

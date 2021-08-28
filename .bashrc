@@ -128,6 +128,9 @@ if [ -e $HOME/dev/NVM/nvm.sh ] ; then
 	prepend_to_path_if_exists "$(dirname $(nvm which current))"
 fi
 
+# Prepend Nix bin directory last, so that executables installed by Nix are picked first
+prepend_to_path_if_exists "$HOME/.nix-profile/bin"
+
 source_if_readable /etc/bash_completion
 # Add bash completion from homebrew, if available
 which brew &> /dev/null && source_if_readable "$(brew --prefix)/etc/bash_completion"
@@ -348,6 +351,10 @@ function l1()  {
 
 function l() {
     ls -l
+}
+
+function llh() {
+    ll "$@" | head
 }
 
 export PGCONNECT_TIMEOUT=5
