@@ -7,6 +7,7 @@
     # Don't provide an email; Force user to add user.email per repository
 
 	# Tell Git to _not_ guess my name and email based on `whoami` and `hostname`
+	# Force user to add user.email per repository
 	useConfigOnly = true
 
 [core]
