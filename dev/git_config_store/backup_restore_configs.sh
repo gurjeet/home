@@ -10,6 +10,8 @@ project_store=~/dev
 # Absolute path of the directory where to backup the config files
 config_store=~/dev/git_config_store
 
+additional_repos="~/dev/lynny-wb2/src/github.build.ge.com/Lynny/Lynny-Whitebox:"
+
 # Backup/update files in config_store. Look for config files in .git/ directoreis.
 info "Backing up config files"
 cd "$project_store"
