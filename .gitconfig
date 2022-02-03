@@ -4,6 +4,8 @@
 
 [user]
     name = Gurjeet Singh
+    # Don't provide an email; Force user to add user.email per repository
+
 	# Tell Git to _not_ guess my name and email based on `whoami` and `hostname`
 	useConfigOnly = true
 
@@ -51,6 +53,11 @@
     b = branch
     f = fetch
     fa = fetch --all
+
+    # Push all branches to all remotes.
+    # keep the old implementation as a comment, just in case.
+    #pa = !sh -c 'for R in $(git remote)\; do for B in $(git branch --format="%(refname:short)")\; do git push $R $B\; done\; done'
+    pa = "!for R in $(git remote); do git push $R --all; done;"
 
 	#Launch gitk in background; shows commits leading up to current commit
     k = !sh -c 'gitk $@ &' -
