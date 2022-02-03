@@ -4,6 +4,8 @@
 " combinations we define here.
 let mapleader=','
 
+syn off
+
 " In normal mode, use shortcut ,s to save the buffer
 nnoremap <Leader>s :update<cr>
 

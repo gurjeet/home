@@ -18,11 +18,13 @@
 
 [alias]
 	#See status of current repository
-    st = status
-    stu = status --untracked-files=normal
+    st   = status
+    stu  = status --untracked-files=normal
     stui = status --untracked-file=normal --ignored
-    d = diff
-    d-cached = diff --cached
+
+    d     = diff
+    dc    = diff --cached
+    idiff = difftool --tool idiff 
 
 	# Check-in the code; commit the index contents.
     ci = commit -v
@@ -45,14 +47,17 @@
 	#Check-out
     co = checkout
     cp = cherry-pick
-    l = log
-    ll = log -p
-    lt = log trunk..
+
+    l   = log
+    ll  = log -p
+    lt  = log trunk..
     llt = log -p trunk..
-    lm = log master..
+    lm  = log master..
     llm = log -p master..
+
     b = branch
-    f = fetch
+
+    f  = fetch
     fa = fetch --all
 
     # Push all branches to all remotes.
@@ -66,12 +71,15 @@
 	#Launch gitk in background; shows _all_ commits in the repository.
     ka = !sh -c 'gitk --all $@ &' -
 
+    dag-options = log --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+
 	# Show a DAG of the repo; can take additional parameter. Use additional `--all` param to show all branches and tags.
-	dag     = log       --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
-	dag-all = log --all --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order
+    dag     = dag-options
+    dag-all = dag --all
 
 	# Show a summary of the DAG of the repo; shows only those commits that have a tag or a bannch label.
-	dag-summary = log   --graph --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order --all --simplify-by-decoration
+	dag-summary     = dag --simplify-by-decoration
+	dag-summary-all = dag-summary --all
 
 #Make Git use an external pager for git-status output
 [pager]
@@ -84,11 +92,12 @@
 [branch]
 	autosetuprebase = always
 [difftool "idiff"]
-	cmd = diff -i $LOCAL $REMOTE
+    cmd = diff --unified=3 --color=always --ignore-case $LOCAL $REMOTE | less --raw-control-chars
 [difftool]
 	prompt = 0
 [diff]
 	tool = vimdiff
+	algorithm = histogram
 [color "diff"]
 	whitespace = red reverse
 [merge]
@@ -96,5 +105,7 @@
 
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
 [init]
-	defaultBranch = master
+    defaultBranch = master
+

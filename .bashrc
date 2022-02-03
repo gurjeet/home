@@ -108,6 +108,11 @@ function rm()
     return 1
 }
 
+function ,rm()
+{
+    /bin/rm "$@"
+}
+
 # Source the helper functions
 source_if_readable $HOME/functions/main.sh
 
@@ -134,6 +139,7 @@ prepend_to_path_if_exists "$HOME/.nix-profile/bin"
 source_if_readable /etc/bash_completion
 # Add bash completion from homebrew, if available
 which brew &> /dev/null && source_if_readable "$(brew --prefix)/etc/bash_completion"
+export HOMEBREW_GITHUB_API_TOKEN=$(cat ~/.github_token_w_public_repo)
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
