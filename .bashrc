@@ -353,6 +353,10 @@ function l() {
     ls -l
 }
 
+function llh() {
+    ll "$@" | head
+}
+
 export PGCONNECT_TIMEOUT=5
 
 # Erase duplicates in bash history, so that bash can remember less-used commands
