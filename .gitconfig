@@ -109,3 +109,6 @@
 [init]
     defaultBranch = master
 
+[diff "odf"]
+        binary = true
+        textconv = odt2txt
