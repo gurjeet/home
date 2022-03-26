@@ -1,0 +1,80 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/focal64"
+
+  # Disable default shared-folder; trying to perform 'pgconfigure'
+  # etc. in '/vagrant/' throws errors, because those commands try to
+  # make a sibling directory, which happens to be at root '/', hence
+  # the errors.
+  #
+  # Instead, mount the source under ~/dev/POSTGRES, our usual
+  # location.
+  #
+  # TODO: either uncomment, or remove the following line
+  # config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/home/vagrant/dev/POSTGRES"
+  config.vm.synced_folder ".", "/vagrant"
+
+$script = <<-SCRIPT
+
+# At 'vagrant provision' time, this script is executed as the 'root' user.
+
+set -v
+
+# The synced-folders features makes the intermediate folders be owned by 'root'
+# user, so change the ownership to let the rest of the script do its job as
+# 'vagrant' user.
+sudo chown -R vagrant:vagrant /home/vagrant/dev
+
+# Run the remaining setup as the 'vagrant' user
+sudo -i -u vagrant bash << EOF
+
+set -v
+
+# Do NOT perform 'upgrade'; that causes kernel version etc. to change,
+# and that breaks the Vagrant Shared Folders syncing.
+
+sudo apt-get update
+sudo apt-get install -y git gcc gdb make flex bison libreadline-dev libz-dev libssl-dev
+
+
+# Clone our PGD repo. We need to clone this before we clone the $HOME repo,
+# below, because the ~/.gitconfig contents force the https:// Git remote URLs
+# to be converted into git:// URLs. Look for 'insteadOf' keyword in .gitconfig
+# of that repo. We can't use git:// protocol in our VM, because we haven't set
+# up our private SSH key in the VM; and we don't want to.
+#
+# TODO: Look into if it's possible to perform SSH agent forwarding when Vagrant
+# connects to the VM for provisioning using SSH. That might help us get to use
+# SSH based Git repos from within the VM, without exposing our master key to a
+# possibly compromised VM. See the link below for a possible method. Although
+# we have enabled 'config.ssh.forward_agent' below, we still need to test if
+# that works at 'vagrant provision' time.
+#
+# https://stackoverflow.com/questions/11955525/how-to-use-ssh-agent-forwarding-with-vagrant-ssh
+cd ~
+mkdir pgd
+cd pgd
+git init ./
+git remote add origin https://github.com/gurjeet/pgd.git
+git fetch --all
+git checkout master
+# Clone our $HOME repo
+mv ~/.bashrc ~/.bashrc.orig
+
+cd ~
+git init ./
+git remote add origin https://github.com/gurjeet/home.git
+git fetch origin
+git checkout wip
+
+
+EOF
+SCRIPT
+
+  config.vm.provision "shell", inline: $script
+
+  # Forward our SSH Agent
+  config.ssh.forward_agent = true
+end
+
