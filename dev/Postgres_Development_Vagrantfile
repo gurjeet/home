@@ -35,6 +35,11 @@ set -v
 # and that breaks the Vagrant Shared Folders syncing.
 
 sudo apt-get update
+
+# Install NTP daemon, and configure timezone to local/preferred zone
+sudo timedatectl set-timezone US/Pacific
+sudo systemctl start systemd-timesyncd
+
 sudo apt-get install -y git gcc gdb make flex bison libreadline-dev libz-dev libssl-dev
 
 
