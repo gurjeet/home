@@ -303,7 +303,7 @@ export EDITOR=vim
 #	R = Use Raw Control Characters; useful for color output
 #	X = disable termcap initialization and deinitialization;
 #			not using this causes screen to be cleared when using F option above
-#	x4 = Use tab size of 4 characters.
+#	x4 = Use tab size of 4 columns.
 export LESS=FiRXx4
 
 # Function to open items with preferred/associated applications

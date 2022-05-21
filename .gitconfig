@@ -11,7 +11,15 @@
 	useConfigOnly = true
 
 [core]
-	pager = less -FMRiXx4
+    # Set the command line options to be used by 'less'
+    #	F = Quit if one screen
+    #	R = Use Raw Control Characters; useful for color output
+    #	i = ignore case when searching, iff search pattern doesn't have uppercase letters
+    #	X = disable termcap initialization and deinitialization;
+    #			not using this causes screen to be cleared when using F option above
+    #	x1,5 = Use tab size of 4 (=5-1)columns, but start at column 1;
+    #       	becuase of the +/- indicators used by unified diff.
+    pager = less -FRiXx1,5
 
 [color]
 	ui = auto
