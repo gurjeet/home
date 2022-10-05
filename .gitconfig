@@ -33,6 +33,9 @@
 
     d     = diff
     dc    = diff --cached
+    dw    = diff --color-words
+    dwc   = diff --color-words --cached
+    dt    = difftool --tool difftastic
     idiff = difftool --tool idiff 
 
 	# Check-in the code; commit the index contents.
@@ -102,6 +105,8 @@
 	autosetuprebase = always
 [difftool "idiff"]
     cmd = diff --unified=3 --color=always --ignore-case $LOCAL $REMOTE | less --raw-control-chars
+[difftool "difftastic"]
+    cmd = difft --color always $LOCAL $REMOTE | less --raw-control-chars
 [difftool]
 	prompt = 0
 [diff]
