@@ -4,7 +4,8 @@
 
 [user]
     name = Gurjeet Singh
-    # Don't provide an email; Force user to add user.email per repository
+    # To force user to add user.email per repository, comment or remove the following line
+    email = gurjeet@singh.im
 
 	# Tell Git to _not_ guess my name and email based on `whoami` and `hostname`
 	# Force user to add user.email per repository
