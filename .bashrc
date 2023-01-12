@@ -445,6 +445,8 @@ function vg() {  launch_in_fg vagrant "$@" ; }
 # Function to pass the jq color output through the pager
 function jq_pager() {  launch_in_fg jq -C "$@" | $PAGER; }
 
+function nv() {  launch_in_fg nvim -R "$@" ; }
+
 # Function to see the various dates of interest for a domain name registration
 function whois-dates() {
   whois "$@" | \
