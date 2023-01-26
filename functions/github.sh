@@ -1,7 +1,11 @@
 #!/bin/bash
 
 #
-# Function to clone a public GitHub repo to personal account
+# Function to clone a public GitHub repo to personal account. Provide one
+# argument, the URL of the Git repo in the following format:
+# https://github.com/USER/REPO
+#
+# This function relies on the Github credentials stored in ~/.github_token_w_public_repo
 #
 # This is necessary since GitHub deletes the forks under some common situations:
 # https://help.github.com/articles/what-happens-to-forks-when-a-repository-is-deleted-or-changes-visibility/
