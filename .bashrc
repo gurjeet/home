@@ -133,6 +133,13 @@ if [ -e $HOME/dev/NVM/nvm.sh ] ; then
 	prepend_to_path_if_exists "$(dirname $(nvm which current))"
 fi
 
+# Homebrew's (and possibly others') binaries are placed here.
+#
+# Note that on macOS, /etc/profile uses `/usr/libexec/path_helper` to populate
+# PATH variable, so these and many other directories may already be in $PATH.
+prepend_to_path_if_exists "/usr/local/bin"
+prepend_to_path_if_exists "/usr/local/sbin"
+
 # Prepend Nix bin directory last, so that executables installed by Nix are picked first
 prepend_to_path_if_exists "$HOME/.nix-profile/bin"
 
