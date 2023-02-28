@@ -117,9 +117,6 @@
 [merge]
 	log = true
 
-[url "git@github.com:"]
-	insteadOf = https://github.com/
-
 [init]
     defaultBranch = master
 
