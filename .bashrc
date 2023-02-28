@@ -165,8 +165,9 @@ source_if_readable /etc/bash_completion.d/git
 source_if_readable /usr/share/bash-completion/completions/git
 source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
-source_if_readable "$(fzf-share)/key-bindings.bash"
-source_if_readable "$(fzf-share)/completion.bash"
+which fzf-share                                        \
+&& source_if_readable "$(fzf-share)/key-bindings.bash" \
+&& source_if_readable "$(fzf-share)/completion.bash"
 
 source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 source_if_readable "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
