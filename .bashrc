@@ -58,7 +58,13 @@ function exec_non_default_shell_if_any() {
 # have been performed by the user, or at least those changes that may introduce
 # the non-default Bash in $PATH. Hence we source nix.sh and then try to switch
 # to bash from the Nix installation.
-source_if_readable "$HOME/.nix-profile/etc/profile.d/nix.sh"
+#
+# Ideally, we should be sourcing "$HOME/.nix-profile/etc/profile.d/nix.sh", but
+# for some reason that does not exist on one of my systems, so the
+# nix-daemon.sh seems to be a good replacement for it. Even the 'nix.sh' file
+# in the same directory as nix-daemon.sh does not change the environment
+# variables suitably to provide the various nix commands.
+source_if_readable "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
 exec_non_default_shell_if_any
 
 # Added to override MacOSX's ls with ls and other commands provided by coreutils
