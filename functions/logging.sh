@@ -1,22 +1,30 @@
 #!/bin/bash
 
-function info() {
+# Use a period(.) prefix for these functions, to avoid name collision with
+# other commands.
+
+function .info()
+{
     echo "INFO: $@" >&1
 }
 
-function notice() {
+function .notice()
+{
     echo "NOTICE: $@" >&1
 }
 
-function warning() {
+function .warning()
+{
     echo "WARNING: $@" >&2
 }
 
-function error() {
+function .error()
+{
     echo "ERROR: $@" >&2
 }
 
-function fatal() {
+function .fatal()
+{
     exitCode="$1"
     shift
     echo "FATAL: $@" >&2
