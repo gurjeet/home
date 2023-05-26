@@ -18,3 +18,15 @@ function .fatal()
     .fatalmsg "$@";
     exit "$exitCode";
 }
+
+# Code from https://stackoverflow.com/a/62757929/382700
+function stacktrace()
+{
+    echo >&2 Call stack:
+    local i=1 line file func
+    while read -r line func file < <(caller $i); do
+        echo >&2 "[$i] $file:$line $func(): $(sed -n ${line}p $file)"
+        ((i++))
+    done
+}
+
