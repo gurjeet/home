@@ -36,8 +36,8 @@ function github_clone_to_personal_account() {
     git clone --mirror $PUBLIC_REPO_URL $TMP_DIR
     curl --header "Authorization: token $GH_TOKEN" --request POST --data '{"name":"'${REPO_CLONE}'","description":"Clone of https://github.com/'${REPO_OWNER}'/'${REPO_NAME}', as of '$(TZ=UTC date +%Y%m%d:%H%M%S%z)'"}' "https://api.github.com/user/repos"
     git lfs fetch --all
-    git push --mirror "https://github.com/$PERSONAL_ACCOUNT/$REPO_CLONE"
-    git lfs push --all "https://github.com/$PERSONAL_ACCOUNT/$REPO_CLONE"
+    git push --mirror "https://$PERSONAL_ACCOUNT:$GH_TOKEN@github.com/$PERSONAL_ACCOUNT/$REPO_CLONE"
+    git lfs push --all "https://$PERSONAL_ACCOUNT:$GH_TOKEN@github.com/$PERSONAL_ACCOUNT/$REPO_CLONE"
     popd
 
     rm -rf $TMP_DIR
