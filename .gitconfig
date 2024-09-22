@@ -26,15 +26,25 @@
 	ui = auto
 
 [alias]
+
+    # Show all remote points with their URLs
+    r = remote --verbose
+
 	#See status of current repository
     st   = status
     stu  = status --untracked-files=normal
     stui = status --untracked-file=normal --ignored
+    s    = stui # short form of above command, since it's my most used variant
+                # of status command
 
     d     = diff
     dc    = diff --cached
-    dw    = diff --color-words
-    dwc   = diff --color-words --cached
+    dh    = diff HEAD                  # Shows modified, as well as cached diff
+    d-c   = diff           --color-words=.       # Diff at character boundaries
+    d-w    = diff          --color-words
+    dc-cw  = diff --cached --color-words
+    dh-cw  = diff HEAD     --color-words
+
     dt    = difftool --tool difftastic
     idiff = difftool --tool idiff 
 
