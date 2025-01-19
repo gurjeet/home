@@ -40,9 +40,11 @@
     d     = diff
     dc    = diff --cached
     dh    = diff HEAD                  # Shows modified, as well as cached diff
-    d-c   = diff           --color-words=.       # Diff at character boundaries
+    d-c    = diff          --color-words=.       # Diff at character boundaries
     d-w    = diff          --color-words
+    dc-c   = diff --cached --color-words=.       # Diff at character boundaries
     dc-cw  = diff --cached --color-words
+    dh-c   = diff HEAD     --color-words=.       # Diff at character boundaries
     dh-cw  = diff HEAD     --color-words
 
     dt    = difftool --tool difftastic
