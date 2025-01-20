@@ -112,6 +112,31 @@
 	dag-summary     = dag --simplify-by-decoration
 	dag-summary-all = dag-summary --all
 
+	# Create a new worktree. Create a branch and a sibling directory with
+	# matching names. The branch should inherit the tracking branch from the
+	# current branch. The trailing `echo Done -` command in the chain is to
+	# consume the commaind line parameters pasted at end by Git.
+	ls-worktree = worktree list
+	new-worktree = "! git branch --track=inherit \"$1\"		\
+					&& git worktree add ../\"$1\" \"$1\"	\
+					&& echo Done - "
+
+	# Remove a worktree and its related branch. Unset the GIT_DIR env variable,
+	# because that make the `git status` command to compare the worktree with
+	# contents of that directory. Refuse if there are any modified or untracked
+	# files in the worktree. Then delete the branch as well; this may fail if
+	# the branch hasn't been merged into its tracking branch, so not using the
+	# `--force` option is intentional.
+	rm-worktree = "! unset GIT_DIR											\
+					&& { pushd ../\"$1\" 2>/dev/null || { echo failed pushd $1; exit 1; }; }		\
+					&& { [[ -z \"$(git status --porcelain --untracked-files=yes --ignored=no)\" ]] 	\
+						 && echo git status is clean ; }					\
+					   || { echo git status is NOT clean && exit 1 ; }		\
+					&& git worktree remove \"$1\" && echo worktree removed	\
+					&& popd >/dev/null										\
+					&& git branch --delete \"$1\"							\
+					&& echo Done - "
+
 #Make Git use an external pager for git-status output
 [pager]
 	status = true
