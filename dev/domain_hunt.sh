@@ -27,17 +27,15 @@ cat page*.json | jq -Cr '.domains[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' |
 cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep -v '\d' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs --no-run-if-empty -n1 open
 cat auctions.json | jq -Cr '.auctions[] | .name' | grep -E '^([a-z0-9]){0,2}\..+$' | grep '\d' | sed 's"\(.*\)"https://park.io/auctions/view/\1"' | xargs --no-run-if-empty -n1 open
 
-CUSTOM_DOMAINS=" "
+CUSTOM_DOMAINS=" 7zip.info bra.io emirates.io"
 for D in $CUSTOM_DOMAINS; do
     open https://park.io/domains/view/$D
 done
 
-CUSTOM_AUCTIONS=" svelte.io toyota.io earth.vc"
+CUSTOM_AUCTIONS=" pg.ag svelte.io toyota.io earth.vc nt.lc"
 for D in $CUSTOM_AUCTIONS; do
     open https://park.io/auctions/view/$D
 done
-
-open 'https://park.io/domains/view/7zip.info'
 
 DayOfMonthWithSuffix() {
     # The first param is the offset from current date.

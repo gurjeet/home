@@ -19,7 +19,7 @@ $script = <<-SCRIPT
 
 # At 'vagrant provision' time, this script is executed as the 'root' user.
 
-set -v
+# set -v
 
 # The synced-folders features makes the intermediate folders be owned by 'root'
 # user, so change the ownership to let the rest of the script do its job as
@@ -29,7 +29,7 @@ sudo chown -R vagrant:vagrant /home/vagrant/dev
 # Run the remaining setup as the 'vagrant' user
 sudo -i -u vagrant bash << EOF
 
-set -v
+# set -v
 
 # Do NOT perform 'upgrade'; that causes kernel version etc. to change,
 # and that breaks the Vagrant Shared Folders syncing.
@@ -40,7 +40,7 @@ sudo apt-get update
 sudo timedatectl set-timezone US/Pacific
 sudo systemctl start systemd-timesyncd
 
-sudo apt-get install -y git gcc gdb make flex bison libreadline-dev libz-dev libssl-dev
+sudo apt-get install -y git gcc gdb make flex bison libreadline-dev libz-dev libssl-dev ccache
 
 
 # Clone our PGD repo. We need to clone this before we clone the $HOME repo,

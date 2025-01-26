@@ -72,6 +72,7 @@ prepend_to_path_if_exists "/opt/local/libexec/gnubin"
 
 prepend_to_path_if_exists "/usr/local/go/bin"
 prepend_to_path_if_exists "$HOME/go/bin"
+prepend_to_path_if_exists "$HOME/.cargo/bin"
 prepend_to_path_if_exists "$HOME/bin"
 
 # Python 2.7 or 3.7 on macOS
@@ -319,6 +320,9 @@ export EDITOR=vim
 #			not using this causes screen to be cleared when using F option above
 #	x4 = Use tab size of 4 columns.
 export LESS=FiRXx4
+
+# Tell the terminal program to use 4 columns for a tab
+tabs -4
 
 # Function to open items with preferred/associated applications
 function open() {

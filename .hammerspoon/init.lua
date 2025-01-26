@@ -19,7 +19,7 @@ vim
 
 -- If you want the screen to dim (a la Flux) when you enter normal mode
 -- flip this to true.
-vim:shouldDimScreenInNormalMode(false)
+vim:shouldDimScreenInNormalMode(true)
 
 -- If you want to show an on-screen alert when you enter normal mode, set
 -- this to true
@@ -69,7 +69,7 @@ end)
 
 -- This function invokes the Greyscale-toggling workhorse application
 function ToggleGreyscale()
-    hs.application.launchOrFocus("/Users/gurjeet/dev/ToggleGrayscale(automator-app).app")
+    hs.application.launchOrFocus("/Users/gurjeet/dev/ToggleGrayscale.app")
 end
 
 ----------------------------------------
@@ -121,7 +121,7 @@ function populate_custom_menu()
         { title = "JoMarzi"  , fn = function() ConnectToWiFi("JoMarzi")     end, checked = is_current_ssid("JoMarzi")    },
         { title = "xfinity"  , fn = function() ConnectToWiFi("xfinitywifi") end, checked = is_current_ssid("xfinitywifi")},
         { title = "-" }, -- Separator
-        { title = "Greyscale"  , fn = ToggleGreyscale },
+        { title = "RainbowGreyscale"  , fn = ToggleGreyscale },
         { title = "-" }, -- Separator
         { title = "Configure in ~/init.lua", disabled = true },
     })

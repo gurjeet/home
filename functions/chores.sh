@@ -9,6 +9,8 @@ function afternoon_chores() {
 }
 
 function evening_chores() {
+    open https://sedo.com/search/details/?aid=2382084&domain=ra.ar
+    open https://sedo.com/search/details/?aid=2384999&domain=e.company
     ~/dev/OpenBookmarkGroup.applescript Evening
 }
 
