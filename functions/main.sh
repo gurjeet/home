@@ -5,6 +5,7 @@ source ~/functions/homebrew.sh
 source ~/functions/chores.sh
 source ~/functions/git.sh
 source ~/functions/docker.sh
+source ~/functions/rsync.net.sh
 
 # Include logging functions for use by other functions.
 source ~/functions/logging.sh
