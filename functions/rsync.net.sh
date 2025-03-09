@@ -17,6 +17,23 @@ function rsyncnet_sshfs_unmount()
 
 function rsyncnet
 {
-    rsync -a --no-group --no-times "$@"
+    # Usage: rsyncnet --rsync-option1 --option2 ... file1 file2 ... destination-path--on-remote
+    #
+    # Example:
+    #
+    # rsyncnet -v "/Applications/Install macOS Ventura.app" /Applications/Install\ macOS\ Sonoma.app installers/macos/
+
+    #rsync --archive --no-group --no-times --checksum "$@"
+    #rsync --archive --no-group --no-times            "$@"
+    #rsync --archive --no-group                       "$@"
+
+    # Last parameter
+    local last="${@:$#}"
+
+    # other, non-last, parameters
+    local others=("${@:1: $#-1}")
+
+    #print_args
+    rsync --archive --no-group "${others[@]}" fm2343@fm2343.rsync.net:"$last"
 }
 
