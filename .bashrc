@@ -153,9 +153,15 @@ fi
 
 # Homebrew's (and possibly others') binaries are placed here.
 #
-# Note that on macOS, /etc/profile uses `/usr/libexec/path_helper` to populate
-# PATH variable, so these and many other directories may already be in $PATH.
+# Note that on macOS, /etc/profile (sourced by Bash before reading this .bashrc
+# file) uses `/usr/libexec/path_helper` to populate PATH variable, so these and
+# many other directories may already be in $PATH.
 prepend_to_path_if_exists "/usr/local/bin"
+
+# Source Homebrew's recommended environment variable configuration
+[[ -x /opt/homebrew/bin/brew ]] \
+    && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 prepend_to_path_if_exists "/usr/local/sbin"
 
 # Prepend Nix bin directory last, so that executables installed by Nix are picked first
