@@ -170,7 +170,8 @@ prepend_to_path_if_exists "$HOME/.nix-profile/bin"
 source_if_readable /etc/bash_completion
 # Add bash completion from homebrew, if available
 which brew &> /dev/null && source_if_readable "$(brew --prefix)/etc/bash_completion"
-export HOMEBREW_GITHUB_API_TOKEN=$(cat ~/.github_token_w_public_repo)
+export HOMEBREW_GITHUB_API_TOKEN=$( [[ -e ~/.github_token_w_public_repo ]] \
+                                    && cat ~/.github_token_w_public_repo)
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
