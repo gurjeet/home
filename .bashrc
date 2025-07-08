@@ -485,8 +485,6 @@ function whois-dates() {
   whois "$@" | \
     grep -iE 'Creat.*Date|Updat.*Date|Expir.*Date'; }
 
-# Set Vi-style line editing
-set -o vi
 
 # Prevent command-redirection from accidentally overwriting existing files
 set -o noclobber
