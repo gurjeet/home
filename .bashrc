@@ -74,6 +74,18 @@ prepend_to_path_if_exists "/usr/local/go/bin"
 prepend_to_path_if_exists "$HOME/go/bin"
 prepend_to_path_if_exists "$HOME/bin"
 
+# Add Rust development related binaries to PATH
+source_if_readable "$HOME/.cargo/env"
+
+# Rust-specific environment variables.
+if [[ -d /opt/homebrew/opt/llvm ]]; then
+  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+  # Linker and header files for LLVM
+  export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+fi
+
 # Python 2.7 or 3.7 on macOS
 prepend_to_path_if_exists "$HOME/Library/Python/2.7/bin"
 prepend_to_path_if_exists "$HOME/Library/Python/3.7/bin/"
