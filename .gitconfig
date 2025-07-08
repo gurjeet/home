@@ -5,7 +5,7 @@
 [user]
     name = Gurjeet Singh
     # To force user to add user.email per repository, comment or remove the following line
-    email = gurjeet@singh.im
+    #email = gurjeet@singh.im
 
 	# Tell Git to _not_ guess my name and email based on `whoami` and `hostname`
 	# Forces user to add user.email per repository
@@ -172,3 +172,13 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+# Veeva-specific configuration
+[pull]
+	ff = only
+[merge]
+	ff = false
+[core]
+	hooksPath = .githooks
+[blame]
+	ignoreRevsFile = .git-blame-ignore-revs
