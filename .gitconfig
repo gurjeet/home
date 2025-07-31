@@ -47,8 +47,36 @@
     dh-c   = diff HEAD     --color-words=.       # Diff at character boundaries
     dh-cw  = diff HEAD     --color-words
 
-    dt    = difftool --tool difftastic
-    idiff = difftool --tool idiff 
+    # Prefer to pipe the difftool output to `less` in the alias here (via the
+    # shell invocation caused by `!` character), rather than in the `[difftool
+    # ...]` configuration option of each tool, because if done that way that
+    # causes the `less` command to show each file's diff separately, which in
+    # turn requires that we use the `q` key to exit `less` at the end of diff
+    # of each file. For example, if there are 7 files that have changes,
+    # invoking `less` as part of `[difftool ...]` config option, the `less`
+    # command  will be invoked 7 times, and hence we will have to hit `q` key
+    # up to 7 times to be able to see the diff of next file in the changed set.
+    # Additionally, if `--quit-if-one-screen` is in effect (say via the
+    # environment variable $LESS) then the changed files that have not enough
+    # different lines, those files' diff just scrolls past the screen
+    # without waiting for the user to review/okay it.
+    #
+    # Both of these problems can be solved by piping the output of all
+    # different files as one stream to `less` here in the alias.
+    #
+    # Previously, instead of piping output to `less` here, we used the
+    # following at the end of [difftool ...] option's `cmd` attribute, but that
+    # caused the 2 problems described above.
+    #
+    # [alias]
+    # dt = difftool --tool difftastic
+    # [difftool "difftastic"]
+    # cmd = difft --color always $LOCAL $REMOTE | less --raw-control-chars
+
+    # Use DiffTastic to see  language-sensitive diffs
+    dt = ! git difftool --tool difftastic | less
+    # Perform case-Insensitive comparison
+    di = ! git difftool --tool idiff      | less
 
 	# Check-in the code; commit the index contents.
     ci = commit -v
@@ -65,7 +93,16 @@
 	#
 	# It uses git-merge-base to determine the fork-point (the commit that is
 	# common to both the branches) and does a git-diff between that commit and
-	# the second branch.
+    # the second branch.
+    #
+    # Note that Git now has an equivalent command builtin. The above example
+    # can be rewritten as the following, using the builtin feature; note the 3
+    # dots (...):
+	#
+	# Example:
+	#    git diff origin/master...my_forked_branch --stat
+	#
+    #
 	forkdiff = !bash -c 'git diff $(git merge-base "$1" "$2") "$2" "${@: 3}" ' -
 
 	#Check-out
@@ -148,9 +185,9 @@
 [branch]
 	autosetuprebase = always
 [difftool "idiff"]
-    cmd = diff --unified=3 --color=always --ignore-case $LOCAL $REMOTE | less --raw-control-chars
+    cmd = diff --unified=3 --color=always --ignore-case $LOCAL $REMOTE
 [difftool "difftastic"]
-    cmd = difft --color always $LOCAL $REMOTE | less --raw-control-chars
+    cmd = difft --color always $LOCAL $REMOTE
 [difftool]
 	prompt = 0
 [diff]
