@@ -219,3 +219,9 @@
 	hooksPath = .githooks
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
+[push]
+    # If a branch name is not specified in `git push remote_name`, then use the
+    # currently checked-out branch's name.
+    #
+    # Chosen with help from this answer: https://stackoverflow.com/a/948397/382700
+	default = current
