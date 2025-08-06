@@ -68,6 +68,10 @@
     # following at the end of [difftool ...] option's `cmd` attribute, but that
     # caused the 2 problems described above.
     #
+    # One downside of piping the git-diff output through less is that now we
+    # cannot pass any additional flags to Git or the diff-tool of choice. Hence
+    # we have to create an alias for each variation of options we want.
+    #
     # [alias]
     # dt = difftool --tool difftastic
     # [difftool "difftastic"]
