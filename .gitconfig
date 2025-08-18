@@ -78,7 +78,7 @@
     # cmd = difft --color always $LOCAL $REMOTE | less --raw-control-chars
 
     # Use DiffTastic to see  language-sensitive diffs
-    dt = ! git difftool --tool difftastic | less
+    dt = ! "function _tmp() ( git difftool --tool difftastic "$@" | less ); _tmp"
     # Perform case-Insensitive comparison
     di = ! git difftool --tool idiff      | less
 
