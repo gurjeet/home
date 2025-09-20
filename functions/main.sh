@@ -1,14 +1,15 @@
 #!/bin/bash
 
+# Include logging functions for use by other functions.
+source ~/functions/logging.sh
+
 source ~/functions/github.sh
 source ~/functions/homebrew.sh
 source ~/functions/chores.sh
 source ~/functions/git.sh
 source ~/functions/docker.sh
 source ~/functions/rsync.net.sh
-
-# Include logging functions for use by other functions.
-source ~/functions/logging.sh
+source ~/functions/sshfs.sh
 
 # Utility function that prints its arguments, each on a new line, with a
 # numeric prefix that represents the argument's position.
