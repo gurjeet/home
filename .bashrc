@@ -516,6 +516,8 @@ if [[ ! -e "$HOME/.ssh/ssh_auth_sock" && -z "$SSH_AUTH_SOCK" ]]; then
 fi
 ssh-add -l | grep -q "The agent has no identities" && ssh-add
 
+export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
+
 # This should be the last thing we enable, per recommendation in direnv docs
 if which direnv >/dev/null 2>&1; then eval "$(direnv hook bash)"; fi
 
