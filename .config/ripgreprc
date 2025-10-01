@@ -1,0 +1,5 @@
+# Make ripgrep behave more like grep. Per the manpage, this is equivalent to
+# `grep -r` or
+# `rg --no-ignore --hidden --binary`
+-uuu
+
