@@ -32,10 +32,14 @@
 
 	#See status of current repository
     st   = status
-    stu  = status --untracked-files=normal
-    stui = status --untracked-file=normal --ignored
-    s    = stui # short form of above command, since it's my most used variant
+    su   = status --untracked-files=normal
+    sui  = status --untracked-file=normal --ignored
+    s    = su # short form of above command, since it's my most used variant
                 # of status command
+    ss   = s   --short
+    sst  = st  --short
+    ssu  = su  --short
+    ssui = sui --short
 
     d     = diff
     dc    = diff --cached
@@ -85,6 +89,9 @@
 	# Check-in the code; commit the index contents.
     ci = commit -v
 
+    # Amend the latest commit; include the contents of the intex
+    amend-commit = commit --amend --no-edit
+
 	# Check-in the code; first add modified files to index, and then commit the
 	# index contents.
     cia = commit -v -a
@@ -112,6 +119,9 @@
 	#Check-out
     co = checkout
     cp = cherry-pick
+
+    # Add updated files to stage, readying them for commit
+    au = add --update
 
     l   = log
     ll  = log -p
@@ -151,16 +161,19 @@
 
 	# Show a summary of the DAG of the repo; shows only those commits that have a tag or a bannch label.
 	dag-summary     = dag --simplify-by-decoration
-	dag-summary-all = dag-summary --all
+    dag-summary-all = dag-summary --all
+    # Use this alias to show only local branches; don't show tags, and don't show remote branches.
+    dag-summary-all-no-tags-no-remotes = dag-summary-all --decorate-refs-exclude=refs/remotes --decorate-refs-exclude=refs/tags
 
 	# Create a new worktree. Create a branch and a sibling directory with
 	# matching names. The branch should inherit the tracking branch from the
 	# current branch. The trailing `echo Done -` command in the chain is to
 	# consume the commaind line parameters pasted at end by Git.
-	ls-worktree = worktree list
 	new-worktree = "! git branch --track=inherit \"$1\"		\
 					&& git worktree add ../\"$1\" \"$1\"	\
 					&& echo Done - "
+
+	ls-worktree = worktree list
 
 	# Remove a worktree and its related branch. Unset the GIT_DIR env variable,
 	# because that make the `git status` command to compare the worktree with
@@ -178,6 +191,7 @@
 					&& git branch --delete \"$1\"							\
 					&& echo Done - "
 
+  sm = submodule
 #Make Git use an external pager for git-status output
 [pager]
 	status = true
