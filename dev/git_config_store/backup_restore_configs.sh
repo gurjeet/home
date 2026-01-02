@@ -11,7 +11,7 @@ project_store=~/dev
 config_store=~/dev/git_config_store
 
 # Backup/update files in config_store. Look for config files in .git/ directoreis.
-info "Backing up config files"
+.info "Backing up config files"
 cd "$project_store"
 for cand_git_dir in */.git; do
 
@@ -19,17 +19,17 @@ for cand_git_dir in */.git; do
     project_name=$(dirname "$cand_git_dir")
     src_config="$cand_git_dir/config"
 
-    info "Processing project $project_name"
+    .info "Processing project $project_name"
 
     # Sanity checks
     if [[ -f "$cand_git_dir" ]]; then
-        error "$cand_git_dir is a file; not yet supported." && continue;
+        .error "$cand_git_dir is a file; not yet supported." && continue;
     fi
     if [[ ! -e "$src_config" ]]; then
-        error "$src_config does not exist." && continue;
+        .error "$src_config does not exist." && continue;
     fi
     if [[ ! -f "$src_config" ]]; then
-        error "$src_config is not a file." && continue;
+        .error "$src_config is not a file." && continue;
     fi
 
     dest_dir="$config_store/$project_name"
@@ -50,7 +50,7 @@ for cand_git_dir in */.git; do
 done
 
 # Restore any files that are missing in the project_store
-info "Restoring config files, if necessary"
+.info "Restoring config files, if necessary"
 cd "$config_store"
 for config_file in */config; do
 
@@ -58,7 +58,7 @@ for config_file in */config; do
     project_dir="$project_store/$project_name"
     project_config="$project_dir/.git/config"
 
-    info "Processing project $project_name"
+    .info "Processing project $project_name"
 
     # Restore only if the destination directory does not exist. If the directory
     # already exists, we do not overwrite its contents.
