@@ -36,3 +36,34 @@ function ,listDirtyGitRepos()
     # return 0
 )
 
+function ,git_create_empty_commit()
+(
+    local msg="${1:-Empty commit}"
+    git commit --allow-empty -m "$msg"
+)
+
+function ,git_create_initial_commit()
+(
+    GIT_COMMITTER_DATE='@0 +0000' GIT_AUTHOR_DATE='@0 +0000' ,git_create_empty_commit 'Initial empty commit'
+)
+
+function ,git_initialize_directory()
+(
+    local dir="${1:-.}"
+
+    [[ -e "$dir/.git" ]]                        \
+        && echo Directory already initialized   \
+        && return 1                             \
+    || git init "$dir"                          \
+        && cd "$dir"                            \
+        && ,git_create_initial_commit
+
+        #&& GIT_COMMITTER_DATE='@0 +0000' GIT_AUTHOR_DATE='@0 +0000' ,git_create_empty_commit 'Initial empty commit'
+        #&& GIT_COMMITTER_DATE='@0 +0000' GIT_AUTHOR_DATE='@0 +0000' git commit --allow-empty -m 'Initial empty commit'
+)
+
+function ,git_create_orphan_branch()
+(
+    git switch --orphan "$1"
+)
+
