@@ -65,10 +65,53 @@ function exec_non_default_shell_if_any() {
 # in the same directory as nix-daemon.sh does not change the environment
 # variables suitably to provide the various nix commands.
 source_if_readable "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-exec_non_default_shell_if_any
+# Source Homebrew's recommended environment variable configuration
+[[ -x /opt/homebrew/bin/brew ]] \
+    && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Export these variables for RustRover (a derivative of IntelliJ). These
+# variables are wrapped in this conditional to prevent my ususal shell
+# environment from being dirtied unnecessarily.
+# Set this value to a ridiculously high value so that the Rust/Cargo builds and
+# tests don't fail. The default (usually 256), is very low for this purpose.
+ulimit -n 81960
+
+export_veeva_platform_env_vars()
+{
+    export POSTGRES_USER=postgres
+    export POSTGRES_PASSWORD=postgres
+    export POSTGRES_DB=postgres
+    export POSTGRES_HOSTNAME=instancedb
+    export POSTGRES_PORT=5432
+    export AWS_ACCESS_KEY_ID=minioadmin
+    export AWS_SECRET_ACCESS_KEY=minioadmin
+    export AWS_DEFAULT_REGION=us-east-1
+    export AWS_ENDPOINT_URL_S3=https://minio.veevaxlocal.com:9000
+    export SERVER_NAME=local-dev-server
+    export POD_NAME=local-pod
+    export IS_PRERELEASE=false
+    export BUILD_INFO=minimal
+
+    export SERVER_PATH="/Users/gurjeet.singh/Workspace/x-platform/app/server"
+    export HOST_PROJECT_PATH="/Users/gurjeet.singh/Workspace/x-platform/app/"
+
+    export DEPLOYMENT_ENV=ci
+}
+
+# Do not try to load the newer version of Bash if this file is being read by
+# RustRover (or any of the other IDEs that use the INTELLIJ_ENVIRONMENT_READER
+# environment variable.)
+#
+# Or, if we don't have an interactive terminal
+if [ ! -z "$INTELLIJ_ENVIRONMENT_READER" ] || [ ! -t 0 ]; then
+  export_veeva_platform_env_vars
+else
+    exec_non_default_shell_if_any
+fi
 
 # Added to override MacOSX's ls with ls and other commands provided by coreutils
 prepend_to_path_if_exists "/opt/local/libexec/gnubin"
+prepend_to_path_if_exists "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
 
 prepend_to_path_if_exists "/usr/local/go/bin"
 prepend_to_path_if_exists "$HOME/go/bin"
@@ -78,12 +121,13 @@ prepend_to_path_if_exists "$HOME/bin"
 source_if_readable "$HOME/.cargo/env"
 
 # Rust-specific environment variables.
-if [[ -d /opt/homebrew/opt/llvm ]]; then
-  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+llvm_path="/opt/homebrew/opt/llvm"
+if [[ -d "$llvm_path" ]]; then
+  export PATH="$llvm_path/bin:$PATH"
 
   # Linker and header files for LLVM
-  export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-  export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+  export LDFLAGS="-L$llvm_path/lib:$LDFLAGS"
+  export CPPFLAGS="-I$llvm_path/include:$CPPFLAGS"
 fi
 
 # Python 2.7 or 3.7 on macOS
@@ -158,10 +202,6 @@ fi
 # many other directories may already be in $PATH.
 prepend_to_path_if_exists "/usr/local/bin"
 
-# Source Homebrew's recommended environment variable configuration
-[[ -x /opt/homebrew/bin/brew ]] \
-    && eval "$(/opt/homebrew/bin/brew shellenv)"
-
 prepend_to_path_if_exists "/usr/local/sbin"
 
 # Prepend Nix bin directory last, so that executables installed by Nix are picked first
@@ -172,6 +212,11 @@ source_if_readable /etc/bash_completion
 which brew &> /dev/null && source_if_readable "$(brew --prefix)/etc/bash_completion"
 export HOMEBREW_GITHUB_API_TOKEN=$( [[ -e ~/.github_token_w_public_repo ]] \
                                     && cat ~/.github_token_w_public_repo)
+
+# Add findutils binaries, with their original names, to PATH. Because of
+# conflict with Host's binaries' names, Homebrew adds to default PATH these
+# binaries with a 'g' prefix.
+prepend_to_path_if_exists "$(brew --prefix findutils)/libexec/gnubin"
 
 # Use Git completion, if available
 # MacPorts (for Mac OS)
@@ -184,9 +229,55 @@ source_if_readable /etc/bash_completion.d/git
 source_if_readable /usr/share/bash-completion/completions/git
 source_if_readable /usr/share/git-core/contrib/completion/git-prompt.sh
 
-which fzf-share                                        \
-&& source_if_readable "$(fzf-share)/key-bindings.bash" \
-&& source_if_readable "$(fzf-share)/completion.bash"
+
+# If fzf is installed
+which fzf &> /dev/null \
+&& source_if_readable ~/.fzf.bash \
+&& {
+
+  # Enable a key-binding (^g^b) to pop up list of local Git branches to choose
+  # from.
+  #
+  # Shortened and slightly modified version of the accepted answer here:
+  # https://stackoverflow.com/a/37007733/382700
+
+  g__is_in_git_repo() {
+    git rev-parse HEAD > /dev/null 2>&1
+  }
+
+  g__gb() {
+    g__is_in_git_repo &&
+      git branch -vv --color=always | grep -v '/HEAD\s' |
+      fzf --height 40% --ansi --multi --tac | sed 's/^..//' | awk '{print $1}' |
+      sed 's#^remotes/[^/]*/##'
+  }
+
+  g__get_brach_selection() {
+    local selected;
+    selected="$(g__gb)";
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}";
+    READLINE_POINT=$(( READLINE_POINT + ${#selected} ));
+  }
+
+  # Set key-bindings only if in an interactive shell
+  if [[ $- = *i* ]]; then
+      #bind '"\C-g\C-b": "$(g__gb)\r\b\b"'
+
+      # This invocation works only in Bash versions 4 and later. For Bash versions 3
+      # and below, see the relevant code in key-bindings.bash in fzf source code.
+      bind -m emacs-standard -x '"\C-g\C-b": g__get_brach_selection'
+      bind -m vi-command     -x '"\C-g\C-b": g__get_brach_selection'
+      bind -m vi-insert      -x '"\C-g\C-b": g__get_brach_selection'
+  fi
+
+  # This is an example of how any regular key-sequence (and not just
+  # control/alt keys) can be used to trigger function calling. But this is
+  # dangerous, since this will be triggered even if this sequence exists in the
+  # middle of some command or commnet we're typing. What would be ideal is that
+  # if we could somehow signify that we want this binding to trigger only when
+  # the sequence is the first thing being typed on the command-line.
+  #bind -m vi-insert      -x '"g ": g__get_brach_selection'
+}
 
 source_if_readable "$HOME/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 source_if_readable "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -403,7 +494,14 @@ export PGCONNECT_TIMEOUT=5
 
 # Erase duplicates in bash history, so that bash can remember less-used commands
 # for longer.
-HISTCONTROL=erasedups
+HISTCONTROL="erasedups:ignoredups"
+
+
+# Remove limits on how much Bash command history to save
+#
+# https://stackoverflow.com/a/19533853/382700
+HISTSIZE=
+HISTFILESIZE=
 
 # Setup $CDPATH so that we can easily switch to directories under the
 # development directory.
@@ -487,7 +585,7 @@ function whois-dates() {
 
 
 # Prevent command-redirection from accidentally overwriting existing files
-set -o noclobber
+set +o noclobber
 
 # Command to fetch all Git repos under $HOME/dev/ every 5 minutes.
 alias git_fetch_all="while true; do time -p ls -d $HOME/dev/*/.git | while read line; do echo \$line; (cd \$line/..; time -p git fetch --all) ; done; date; echo ==== done ====; sleep 300; done"
@@ -509,17 +607,58 @@ alias monitor_all="gnome-terminal --maximize --tab -e 'bash -i -c ping_google' -
 
 # Start the ssh-agent, unless either we already have one running, or if we are
 # using credentials forwarded by another agent.
-if [[ ! -e "$HOME/.ssh/ssh_auth_sock" && -z "$SSH_AUTH_SOCK" ]]; then
-  eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/ssh_auth_sock"
+if [[ -e "$HOME/.ssh/ssh_auth_sock" ]]; then
   export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+else
+  eval "$(ssh-agent)"
+  ln -sf "$SSH_AUTH_SOCK" "$HOME/.ssh/ssh_auth_sock"
 fi
 ssh-add -l | grep -q "The agent has no identities" && ssh-add
 
+xcollapse_import_use_statements() (
+    cargo fmt -- --config imports_granularity="Module"
+)
+
+x_pre_ci_checks() (
+     ( :                                            \
+       && echo "==== Cargo fmt ===="                \
+       && cargo fmt --all --check                   \
+       && echo "==== Cargo Check ===="              \
+       && cargo check                               \
+       && echo "==== Cargo Clippy ===="             \
+       && cargo clippy --all-targets -- -D warnings \
+       && echo "==== Cargo Build All Targets ===="  \
+       && cargo build --all-targets --profile dev   \
+       && echo "==== All Passed ===="               \
+     )                                              \
+     || (echo "==== Something Failed ===" >&2 && exit 1)
+)
+
+x_get_current_release_number() (
+  git fetch origin &>/dev/null && git show origin/main:app/server/Cargo.toml 2>/dev/null | grep ^version
+)
+
 export RIPGREP_CONFIG_PATH=~/.config/ripgreprc
+
+# Compile only those packages that are affected by the current branch, in the
+# hopes that doing so will take less time than compiling all packages in the
+# Workspace.
+#
+# The search_up() function's code adapted from an SO answer
+# https://stackoverflow.com/a/19011599/382700
+function ,xcompile_only_affected_packages() {
+  git diff --name-only --merge-base origin/main --relative . | grep '/' | xargs -IXXXX bash -c 'search_up(){ local look=${2%/}; while [[ -n "$look" ]]; do [[ -e "$look/$1" ]] && { printf '%s\\\\n' "$look"; return; }; look=${look%/*}; done; [[ -e /$1 ]] && echo /; }; search_up Cargo.toml XXXX' | uniq | while read line; do echo ==== $line ====; cargo build --manifest-path "$line/Cargo.toml"; done
+}
 
 # This should be the last thing we enable, per recommendation in direnv docs
 if which direnv >/dev/null 2>&1; then eval "$(direnv hook bash)"; fi
+
+export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/libpq/lib"
+export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libpq/include"
+
+export PKG_CONFIG_PATH="$(brew --prefix libpq)/lib/pkgconfig:${PKG_CONFIG_PATH}"
+export CPPFLAGS="-I$(brew --prefix libpq)/include ${CPPFLAGS}"
+export LDFLAGS="-L$(brew --prefix libpq)/lib ${LDFLAGS}"
 
 # Unmute the stdout and stderr, if we muted them at the beginning, and
 # close the temporary FDs used for the purpose.

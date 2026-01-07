@@ -1,0 +1,41 @@
+Vagrant.configure("2") do |config|
+  config.vm.provider "tart" do |tart|
+    # The image (it can be a local or remote image)
+    tart.image = "ghcr.io/cirruslabs/macos-sonoma-vanilla:latest"
+    # The name of the virtual machine
+    tart.name = "XinMac"
+
+    tart.cpus = 12
+    tart.memory = 8192
+    tart.disk = 300
+
+    #config.vm.synced_folder ".", "/Volumes/My Shared Files/vagrant", disabled: true
+    #config.vm.synced_folder ".", "/Users/admin/X"
+    #config.vm.synced_folder ".", "/Volumes/Veeva"
+    config.vm.synced_folder ".", "/Volumes/My Shared Files/Veeva"
+
+    # The default timeout of 5 minutes feels too long.
+    config.vm.boot_timeout = 60
+
+    #tart.vnc = true
+    tart.gui = true
+  end
+
+  vagrant_root = File.dirname(__FILE__)
+
+  # These are the default values for a Tart VM
+  config.ssh.username = "admin"
+  config.ssh.password = "admin"
+  config.vm.provision "shell", inline: <<-SHELL
+    echo "#{vagrant_root}" >> /tmp/host_vagrant_root
+  SHELL
+  config.vm.provision "file", source: "~/.gitconfig", destination: "/Users/admin/.gitconfig"
+  config.vm.provision "file", source: "~/.ssh/id_ed25519", destination: "/Users/admin/.ssh/id_ed25519"
+  config.vm.provision "file", source: "~/.ssh/id_ed25519.pub", destination: "/Users/admin/.ssh/id_ed25519.pub"
+  config.vm.provision "file", source: "#{vagrant_root}/app/.devcontainer/vagrant_provision.sh", destination: "/tmp//vagrant_provision.sh"
+  config.vm.provision "shell", inline: "su -l admin -c /tmp/vagrant_provision.sh"
+  config.vm.provision "shell", reboot: true, inline: "echo Rebooting the VM"
+
+  #config.vm.network "private_network", ip: "192.168.42.10"
+end
+

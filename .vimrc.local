@@ -86,5 +86,5 @@ function LargeFile()
   " no undo possible
   setlocal undolevels=-1
   " display message
-  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see function LaargeFile in .vimrc.local for details)."
+  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see function LargeFile in .vimrc.local for details)."
 endfunction

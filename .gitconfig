@@ -5,7 +5,7 @@
 [user]
     name = Gurjeet Singh
     # To force user to add user.email per repository, comment or remove the following line
-    #email = gurjeet@singh.im
+    email = gurjeet.singh@veeva.com
 
 	# Tell Git to _not_ guess my name and email based on `whoami` and `hostname`
 	# Forces user to add user.email per repository
@@ -50,6 +50,10 @@
     dc-cw  = diff --cached --color-words
     dh-c   = diff HEAD     --color-words=.       # Diff at character boundaries
     dh-cw  = diff HEAD     --color-words
+
+    # Show diffs against upstream branch, but ignore other branches that have
+    # been merged into upstream since we forked our branch.
+    du     = diff --merge-base @{upstream}
 
     # Prefer to pipe the difftool output to `less` in the alias here (via the
     # shell invocation caused by `!` character), rather than in the `[difftool
@@ -205,7 +209,7 @@
 [difftool "idiff"]
     cmd = diff --unified=3 --color=always --ignore-case $LOCAL $REMOTE
 [difftool "difftastic"]
-    cmd = difft --color always $LOCAL $REMOTE
+    cmd = difft --context 20 --color always $LOCAL $REMOTE
 [difftool]
 	prompt = 0
 [diff]
