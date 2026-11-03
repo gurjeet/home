@@ -64,7 +64,13 @@ function exec_non_default_shell_if_any() {
 # nix-daemon.sh seems to be a good replacement for it. Even the 'nix.sh' file
 # in the same directory as nix-daemon.sh does not change the environment
 # variables suitably to provide the various nix commands.
-source_if_readable "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+source_if_readable "$HOME/.nix-profile/etc/profile.d/nix.sh" \
+|| source_if_readable "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+
+# Source Homebrew's recommended environment variable configuration
+[[ -x /opt/homebrew/bin/brew ]] \
+    && eval "$(/opt/homebrew/bin/brew shellenv)"
+
 exec_non_default_shell_if_any
 
 # Added to override MacOSX's ls with ls and other commands provided by coreutils
